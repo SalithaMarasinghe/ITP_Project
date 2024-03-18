@@ -1,9 +1,3 @@
-# clothshopp
-
-Online Clothing Store using the MERN stack
-
-![screenshot](https://i.ibb.co/kDtJPNy/clothshop.png)
-
 ## Features:
 
 - Product reviews and ratings
