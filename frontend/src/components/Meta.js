@@ -13,7 +13,7 @@ const Meta = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-  title: "Clothshop | Mern Stack",
+  title: "Black | Online Store",
   description: "Men's clothing store",
   keywords: "lylescott, hollister, champions, adidas, nike",
 };
