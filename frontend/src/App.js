@@ -46,7 +46,7 @@ const App = () => {
             <Route path="/placeorder" element={<ProtectedRoute />}>
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
             </Route>
-            <Route path="/bankdetails" element={<BankDetails />} />
+           
             <Route path="/uploadbill" element={<UploadReciept />} />
             <Route path="/order/:id" element={<ProtectedRoute />}>
               <Route path="/order/:id" element={<OrderScreen />} />
