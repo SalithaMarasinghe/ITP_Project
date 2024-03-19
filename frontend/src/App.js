@@ -21,7 +21,7 @@ import CreateProductScreen from "./screens/CreateProductScreen";
 import EditProductScreen from "./screens/EditProductScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UploadReciept from "./screens/UploadReciept";
-import BankDetails from "./screens/BankDetails";
+
 
 const App = () => {
   return (

@@ -149,6 +149,7 @@ const ProductScreen = () => {
                 </Card>
               </Col>
             </Row>
+            <div className="form_review">
             <Row className="mt-4">
               <Col md={6}>
                 <h2>Reviews</h2>
@@ -208,6 +209,7 @@ const ProductScreen = () => {
                 )}
               </Col>
             </Row>
+            </div>
           </>
         )
       )}
