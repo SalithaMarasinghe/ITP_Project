@@ -21,6 +21,7 @@ import CreateProductScreen from "./screens/CreateProductScreen";
 import EditProductScreen from "./screens/EditProductScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UploadReciept from "./screens/UploadReciept";
+import BankDetails from "./screens/BankDetails";
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="/placeorder" element={<ProtectedRoute />}>
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
             </Route>
+            <Route path="/bankdetails" element={<BankDetails />} />
             <Route path="/uploadbill" element={<UploadReciept />} />
             <Route path="/order/:id" element={<ProtectedRoute />}>
               <Route path="/order/:id" element={<OrderScreen />} />
