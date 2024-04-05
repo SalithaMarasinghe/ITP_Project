@@ -11,7 +11,8 @@ const PlaceOrderScreen = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
-  const { order, success, error } = useSelector((state) => state.orderCreate);
+  const { order, loading: orderLoading, error } = useSelector((state) => state.orderCreate);
+
 
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
@@ -31,23 +32,29 @@ const PlaceOrderScreen = () => {
     Number(cart.taxPrice)
   ).toFixed(2);
 
-  useEffect(() => {
-    if (success) navigate(`/order/${order._id}`);
-  }, [dispatch, success, order?._id, navigate]);
 
-  const placeOrderHandler = () => {
-    /*dispatch(
+  const placeOrderHandler = async () => {
+    const createdOrder = await dispatch(
       createOrder({
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
+        paymentMethod: "Bank Transfer", // Assuming "Bank Transfer" is the only available payment method
         taxPrice: cart.taxPrice,
         shippingPrice: cart.shippingPrice,
         totalPrice: cart.totalPrice,
       })
-    );*/
-    navigate("/uploadbill");
+    );
+
+    if (createdOrder) {
+      navigate(`/uploadbill/${order._id}`);
+    }
   };
+
+
+  while (orderLoading) {
+    return <div>Loading...</div>; // Show a loading indicator if creating order
+  }
+  navigate(`/uploadbill/${order._id}`);
 
   return (
     <>

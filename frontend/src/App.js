@@ -37,29 +37,36 @@ const App = () => {
             <Route path="/profile" element={<ProtectedRoute />}>
               <Route path="/profile" element={<ProfileScreen />} />
             </Route>
+            
             <Route path="/shipping" element={<ProtectedRoute />}>
               <Route path="/shipping" element={<ShippingScreen />} />
             </Route>
+
             <Route path="/payment" element={<ProtectedRoute />}>
               <Route path="/payment" element={<PaymentScreen />} />
             </Route>
+
             <Route path="/placeorder" element={<ProtectedRoute />}>
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
             </Route>
            
-            <Route path="/uploadbill" element={<UploadReciept />} />
+            <Route path="/uploadbill/:id" element={<UploadReciept />} />
+            
             <Route path="/order/:id" element={<ProtectedRoute />}>
               <Route path="/order/:id" element={<OrderScreen />} />
             </Route>
+
             <Route path="/admin/users" element={<OnlyAdmin />}>
               <Route path="/admin/users" element={<UserListScreen />} />
             </Route>
+
             <Route path="/admin/users/edit/:id" element={<OnlyAdmin />}>
               <Route
                 path="/admin/users/edit/:id"
                 element={<UserEditScreen />}
               />
             </Route>
+
             <Route path="/admin/products" element={<OnlyAdmin />}>
               <Route path="/admin/products" element={<ProductListScreen />} />
               <Route
@@ -67,6 +74,7 @@ const App = () => {
                 element={<ProductListScreen />}
               />
             </Route>
+
             <Route path="/admin/products/create" element={<OnlyAdmin />}>
               <Route
                 path="/admin/products/create"

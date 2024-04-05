@@ -41,6 +41,18 @@ const OrderSchema = mongoose.Schema(
       email_address: { type: String },
     },
 
+    // New fields for bank transfer details
+    bankDetails: {
+      accName: { type: String },
+      accNum: { type: String },
+      transDate: { type: Date },
+      bankName: { type: String },
+      branchName: { type: String },
+      transAmount: { type: Number },
+      remarks: { type: String }
+      
+    },
+
     taxPrice: {
       type: Number,
       required: true,

@@ -1,80 +1,26 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { PayPalButton } from "react-paypal-button-v2";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
 import CheckoutSteps from "../components/CheckoutSteps";
-import {
-  getOrderDetails,
-  payOrder,
-  deliverOrder,
-} from "../redux/actions/orderActions";
+import { getOrderDetails } from "../redux/actions/orderActions";
 
 const OrderScreen = () => {
   let params = useParams();
-  let navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [sdkReady, setSdkReady] = useState(false);
 
   const { order, loading, error } = useSelector((state) => state.orderDetails);
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  const { loading: loadingPay, success: successPay } = useSelector(
-    (state) => state.orderPay
-  );
-
-  const {
-    loading: loadingDeliverd,
-    error: errorDeliverd,
-    success: successDeliverd,
-  } = useSelector((state) => state.orderDeliver);
-
-  if (!loading) {
-    const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(2);
-    };
-
-    order.itemsPrice = addDecimals(
-      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-    );
-  }
-
   useEffect(() => {
-    const addPaypalScript = async () => {
-      const { data: clientId } = await axios.get("/api/config/paypal");
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
-    if (!order || successPay) {
-      dispatch(getOrderDetails(params.id));
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPaypalScript();
-      } else {
-        setSdkReady(true);
-      }
-    }
     dispatch(getOrderDetails(params.id));
-  }, [dispatch, successPay, params.id, successDeliverd]);
+  }, [dispatch, params.id]);
 
-  const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(params.id, paymentResult));
-  };
-
-  const deliverHandler = () => {
-    dispatch(deliverOrder(params.id));
+  const viewReceiptHandler = () => {
+    // Dispatch action to view receipt details
+    // For example: dispatch(viewReceipt(order.bankReceiptDetails));
+    // Replace 'viewReceipt' with your actual action
   };
 
   return (
@@ -123,7 +69,7 @@ const OrderScreen = () => {
                     {order.paymentMethod}
                   </p>
                   {order.isPaid ? (
-                    <Message variant="success">Paid on {order.paidAt}</Message>
+                    <Message variant="success">Paid{order.paidAt}</Message>
                   ) : (
                     <Message variant="danger">Not Paid</Message>
                   )}
@@ -191,39 +137,17 @@ const OrderScreen = () => {
                       <Col>Total</Col>
                       <Col>Rs. {order.totalPrice}</Col>
                     </Row>
-                    <ListGroup.Item>
-                      {!order.isPaid && (
-                        <ListGroup.Item>
-                          {loadingPay && <Loading />}
-                          {!sdkReady ? (
-                            <Loading />
-                          ) : (
-                            <PayPalButton
-                              amount={order.totalPrice}
-                              onSuccess={successPaymentHandler}
-                            />
-                          )}
-                        </ListGroup.Item>
-                      )}
-                      {loadingDeliverd ? (
-                        <Loading />
-                      ) : (
-                        userInfo.isAdmin &&
-                        order.isPaid &&
-                        !order.isDelivered && (
-                          <Button
-                            onClick={deliverHandler}
-                            className="w-100"
-                            variant="primary"
-                          >
-                            Mark as deliverd
-                          </Button>
-                        )
-                      )}
-                      {errorDeliverd && (
-                        <Message variant="danger">{errorDeliverd}</Message>
-                      )}
-                    </ListGroup.Item>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    {order.bankReceiptDetails && (
+                      <Button
+                        onClick={viewReceiptHandler}
+                        className="w-100"
+                        variant="info"
+                      >
+                        View Bank Receipt
+                      </Button>
+                    )}
                   </ListGroup.Item>
                 </ListGroup>
               </Card>

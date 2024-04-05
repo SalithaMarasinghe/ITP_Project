@@ -26,15 +26,17 @@ const OrderListScreen = () => {
         <Row>
           <h3>Orders List</h3>
           <Col>
-            <Table striped rounded="true" hover className="table-sm">
+            <Table striped rounded hover className="table-sm">
               <thead>
                 <tr>
-                  <td>ID</td>
-                  <td>User</td>
-                  <td>Date</td>
-                  <td>Total</td>
-                  <td>Paid</td>
-                  <td>Delivered</td>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Date</th>
+                  <th>Total</th>
+                  <th>Paid</th>
+                  <th>Delivered</th>
+                  <th>Bank Receipt Details</th> {/* New column */}
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,30 +48,37 @@ const OrderListScreen = () => {
                     <td>Rs. {order.totalPrice}</td>
                     <td>
                       {order.isPaid ? (
-                        order.paidAt.substring(0, 10)
+                        //order.paidAt.substring(0, 10)
+                        <i className="fas fa-check" style={{ color: "green" }}></i>
                       ) : (
-                        <i
-                          className="fas fa-times"
-                          style={{ color: "red" }}
-                        ></i>
+                        <i className="fas fa-times" style={{ color: "red" }}></i>
                       )}
                     </td>
                     <td>
                       {order.isDelivered ? (
-                        order.deliveredAt.substring(0, 10)
+                        //order.deliveredAt.substring(0, 10)
+                        <i className="fas fa-check" style={{ color: "green" }}></i>
                       ) : (
-                        <i
-                          className="fas fa-times"
-                          style={{ color: "red" }}
-                        ></i>
+                        <i className="fas fa-times" style={{ color: "red" }}></i>
                       )}
                     </td>
                     <td>
-                      <LinkContainer
-                        className="ml-1"
-                        to={`/order/${order._id}`}
-                      >
-                        <Button className="btn btn-sm" variant="primary">
+                      {order.bankReceiptDetails ? (
+                        <Button
+                          className="btn-sm"
+                          variant="info"
+                          // onClick={() => viewBankReceipt(order.bankReceiptDetails)} // Remove if not defined
+                          disabled // Disable button if no function to view receipt
+                        >
+                          View Receipt
+                        </Button>
+                      ) : (
+                        <span>No Receipt</span>
+                      )}
+                    </td>
+                    <td>
+                      <LinkContainer className="ml-1" to={`/order/${order._id}`}>
+                        <Button className="btn-sm" variant="primary">
                           Details
                         </Button>
                       </LinkContainer>
