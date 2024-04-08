@@ -37,8 +37,7 @@ const OrderSchema = mongoose.Schema(
     paymentResult: {
       id: { type: String },
       status: { type: String },
-      update_time: { type: Date },
-      email_address: { type: String },
+      balance: { type: Number }
     },
 
     // New fields for bank transfer details

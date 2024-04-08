@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBank } from "../redux/actions/orderActions";
-import Message from "../components/Message";
 import Loading from "../components/Loading";
 import axios from "axios";
 
@@ -16,7 +15,7 @@ const UploadReceipt = () => {
 
     const [image, setImage] = useState("");
     const [uploading, setUploading] = useState(false);
-    const { order, success, error } = useSelector((state) => state.orderCreate);
+    const { order} = useSelector((state) => state.orderCreate);
 
     
     const cart = useSelector((state) => state.cart);
@@ -80,7 +79,6 @@ const UploadReceipt = () => {
             <h2>Bank Transfer Details</h2>
             <hr style={{ border: 'none', borderTop: '2px solid #D8971A', width: 'auto', margin: '0 left', opacity: 1 }} />
             <Form onSubmit={handleSubmit}>
-                {error && <Message variant="danger">{error}</Message>}
                 <div className="row">
                     {/* Form fields for bank transfer details */}
                     {/* Account Holder's Name */}

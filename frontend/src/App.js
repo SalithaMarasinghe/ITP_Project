@@ -21,6 +21,9 @@ import CreateProductScreen from "./screens/CreateProductScreen";
 import EditProductScreen from "./screens/EditProductScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UploadReciept from "./screens/UploadReciept";
+import BankInstruction from "./screens/BankInstructions";
+import ViewReciept from "./screens/ViewReciept";
+import Delivery from "./screens/Delivery";
 
 
 const App = () => {
@@ -49,9 +52,15 @@ const App = () => {
             <Route path="/placeorder" element={<ProtectedRoute />}>
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
             </Route>
-           
+
+            <Route path="/billinstructions" element={<ProtectedRoute />}>
+            <Route path="/billinstructions/:id" element={<BankInstruction />} />
+            </Route>
+
+            <Route path="/uploadbill" element={<ProtectedRoute />}>
             <Route path="/uploadbill/:id" element={<UploadReciept />} />
-            
+            </Route>
+
             <Route path="/order/:id" element={<ProtectedRoute />}>
               <Route path="/order/:id" element={<OrderScreen />} />
             </Route>
@@ -68,8 +77,10 @@ const App = () => {
             </Route>
 
             <Route path="/admin/products" element={<OnlyAdmin />}>
-              <Route path="/admin/products" element={<ProductListScreen />} />
-              <Route
+          
+           <Route path="/admin/products" element={<ProductListScreen />} />
+          
+            <Route
                 path="/admin/products/:pageNumber"
                 element={<ProductListScreen />}
               />
@@ -81,22 +92,34 @@ const App = () => {
                 element={<CreateProductScreen />}
               />
             </Route>
+
             <Route path="/admin/product/edit/:id" element={<OnlyAdmin />}>
               <Route
                 path="/admin/product/edit/:id"
                 element={<EditProductScreen />}
               />
             </Route>
+
             <Route path="/admin/orders" element={<OnlyAdmin />}>
               <Route path="/admin/orders" element={<OrderListScreen />} />
             </Route>
+
+            <Route path="/admin/ViewRecipet/:id" element={<OnlyAdmin />}>
+              <Route path="/admin/ViewRecipet/:id" element={<ViewReciept />} />
+            </Route>
+
+            <Route path="/admin/Delivery/:id" element={<OnlyAdmin />}>
+              <Route path="/admin/Delivery/:id" element={<Delivery />} />
+            </Route>
+
             <Route path="/page/:pageNumber" element={<HomeScreen />} />
-            <Route
-              path="/search/:keyword/page/:pageNumber"
-              element={<HomeScreen />}
-            />
+
+            <Route path="/search/:keyword/page/:pageNumber" element={<HomeScreen />} />
+
             <Route path="/search/:keyword" element={<HomeScreen />} />
+
             <Route index path="/" element={<HomeScreen />} />
+
           </Routes>
         </Container>
       </main>

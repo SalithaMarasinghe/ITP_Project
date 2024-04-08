@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import Message from "../components/Message";
@@ -12,6 +11,7 @@ const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart);
 
   const { order, loading: orderLoading, error } = useSelector((state) => state.orderCreate);
+  
 
 
   const addDecimals = (num) => {
@@ -22,7 +22,8 @@ const PlaceOrderScreen = () => {
     cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
 
-  cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 100;
+  //cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 100;
+  cart.shippingPrice = (cart.itemsPrice * 0.1).toFixed(2);;
 
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
 
@@ -34,7 +35,7 @@ const PlaceOrderScreen = () => {
 
 
   const placeOrderHandler = async () => {
-    const createdOrder = await dispatch(
+    dispatch(
       createOrder({
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
@@ -44,23 +45,26 @@ const PlaceOrderScreen = () => {
         totalPrice: cart.totalPrice,
       })
     );
-
-    if (createdOrder) {
-      navigate(`/uploadbill/${order._id}`);
-    }
   };
 
-
-  while (orderLoading) {
-    return <div>Loading...</div>; // Show a loading indicator if creating order
+  
+  // While order is being created, show loading indicator
+  if (orderLoading) {
+    return <div>Loading...</div>;
   }
-  navigate(`/uploadbill/${order._id}`);
+
+  if (order) {
+    
+    navigate(`/billinstructions/${order._id}`);
+
+  }
+
 
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
       <Row>
-        <Col md={8}>
+        <Col md={8} className="place_order">
           <ListGroup variant="flush">
             {error && (
               <ListGroup.Item>

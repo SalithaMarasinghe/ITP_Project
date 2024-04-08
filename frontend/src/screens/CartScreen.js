@@ -26,7 +26,7 @@ const CartScreen = () => {
   return (
     <>
       <Meta title="Clothshop | Cart" />
-      <Link className="btn btn-light my-3" to="/">
+      <Link className="btn btn-light my-3 back_btn" to="/">
         Go Home
       </Link>
       <Row>
@@ -37,7 +37,7 @@ const CartScreen = () => {
           </Message>
         ) : (
           <Row className="py-4">
-            <Col md={8}>
+            <Col className="cart_items" md={8}>
               {cartItems.map((cart) => (
                 <ListGroup variant="flush" key={cart.product}>
                   <ListGroup.Item>

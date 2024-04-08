@@ -32,6 +32,8 @@ export const addOrderItems = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, order: createdOrder });
 });
 
+
+
 // @desc    Get order by ID
 // @route   GET /api/orders/:id
 // @access  Private
@@ -49,6 +51,8 @@ export const getOrder = asyncHandler(async (req, res) => {
   res.json({ success: true, order });
 });
 
+
+
 // @desc    Update order to paid
 // @route   PUT /api/orders/:id/pay
 // @access  Private/Admin
@@ -65,8 +69,7 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
   order.paymentResult = {
     id: req.body.id,
     status: req.body.status,
-    update_time: req.body.update_time,
-    email_address: req.body.payer.email_address,
+    balance: req.body.balance,
   };
 
   const updatedOrder = await order.save();
@@ -95,8 +98,6 @@ export const updateBank = asyncHandler(async (req, res) => {
 });
 
 
-
-
 // @desc    Update order to delivered
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
@@ -116,6 +117,8 @@ export const updateOrderToDeliver = asyncHandler(async (req, res) => {
   res.json({ success: true, order: updatedOrder });
 });
 
+
+
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
 // @access  Private
@@ -123,6 +126,9 @@ export const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json({ success: true, orders });
 });
+
+
+
 
 // @desc    Get all orders
 // @route   GET /api/orders

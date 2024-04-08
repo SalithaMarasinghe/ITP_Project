@@ -70,7 +70,7 @@ const ProductScreen = () => {
       ) : (
         product && (
           <>
-            <Link className="btn btn-light my-3" to="/">
+            <Link className="btn btn-light my-3 back_btn" to="/">
               Go back
             </Link>
             <Row>
@@ -92,7 +92,7 @@ const ProductScreen = () => {
                   </ListGroup.Item>
                 </ListGroup>
               </Col>
-              <Col md={3}>
+              <Col className="product_card" md={3}>
                 <Card>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
@@ -167,7 +167,7 @@ const ProductScreen = () => {
                     </ListGroup.Item>
                   ))}
                 </ListGroup>
-                <h3>Write a customer review</h3>
+                <h3 style={{marginTop: '40px'}}>Write a customer review</h3>
                 {userInfo ? (
                   <Form onSubmit={submitHandler}>
                     {errorProductReview && (

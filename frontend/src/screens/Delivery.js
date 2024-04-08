@@ -76,7 +76,7 @@ const OrderScreen = () => {
                     {order.paymentMethod}
                   </p>
                   {order.isPaid ? (
-                      <Message variant="success">{order.paymentResult.status} {order.paidAt}</Message>
+                      <Message variant="success">Paid {order.paidAt}</Message>
                     ) : order.bankDetails ? (
                       <Message variant="warning">Processing</Message>
                     ) : (
@@ -150,32 +150,8 @@ const OrderScreen = () => {
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-
-                  {order.bankDetails ? (
-                    order.bankDetails.transAmount >= order.totalPrice ? (
-
-                          <>  
-                          <Button
-                          style={{marginTop:'10px'}}
-                          onClick={viewReceiptHandler}
-                          className="w-100 mngDelivery"
-                          variant="warning"
-                          >
-                          Manage Delivery
-                          </Button>
-
-                          <Button
-                          style={{marginTop:'10px',marginBottom:'10px'}}
-                          onClick={viewReceiptHandler}
-                              className="w-100"
-                              variant="primary"
-                          >
-                          View Bank Receipt
-                          </Button>
-                          </>
-                      ):(
-                         
-                          
+                    {
+                      order.bankDetails ? (
                           <Button
                           style={{marginTop:'10px',marginBottom:'10px'}}
                           onClick={viewReceiptHandler}
@@ -184,20 +160,17 @@ const OrderScreen = () => {
                           >
                           View Bank Receipt
                           </Button>
-                          
-                        )
-                    
-                        ) : (
+                      ) : (
                       
-                          <Button
-                          style={{marginTop:'10px'}}
-                            // onClick={changetopaid}
-                              className="w-100"
-                              variant="danger"
-                          >
-                              Cancel Order
-                          </Button>
-                        )
+                        <Button
+                        style={{marginTop:'10px'}}
+                           // onClick={changetopaid}
+                            className="w-100"
+                            variant="danger"
+                        >
+                            Cancel Order
+                        </Button>
+                      )
                     }
 
                   </ListGroup.Item>

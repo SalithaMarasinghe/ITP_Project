@@ -1,20 +1,30 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector} from "react-redux";
 import { Row, Col, Table, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { listOrders } from "../redux/actions/orderActions";
+import { getOrderDetails } from "../redux/actions/orderActions";
 
 const OrderListScreen = () => {
   const dispatch = useDispatch();
-
-  const ordersList = useSelector((state) => state.orderListOrder);
-  const { orders, loading, error } = ordersList;
+  let navigate = useNavigate();
+  const { orders, loading, error }  = useSelector((state) => state.orderListOrder);
+  
+ 
 
   useEffect(() => {
     dispatch(listOrders());
   }, [dispatch]);
+
+  
+  const viewReceiptHandler = (orderId) => {
+    dispatch(getOrderDetails(orderId));
+    navigate(`/admin/ViewRecipet/${orderId}`);
+  }
+  
 
   return (
     <>
@@ -63,15 +73,15 @@ const OrderListScreen = () => {
                       )}
                     </td>
                     <td>
-                      {order.bankReceiptDetails ? (
-                        <Button
-                          className="btn-sm"
-                          variant="info"
-                          // onClick={() => viewBankReceipt(order.bankReceiptDetails)} // Remove if not defined
-                          disabled // Disable button if no function to view receipt
+                      {order.bankDetails ? (
+                        
+                        <Button className="btn-sm" variant="info"
+                        onClick={() => {viewReceiptHandler(order._id);}}
                         >
                           View Receipt
                         </Button>
+                        
+                        
                       ) : (
                         <span>No Receipt</span>
                       )}
