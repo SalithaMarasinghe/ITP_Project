@@ -28,7 +28,7 @@ header .navbar-light .navbar-nav .nav-link:hover {
   margin: 15px 0;
 }
 .rating i {
-  color: #FFCE67;
+  color: #E9B20D;
 }
 
 .carousel {
@@ -90,7 +90,7 @@ header .navbar-light .navbar-nav .nav-link:hover {
     vertical-align: middle;
     user-select: none;
     color: #272727;
-    background-color: #FFCE67;
+    background-color: #E9B20D;
 
     border: unset;
     padding: 0.375rem 1rem;
@@ -131,13 +131,13 @@ header .navbar-light .navbar-nav .nav-link:hover {
   height: 50px !important;
   color: #000000;
   font-weight: bold;
-  background-color: #FFCE67 !important;
-  border-color: #FFCE67 !important;
+  background-color: #E9B20D !important;
+  border-color: #E9B20D !important;
 }
 
 .back_btn{
-  background-color: #FFCE67 !important;
-  border-color: #FFCE67 !important;
+  background-color: #E9B20D !important;
+  border-color: #E9B20D !important;
   font-weight: 500;
 }
 
