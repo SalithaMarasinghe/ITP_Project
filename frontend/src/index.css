@@ -244,11 +244,11 @@ header .navbar-light .navbar-nav .nav-link:hover {
     transform: translateY(0%);
     width: 12px; /* Adjust the size of the dot */
     height: 12px; /* Adjust the size of the dot */
-    background-color: 'var(--secondary-color)';
+    background-color: var(--secondary-color);
     border-radius: 50%;
   }
   
 
   :root {
-    --secondary-color: #ecb949; 
+    --secondary-color: #ffce67; /* Define your primary color */
   }
