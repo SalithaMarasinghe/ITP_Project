@@ -27,7 +27,7 @@ const BankInstruction = () => {
   return (
     <Container>
       <h2>Account Details</h2>
-      <hr style={{ backgroundColor: 'orange', height: '2px', opacity: 100 }} />
+      <hr style={{ backgroundColor: 'var(--secondary-color)', height: '2px', opacity: 100 }} />
       <Row style={{ paddingTop: '50px' }}>
         {/* Left Side */}
         <Col md={8} className="left-column">
