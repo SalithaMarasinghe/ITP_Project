@@ -27,7 +27,7 @@ const BankInstruction = () => {
 
   return (
     <>
-    <CheckoutSteps step1 step2 step3 step4/>
+    <CheckoutSteps  step4/>
     <Container>
       <h2>Account Details</h2>
       <hr style={{ backgroundColor: 'var(--secondary-color)', height: '2px', opacity: 100 }} />

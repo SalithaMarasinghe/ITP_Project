@@ -77,7 +77,7 @@ const UploadReceipt = () => {
 
     return (
         <>
-        <CheckoutSteps step1 step2 step3 step4 step5/>
+        <CheckoutSteps  step4 step5/>
         <div>
             <h2>Bank Transfer Details</h2>
             <hr style={{ border: 'none', borderTop: '2px solid #D8971A', width: 'auto', margin: '0 left', opacity: 1 }} />
