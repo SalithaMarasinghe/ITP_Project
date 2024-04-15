@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateBank } from "../redux/actions/orderActions";
 import Loading from "../components/Loading";
 import axios from "axios";
+import CheckoutSteps from "../components/CheckoutSteps";
 
 const UploadReceipt = () => {
     let params = useParams();
@@ -75,6 +76,8 @@ const UploadReceipt = () => {
     };
 
     return (
+        <>
+        <CheckoutSteps step1 step2 step3 step4 step5/>
         <div>
             <h2>Bank Transfer Details</h2>
             <hr style={{ border: 'none', borderTop: '2px solid #D8971A', width: 'auto', margin: '0 left', opacity: 1 }} />
@@ -208,7 +211,9 @@ const UploadReceipt = () => {
                 </div>
             </Form>
         </div>
-    );
+    </>
+ );
+    
 };
 
 export default UploadReceipt;

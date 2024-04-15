@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { Container, Row, Col, Table, ListGroup } from 'react-bootstrap';
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import CheckoutSteps from "../components/CheckoutSteps";
 
 const BankInstruction = () => {
   let params = useParams();
@@ -25,6 +26,8 @@ const BankInstruction = () => {
   };
 
   return (
+    <>
+    <CheckoutSteps step1 step2 step3 step4/>
     <Container>
       <h2>Account Details</h2>
       <hr style={{ backgroundColor: 'var(--secondary-color)', height: '2px', opacity: 100 }} />
@@ -80,6 +83,7 @@ const BankInstruction = () => {
         </Col>
       </Row>
     </Container>
+    </>
   );
 };
 

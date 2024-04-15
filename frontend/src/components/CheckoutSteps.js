@@ -1,8 +1,14 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useSelector} from "react-redux";
 
-const CheckoutSteps = ({ step1, step2, step3}) => {
+
+
+const CheckoutSteps = ({ step1, step2, step3, step4, step5}) => {
+
+  const { order } = useSelector((state) => state.orderCreate);
+
   return (
     <Nav className="justify-content-center mb-4">
       {/*<Nav.Item>
@@ -39,6 +45,24 @@ const CheckoutSteps = ({ step1, step2, step3}) => {
           </LinkContainer>
         ) : (
           <Nav.Link disabled>Place order</Nav.Link>
+        )}
+      </Nav.Item>
+      <Nav.Item>
+        {step4 ? (
+          <LinkContainer to={`/billinstructions/${order._id}`}>
+            <Nav.Link>Instructions</Nav.Link>
+          </LinkContainer>
+        ) : (
+          <Nav.Link disabled>Instructions</Nav.Link>
+        )}
+      </Nav.Item>
+      <Nav.Item>
+        {step5 ? (
+          <LinkContainer to={`/uploadbill/${order._id}`}>
+            <Nav.Link>Submission</Nav.Link>
+          </LinkContainer>
+        ) : (
+          <Nav.Link disabled>Submission</Nav.Link>
         )}
       </Nav.Item>
     </Nav>
