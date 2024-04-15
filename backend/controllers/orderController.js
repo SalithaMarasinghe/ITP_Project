@@ -1,9 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
 
-//Nipuna is Testing
-
-
+// @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
 export const addOrderItems = asyncHandler(async (req, res) => {
