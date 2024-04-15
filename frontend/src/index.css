@@ -212,10 +212,10 @@ header .navbar-light .navbar-nav .nav-link:hover {
   }
 
   .product_card{
-    margin-top: 40px;
+    margin-top: 42px;
   }
 
-  .cart_items, .place_order, .order_scr{
+  .cart_items, .place_order, .pruduct_desc, .order_scr{
     position: relative;
     display: flex;
     flex-direction: column;

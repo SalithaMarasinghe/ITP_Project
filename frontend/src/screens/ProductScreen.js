@@ -79,7 +79,7 @@ const ProductScreen = () => {
               </Col>
               <Col md={5}>
                 <h3>{product.name}</h3>
-                <ListGroup variant="flush">
+                <ListGroup variant="flush" className="pruduct_desc">
                   <ListGroup.Item>
                     <Rating
                       value={product.rating}
