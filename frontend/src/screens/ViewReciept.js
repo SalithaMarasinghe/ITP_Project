@@ -1,18 +1,28 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
 import { payOrder } from "../redux/actions/orderActions";
-import { getOrderDetails } from "../redux/actions/orderActions";
+import { getOrderDetails, cancelOrder } from "../redux/actions/orderActions";
 
 const OrderScreen = () => {
+  let navigate = useNavigate();
   let params = useParams();
   const dispatch = useDispatch();
   const orderId = params.id;
 
   const{ order, loading, error } = useSelector((state) => state.orderDetails);
+
+
+  // Cancel Order Function
+  const cancelOrderHandler = async () => {
+    if (window.confirm("Are you sure you want to cancel this order?")) {
+      dispatch(cancelOrder(params.id));
+      navigate("/admin/orders"); // Redirect to home or any other desired page
+    }
+  };
 
   // Calculate total item price
   const calculateTotalItemPrice = () => {
@@ -192,7 +202,7 @@ const OrderScreen = () => {
                         </Button>
                         <Button
                             style={{marginTop:'10px',marginBottom:'10px'}}
-                           
+                            onClick={cancelOrderHandler}
                             className="w-100"
                             variant="danger"
                         >

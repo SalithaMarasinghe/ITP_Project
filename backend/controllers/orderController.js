@@ -3,9 +3,7 @@ import Order from "../models/orderModel.js";
 
 // @desc    Create new order
 // @route   POST /api/orders
-
-
-//Nipuna is testing 
+// @access  Private
 
 export const addOrderItems = asyncHandler(async (req, res) => {
   const {
@@ -121,7 +119,6 @@ export const updateOrderToDeliver = asyncHandler(async (req, res) => {
 });
 
 
-
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
 // @access  Private
@@ -132,11 +129,26 @@ export const getMyOrders = asyncHandler(async (req, res) => {
 
 
 
-
 // @desc    Get all orders
 // @route   GET /api/orders
 // @access  Private/Admin
 export const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate("user", "id name");
   res.json({ success: true, orders });
+});
+
+
+// @desc    Delete order by ID
+// @route   DELETE /api/orders/:id
+// @access  Private/Admin
+export const deleteOrder = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    await order.remove();
+    res.json({ message: "Order removed" });
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
 });

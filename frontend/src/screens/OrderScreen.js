@@ -4,7 +4,7 @@ import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
-import { getOrderDetails } from "../redux/actions/orderActions";
+import { getOrderDetails, cancelOrder } from "../redux/actions/orderActions";
 
 const OrderScreen = () => {
   let navigate = useNavigate();
@@ -19,6 +19,14 @@ const OrderScreen = () => {
       (accumulator, currentItem) => accumulator + currentItem.qty * currentItem.price,
       0
     );
+  };
+
+  // Cancel Order Function
+  const cancelOrderHandler = async () => {
+    if (window.confirm("Are you sure you want to cancel this order?")) {
+      dispatch(cancelOrder(params.id));
+      navigate("/admin/orders"); // Redirect to home or any other desired page
+    }
   };
 
   useEffect(() => {
@@ -191,7 +199,7 @@ const OrderScreen = () => {
                       
                           <Button
                           style={{marginTop:'10px'}}
-                            // onClick={changetopaid}
+                              onClick={cancelOrderHandler}
                               className="w-100"
                               variant="danger"
                           >

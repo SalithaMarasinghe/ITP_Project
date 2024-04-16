@@ -238,3 +238,37 @@ export const updateBank = (order) => async (dispatch, getState) => {
     });
   }
 };
+
+
+// Action to delete an order
+export const cancelOrder = (orderId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: actions.ORDER_CANCEL_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/orders/${orderId}`, config);
+
+    dispatch({ type: actions.ORDER_CANCEL_SUCCESS });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "not authorized, no token") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: actions.ORDER_CANCEL_FAILED,
+      payload: message,
+    });
+  }
+};

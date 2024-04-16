@@ -34,23 +34,7 @@ const OrderSchema = mongoose.Schema(
       required: true,
     },
 
-    paymentResult: {
-      id: { type: String },
-      status: { type: String },
-      balance: { type: Number }
-    },
-
-    // New fields for bank transfer details
-    bankDetails: {
-      accName: { type: String },
-      accNum: { type: String },
-      transDate: { type: Date },
-      bankName: { type: String },
-      branchName: { type: String },
-      transAmount: { type: Number },
-      remarks: { type: String }
-      
-    },
+    
 
     taxPrice: {
       type: Number,
@@ -68,6 +52,23 @@ const OrderSchema = mongoose.Schema(
       type: Number,
       required: true,
       default: 0.0,
+    },
+
+    paymentResult: {
+      id: { type: String },
+      status: { type: String },
+      balance: { type: Number }
+    },
+
+   
+    bankDetails: {
+      accName: { type: String },
+      accNum: { type: String },
+      transDate: { type: Date },
+      bankName: { type: String },
+      branchName: { type: String },
+      transAmount: { type: Number },
+      remarks: { type: String }
     },
 
     isPaid: {
@@ -90,9 +91,11 @@ const OrderSchema = mongoose.Schema(
       type: Date,
     },
   },
+
   {
     timestamps: true,
   }
+  
 );
 
 const Order = mongoose.model("Order", OrderSchema);
