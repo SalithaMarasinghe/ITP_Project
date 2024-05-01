@@ -16,6 +16,12 @@ const OrderScreen = () => {
   const{ order, loading, error } = useSelector((state) => state.orderDetails);
 
 
+  useEffect(() => {
+    dispatch(getOrderDetails(orderId));
+  }, [dispatch, orderId]);
+
+
+
   // Cancel Order Function
   const cancelOrderHandler = async () => {
     if (window.confirm("Are you sure you want to cancel this order?")) {
@@ -32,11 +38,13 @@ const OrderScreen = () => {
     );
   };
 
-  useEffect(() => {
-    dispatch(getOrderDetails(orderId));
-  }, [dispatch, orderId]);
 
+    // ViewDeliveryHandler Function
+    const viewDeliveryHandler = async () => {
+      navigate(`/admin/Delivery/${order._id}`);
+    };
 
+  
   const changetopaid = () => {
     
     const paymentResult = {
@@ -182,14 +190,35 @@ const OrderScreen = () => {
                 <ListGroup.Item>
                 {order.bankDetails ? (
                     order.bankDetails.transAmount >= order.totalPrice ? (
-                        <Button
-                        style={{marginTop:'10px',marginBottom:'10px'}}
-                        onClick={changetopaid}
-                        className="w-100"
-                        variant="primary"
-                        >
-                        Manage Delivery
-                        </Button>
+                                      order.isPaid == true ? (
+                                        <Button
+                                        style={{marginTop:'10px',marginBottom:'10px'}}
+                                        onClick={viewDeliveryHandler}
+                                        className="w-100"
+                                        variant="primary"
+                                        >
+                                        Manage Delivery
+                                        </Button>
+                                    ) : (
+                                        <>
+                                        <Button
+                                        style={{marginTop:'10px'}}
+                                            onClick={changetopaid}
+                                            className="w-100"
+                                            variant="primary"
+                                        >
+                                            Verify Payment
+                                        </Button>
+                                        <Button
+                                            style={{marginTop:'10px',marginBottom:'10px'}}
+                                            onClick={cancelOrderHandler}
+                                            className="w-100"
+                                            variant="danger"
+                                        >
+                                            Cancel Order
+                                        </Button>
+                                        </>
+                                    )
                     ) : (
                         <>
                         <Button

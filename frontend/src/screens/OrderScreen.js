@@ -13,6 +13,11 @@ const OrderScreen = () => {
 
   const { order, loading, error } = useSelector((state) => state.orderDetails);
 
+  useEffect(() => {
+    dispatch(getOrderDetails(params.id));
+  }, [dispatch, params.id]);
+
+
   // Calculate total item price
   const calculateTotalItemPrice = () => {
     return order.orderItems.reduce(
@@ -29,13 +34,16 @@ const OrderScreen = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(getOrderDetails(params.id));
-  }, [dispatch, params.id]);
 
+  // ViewReceiptHandler Function
   const viewReceiptHandler = async () => {
-
     navigate(`/admin/ViewRecipet/${order._id}`);
+  };
+
+
+   // ViewDeliveryHandler Function
+   const viewDeliveryHandler = async () => {
+    navigate(`/admin/Delivery/${order._id}`);
   };
 
   return (
@@ -162,25 +170,37 @@ const OrderScreen = () => {
                   {order.bankDetails ? (
                     order.bankDetails.transAmount >= order.totalPrice ? (
 
-                          <>  
-                          <Button
-                          style={{marginTop:'10px'}}
-                          onClick={viewReceiptHandler}
-                          className="w-100 mngDelivery"
-                          variant="warning"
-                          >
-                          Manage Delivery
-                          </Button>
-
-                          <Button
+                      order.isPaid == true ? (
+                        <Button
+                        style={{marginTop:'10px',marginBottom:'10px'}}
+                        onClick={viewDeliveryHandler}
+                        className="w-100"
+                        variant="primary"
+                        >
+                        Manage Delivery
+                        </Button>
+                    ) : (
+                        <>
+                        <Button
                           style={{marginTop:'10px',marginBottom:'10px'}}
                           onClick={viewReceiptHandler}
                               className="w-100"
                               variant="primary"
-                          >
+                        >
                           View Bank Receipt
-                          </Button>
-                          </>
+                        </Button>
+                        <Button
+                            style={{marginTop:'10px',marginBottom:'10px'}}
+                            onClick={cancelOrderHandler}
+                            className="w-100"
+                            variant="danger"
+                        >
+                          Cancel Order
+                        </Button>
+                        </>
+                    )
+
+                        
                       ):(
                          
                           
