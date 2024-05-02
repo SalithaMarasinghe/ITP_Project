@@ -24,6 +24,7 @@ import UploadReciept from "./screens/UploadReciept";
 import BankInstruction from "./screens/BankInstructions";
 import ViewReciept from "./screens/ViewReciept";
 import Delivery from "./screens/Delivery";
+import VoucherListScreen from "./screens/VoucherListScreen";
 
 
 const App = () => {
@@ -99,6 +100,14 @@ const App = () => {
                 element={<EditProductScreen />}
               />
             </Route>
+
+          
+           <Route path="/admin/vouchers" element={<OnlyAdmin />}>
+              <Route path="/admin/vouchers" element={<VoucherListScreen />} />
+            </Route>
+       
+
+      
 
             <Route path="/admin/orders" element={<OnlyAdmin />}>
               <Route path="/admin/orders" element={<OrderListScreen />} />
