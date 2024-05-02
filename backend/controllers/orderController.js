@@ -119,6 +119,26 @@ export const updateOrderToDeliver = asyncHandler(async (req, res) => {
 });
 
 
+
+export const updateDelivery = asyncHandler(async (req, res) => {
+  const orderId = req.params.id;
+  const { agentName, agentContact, estDate, packSize, trackNo, trackLink, delNote } = req.body;
+
+  const updatedOrder = await Order.findByIdAndUpdate(
+    orderId,
+    { deliveryDetails: { agentName, agentContact, estDate, packSize, trackNo, trackLink, delNote } },
+    { new: true }
+  );
+
+  if (updatedOrder) {
+    res.json({ success: true, order: updatedOrder });
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+
+
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
 // @access  Private

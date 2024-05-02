@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { payOrder,updateBank } from "../redux/actions/orderActions";
 import { getOrderDetails, cancelOrder } from "../redux/actions/orderActions";
 
-const OrderScreen = () => {
+const ViewRecipet = () => {
   let navigate = useNavigate();
   let params = useParams();
   const dispatch = useDispatch();
@@ -39,10 +39,10 @@ const OrderScreen = () => {
   };
 
 
-    // ViewDeliveryHandler Function
-    const viewDeliveryHandler = async () => {
-      navigate(`/admin/Delivery/${order._id}`);
-    };
+  // ViewDeliveryHandler Function
+  const viewDeliveryHandler = async () => {
+    navigate(`/admin/Delivery/${order._id}`);
+  };
 
   
   const changetopaid = () => {
@@ -300,4 +300,4 @@ const OrderScreen = () => {
   );
 };
 
-export default OrderScreen;
+export default ViewRecipet;

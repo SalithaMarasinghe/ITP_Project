@@ -71,6 +71,17 @@ const OrderSchema = mongoose.Schema(
       remarks: { type: String }
     },
 
+
+    deliveryDetails: {
+      agentName: { type: String },
+      agentContact: { type: String },
+      estDate: { type: Date },
+      packSize: { type: String },
+      trackNo: { type: String },
+      trackLink: { type: String },
+      delNote: { type: String }
+    },
+
     isPaid: {
       type: Boolean,
       required: true,
