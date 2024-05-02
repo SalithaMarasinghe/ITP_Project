@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
-import { payOrder } from "../redux/actions/orderActions";
+import { payOrder,updateBank } from "../redux/actions/orderActions";
 import { getOrderDetails, cancelOrder } from "../redux/actions/orderActions";
 
 const OrderScreen = () => {
@@ -57,6 +57,27 @@ const OrderScreen = () => {
     
   };
 
+
+  const Changetofullypaid = () => {
+    
+    const paymentResult = {
+        id: order._id,
+        status: 'Fully Paid',
+        balance: (order.totalPrice - order.bankDetails.transAmount)
+    }
+
+    dispatch(payOrder(orderId, paymentResult));
+
+    const bankDetails = {
+        transAmount: order.totalPrice,
+    };
+
+    dispatch(updateBank({_id: orderId,transAmount: bankDetails.transAmount,})); 
+    
+    
+  };
+
+  
 
   return (
     <>
@@ -190,55 +211,82 @@ const OrderScreen = () => {
                 <ListGroup.Item>
                 {order.bankDetails ? (
                     order.bankDetails.transAmount >= order.totalPrice ? (
-                                      order.isPaid == true ? (
-                                        <Button
-                                        style={{marginTop:'10px',marginBottom:'10px'}}
-                                        onClick={viewDeliveryHandler}
-                                        className="w-100"
-                                        variant="primary"
-                                        >
-                                        Manage Delivery
-                                        </Button>
-                                    ) : (
-                                        <>
-                                        <Button
-                                        style={{marginTop:'10px'}}
-                                            onClick={changetopaid}
-                                            className="w-100"
-                                            variant="primary"
-                                        >
-                                            Verify Payment
-                                        </Button>
-                                        <Button
-                                            style={{marginTop:'10px',marginBottom:'10px'}}
-                                            onClick={cancelOrderHandler}
-                                            className="w-100"
-                                            variant="danger"
-                                        >
-                                            Cancel Order
-                                        </Button>
-                                        </>
-                                    )
+                        order.isPaid == true ? (
+                          <Button
+                          style={{marginTop:'10px',marginBottom:'10px'}}
+                          onClick={viewDeliveryHandler}
+                          className="w-100"
+                          variant="primary"
+                          >
+                          Manage Delivery
+                          </Button>
+                      ) : (
+                          <>
+                          <Button
+                          style={{marginTop:'10px'}}
+                              onClick={changetopaid}
+                              className="w-100"
+                              variant="primary"
+                          >
+                              Verify Payment
+                          </Button>
+                          <Button
+                              style={{marginTop:'10px',marginBottom:'10px'}}
+                              onClick={cancelOrderHandler}
+                              className="w-100"
+                              variant="danger"
+                          >
+                              Cancel Order
+                          </Button>
+                          </>
+                      )
                     ) : (
-                        <>
-                        <Button
-                        style={{marginTop:'10px'}}
-                            onClick={changetopaid}
-                            className="w-100"
-                            variant="primary"
-                        >
-                            Verify Payment
-                        </Button>
-                        <Button
-                            style={{marginTop:'10px',marginBottom:'10px'}}
-                            onClick={cancelOrderHandler}
-                            className="w-100"
-                            variant="danger"
-                        >
-                            Cancel Order
-                        </Button>
-                        </>
-                    )
+
+                      order.paymentResult? (
+                          <>
+                          <Button
+                          style={{marginTop:'10px'}}
+                              onClick={Changetofullypaid}
+                              className="w-100"
+                              variant="primary"
+                          >
+                              Mark as Fully Paid
+                          </Button>
+
+                          <Button
+                              style={{marginTop:'10px',marginBottom:'10px'}}
+                              onClick={cancelOrderHandler}
+                              className="w-100"
+                              variant="danger"
+                          >
+                              Cancel Order
+                          </Button>
+                          </>
+                            
+                      ) : (
+                          <>
+                          <Button
+                          style={{marginTop:'10px'}}
+                              onClick={changetopaid}
+                              className="w-100"
+                              variant="primary"
+                          >
+                              Verify Payment
+                          </Button>
+
+                          <Button
+                              style={{marginTop:'10px',marginBottom:'10px'}}
+                              onClick={cancelOrderHandler}
+                              className="w-100"
+                              variant="danger"
+                          >
+                              Cancel Order
+                          </Button>
+                          </>
+                          )
+
+                          
+                      )
                     ) : null}
 
                 </ListGroup.Item>
