@@ -156,3 +156,69 @@ export const getTopProducts = asyncHandler(async (req, res) => {
 
   res.status(201).json({ success: true, products });
 });
+
+
+// @Desc Update review
+// @Route /api/products/:productId/reviews/:reviewId
+// @Method PUT
+export const updateProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+  const productId = req.params.productId;
+  const reviewId = req.params.reviewId;
+
+  let product = await Product.findById(productId);
+
+  if (product) {
+    const reviewToUpdate = product.reviews.find(
+      (review) => review._id == reviewId
+    );
+
+    if (!reviewToUpdate) {
+      res.status(404);
+      throw new Error("Review not found");
+    }
+
+    reviewToUpdate.rating = rating;
+    reviewToUpdate.comment = comment;
+
+    await product.save();
+
+    res.status(200).json({ message: "Review updated" });
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
+// @Desc Delete review
+// @Route /api/products/:productId/reviews/:reviewId
+// @Method DELETE
+export const deleteProductReview = asyncHandler(async (req, res) => {
+  const productId = req.params.productId;
+  const reviewId = req.params.reviewId;
+
+  let product = await Product.findById(productId);
+
+  if (product) {
+    product.reviews = product.reviews.filter(
+      (review) => review._id != reviewId
+    );
+    product.numReviews = product.reviews.length;
+
+    // Recalculate the product rating if needed
+    if (product.reviews.length > 0) {
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+    } else {
+      product.rating = 0;
+    }
+
+    await product.save();
+
+    res.status(200).json({ message: "Review deleted" });
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
