@@ -124,11 +124,7 @@ export const updateProduct = (dataProduct) => async (dispatch, getState) => {
       },
     };
 
-    await axios.put(
-      `/api/products/${dataProduct.productId}/reviews/${dataProduct._id}`,
-      dataProduct,
-      config
-    );
+    await axios.put(`/api/products/${dataProduct._id}`, dataProduct, config);
 
     dispatch({ type: actions.PRODUCT_UPDATE_SUCCESS });
     dispatch({ type: actions.PRODUCT_UPDATE_RESET });
@@ -199,39 +195,3 @@ export const listTopProducts = () => async (dispatch) => {
     });
   }
 };
-
-export const deleteProductReview =
-  (productId, reviewId) => async (dispatch, getState) => {
-    try {
-      dispatch({ type: actions.PRODUCT_DELETE_REVIEW_REQUEST });
-
-      const {
-        userLogin: { userInfo },
-      } = getState();
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-
-      await axios.delete(
-        `/api/products/${productId}/reviews/${reviewId}`,
-        config
-      );
-
-      dispatch({ type: actions.PRODUCT_DELETE_REVIEW_SUCCESS });
-    } catch (error) {
-      const message =
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message;
-      if (message === "not authorized, no token") {
-        dispatch(logout());
-      }
-      dispatch({
-        type: actions.PRODUCT_DELETE_REVIEW_FAIL,
-        payload: message,
-      });
-    }
-  };

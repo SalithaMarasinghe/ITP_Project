@@ -50,23 +50,6 @@ export const productDetailsReducer = (
       };
     case actions.PRODUCT_DETAILS_RESET:
       return {};
-    case actions.PRODUCT_DELETE_REVIEW_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case actions.PRODUCT_DELETE_REVIEW_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        success: true,
-      };
-    case actions.PRODUCT_DELETE_REVIEW_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
     default:
       return state;
   }
