@@ -82,4 +82,3 @@ const products = [
 export default products;
 
 
-///nethmi
