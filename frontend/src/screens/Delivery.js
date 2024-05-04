@@ -134,7 +134,7 @@ const DeliveryScreen = () => {
                       <ListGroup.Item>
                           <Row>
                               <Col><strong>Estimated Delivery Date:</strong></Col>
-                              <Col>{order.deliveryDetails.estDate && (<Form.Label>{order.deliveryDetails.estDate}</Form.Label>)}
+                              <Col>{order.deliveryDetails && (<Form.Label>{order.deliveryDetails.estDate}</Form.Label>)}
                                   <Form.Control
                                       type="date"
                                       name="estDate"
