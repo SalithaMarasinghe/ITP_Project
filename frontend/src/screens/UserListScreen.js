@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Table, Button } from "react-bootstrap";
+import { Row, Col, Table, Button, Form, FormControl } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
@@ -8,6 +8,8 @@ import { listUsers, deleteUser } from "../redux/actions/userActions";
 
 const UserListScreen = () => {
   const dispatch = useDispatch();
+
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
   const usersList = useSelector((state) => state.usersList);
   const { users, loading, error } = usersList;
@@ -20,10 +22,21 @@ const UserListScreen = () => {
   }, [dispatch, successDelete]);
 
   const deleteUserHandler = (id) => {
-    if (window.confirm("Are you sure ?")) {
+    if (window.confirm("Are you sure?")) {
       dispatch(deleteUser(id));
     }
   };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value); // Update the search query
+  };
+
+  // Filter users based on search query
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>
@@ -33,19 +46,28 @@ const UserListScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <Row>
-          <h3>Users List</h3>
           <Col>
+            <h3>Users List</h3>
+            <Form className="mb-3">
+              <FormControl
+                type="text"
+                placeholder="Search by name or email..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
+            </Form>
             <Table striped rounded="true" hover className="table-sm">
               <thead>
                 <tr>
-                  <td>ID</td>
-                  <td>Name</td>
-                  <td>Email</td>
-                  <td>Admin</td>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Admin</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {filteredUsers.map((user, index) => (
                   <tr key={index}>
                     <td>{user._id}</td>
                     <td>{user.name}</td>
