@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import { Row, Col, Table } from 'react-bootstrap';
+import { Row, Col, Table, Form, FormControl } from 'react-bootstrap';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
 import { listPromotions, deletePromotion } from '../redux/actions/promotionActions';
@@ -12,6 +12,9 @@ import 'jspdf-autotable';
 
 const PromotionListScreen = () => {
   const dispatch = useDispatch();
+
+  // State to hold the search query
+  const [searchQuery, setSearchQuery] = useState('');
 
   const promotionList = useSelector((state) => state.promotionList);
   const { loading, error, promotions } = promotionList;
@@ -38,6 +41,7 @@ const PromotionListScreen = () => {
     return product ? product.name : '';
   };
 
+  // Function to generate a PDF with the promotion list
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text('Promotion List', 14, 16);
@@ -53,8 +57,19 @@ const PromotionListScreen = () => {
       ]),
     });
 
-    doc.save('promotion-list.pdf'); // Save the generated PDF
+    doc.save('promotion-list.pdf');
   };
+
+  // Filter promotions based on the search query
+  const filteredPromotions = promotions.filter((promotion) => {
+    const query = searchQuery.toLowerCase(); // Lowercase for case-insensitive comparison
+    return (
+      promotion.name.toLowerCase().includes(query) ||
+      promotion.type.toLowerCase().includes(query) ||
+      promotion.value.toString().includes(query) ||
+      getProductName(promotion.relatedProduct).toLowerCase().includes(query)
+    );
+  });
 
   return (
     <div>
@@ -63,6 +78,13 @@ const PromotionListScreen = () => {
           <h1>Promotions</h1>
         </Col>
         <Col className="text-right">
+          <Form inline className="d-inline-block" onChange={(e) => setSearchQuery(e.target.value)}>
+            <FormControl
+              type="text"
+              placeholder="Search by Name, Type, Value, or Product..."
+              className="mr-sm-2"
+            />
+          </Form>
           <Button onClick={generatePDF} variant="success">
             Download PDF
           </Button>
@@ -87,7 +109,7 @@ const PromotionListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {promotions.map((promotion) => (
+              {filteredPromotions.map((promotion) => (
                 <tr key={promotion._id}>
                   <td>{promotion.name}</td>
                   <td>{promotion.type}</td>
