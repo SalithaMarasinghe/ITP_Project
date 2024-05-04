@@ -13,15 +13,44 @@ import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message";
 import Meta from "../components/Meta";
 import { addToCart, removeFromCart } from "../redux/actions/cartActions";
+import jsPDF from "jspdf"; // import jsPDF library
+import "jspdf-autotable"; // for creating tables
 
 const CartScreen = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  
 
   const checkoutHandler = () => {
     navigate("/login?redirect=shipping");
+  };
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Shopping Cart Report", 14, 22);
+
+    const tableColumn = ["Product", "Quantity", "Price"];
+    const tableRows = [];
+
+    cartItems.forEach((item) => {
+      const rowData = [
+        item.name,
+        item.qty,
+        `Rs. ${item.price}`,
+      ];
+      tableRows.push(rowData);
+    });
+
+    // Add the table to the PDF
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+
+    doc.save("shopping_cart_report.pdf"); // Save the PDF with a file name
   };
 
   return (
@@ -61,12 +90,12 @@ const CartScreen = () => {
                           value={cart.qty}
                           onChange={(e) =>
                             dispatch(
-                              addToCart(cart.product, Number(e.target.value),cart.price)
+                              addToCart(cart.product, Number(e.target.value))
                             )
                           }
                         >
                           {[...Array(cart.countInStock).keys()].map((x) => (
-                            <option value={Number(x + 1)} key={x + 1}>
+                            <option value={x + 1} key={x + 1}>
                               {x + 1}
                             </option>
                           ))}
@@ -76,7 +105,7 @@ const CartScreen = () => {
                           variant="danger"
                           onClick={() => dispatch(removeFromCart(cart.product))}
                         >
-                          <i class="fas fa-trash"></i>
+                          <i className="fas fa-trash"></i>
                         </Button>
                       </Col>
                     </Row>
@@ -99,8 +128,9 @@ const CartScreen = () => {
                     <h5 className="mt-3">
                       Rs.
                       {cartItems.reduce(
-                        (acc, item) => acc + (item.qty * item.price), 0)
-                        .toFixed(2)}
+                        (acc, item) => acc + (item.qty * item.price),
+                        0
+                      ).toFixed(2)}
                     </h5>
                   </ListGroup.Item>
                   <ListGroup.Item>
@@ -111,6 +141,14 @@ const CartScreen = () => {
                       onClick={checkoutHandler}
                     >
                       PROCEED TO CHECKOUT
+                    </Button>
+                    <Button
+                      className="w-100 p-2 mt-2"
+                      variant="secondary"
+                      disabled={cartItems.length === 0}
+                      onClick={generatePDF}
+                    >
+                      GENERATE PDF
                     </Button>
                   </ListGroup.Item>
                 </ListGroup>
