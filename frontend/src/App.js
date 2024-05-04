@@ -24,6 +24,9 @@ import UploadReciept from "./screens/UploadReciept";
 import BankInstruction from "./screens/BankInstructions";
 import ViewReciept from "./screens/ViewReciept";
 import Delivery from "./screens/Delivery";
+import PromotionListScreen from "./screens/PromotionListScreen";
+import CreatePromotion from "./screens/CreatePromotion";
+import EditPromotion from "./screens/EditPromotion";
 
 
 const App = () => {
@@ -69,15 +72,12 @@ const App = () => {
               <Route path="/admin/users" element={<UserListScreen />} />
             </Route>
 
+          
             <Route path="/admin/users/edit/:id" element={<OnlyAdmin />}>
-              <Route
-                path="/admin/users/edit/:id"
-                element={<UserEditScreen />}
-              />
+              <Route path="/admin/users/edit/:id" element={<UserEditScreen />} />
             </Route>
 
             <Route path="/admin/products" element={<OnlyAdmin />}>
-          
            <Route path="/admin/products" element={<ProductListScreen />} />
           
             <Route
@@ -103,6 +103,19 @@ const App = () => {
             <Route path="/admin/orders" element={<OnlyAdmin />}>
               <Route path="/admin/orders" element={<OrderListScreen />} />
             </Route>
+
+            <Route path="/admin/promotions" element={<OnlyAdmin />}>
+              <Route path="/admin/promotions" element={<PromotionListScreen />} />
+            </Route>
+
+            <Route path="/admin/create-promotion" element={<OnlyAdmin />}>
+              <Route path="/admin/create-promotion" element={<CreatePromotion />} />
+            </Route>
+
+            <Route path="/admin/edit-promotion/:id" element={<OnlyAdmin />}>
+              <Route path="/admin/edit-promotion/:id" element={<EditPromotion />} />
+            </Route>
+
 
             <Route path="/admin/ViewRecipet/:id" element={<OnlyAdmin />}>
               <Route path="/admin/ViewRecipet/:id" element={<ViewReciept />} />

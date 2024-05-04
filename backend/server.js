@@ -10,6 +10,7 @@ import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import promotionRoutes from "./routes/promotionRoutes.js";
 
 const app = express();
 
@@ -36,6 +37,9 @@ app.use("/api/orders", orderRoutes);
 
 // Upload Route
 app.use("/api/upload", uploadRoutes);
+
+//Promotions Route
+app.use("/api/promotions", promotionRoutes);
 
 
 
