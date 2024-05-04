@@ -15,6 +15,7 @@ export const addToCart = (id, qty, newPrice) => async (dispatch, getState) => {
       price: newPrice, // Include the new price calculated based on promotions
       countInStock: data.product.countInStock,
       qty,
+      newPrice,
     },
   });
 
