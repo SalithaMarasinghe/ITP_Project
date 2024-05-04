@@ -5,6 +5,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { listUsers, deleteUser } from "../redux/actions/userActions";
+import jsPDF from "jspdf"; // Import jsPDF
+import "jspdf-autotable"; // Import the AutoTable plugin for jsPDF
 
 const UserListScreen = () => {
   const dispatch = useDispatch();
@@ -38,6 +40,25 @@ const UserListScreen = () => {
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const generatePDF = () => {
+    const doc = new jsPDF(); // Create a new jsPDF instance
+    doc.text("User Details", 14, 16); // Add a title to the PDF
+
+    // Add an AutoTable with the user data
+    doc.autoTable({
+      head: [["ID", "Name", "Email", "Admin"]], // Table header
+      body: filteredUsers.map((user) => [
+        user._id,
+        user.name,
+        user.email,
+        user.isAdmin ? "Yes" : "No",
+      ]), // Table rows
+    });
+
+    // Save or display the PDF
+    doc.save("user-details.pdf"); // Save the generated PDF to a file
+  };
+
   return (
     <>
       {loading ? (
@@ -56,7 +77,10 @@ const UserListScreen = () => {
                 onChange={handleSearchChange}
               />
             </Form>
-            <Table striped rounded="true" hover className="table-sm">
+            <Button onClick={generatePDF} className="mb-3">
+              Generate PDF
+            </Button>
+            <Table striped hover className="table-sm">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -67,8 +91,8 @@ const UserListScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.map((user, index) => (
-                  <tr key={index}>
+                {filteredUsers.map((user) => (
+                  <tr key={user._id}>
                     <td>{user._id}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
@@ -77,29 +101,28 @@ const UserListScreen = () => {
                         <i
                           className="fas fa-check"
                           style={{ color: "green" }}
-                        ></i>
+                        />
                       ) : (
                         <i
                           className="fas fa-times"
                           style={{ color: "red" }}
-                        ></i>
+                        />
                       )}
                     </td>
                     <td>
                       <LinkContainer
-                        className="ml-1"
                         to={`/admin/users/edit/${user._id}`}
                       >
-                        <Button className="btn btn-sm" variant="primary">
-                          <i className="fas fa-edit"></i>
+                        <Button variant="primary" size="sm">
+                          <i className="fas fa-edit" />
                         </Button>
                       </LinkContainer>
                       <Button
-                        className="btn btn-sm"
                         variant="danger"
+                        size="sm"
                         onClick={() => deleteUserHandler(user._id)}
                       >
-                        <i className="fas fa-trash"></i>
+                        <i className="fas fa-trash" />
                       </Button>
                     </td>
                   </tr>
