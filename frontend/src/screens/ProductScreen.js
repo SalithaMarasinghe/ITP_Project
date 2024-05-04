@@ -1,3 +1,5 @@
+// ProductScreen.js
+
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
@@ -14,10 +16,10 @@ import {
 import { listProductDetails } from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
-import products from "../products";
 import Rating from "../components/Rating";
 import { addToCart } from "../redux/actions/cartActions";
 import { createProductReview } from "../redux/actions/productActions";
+import { listPromotions } from "../redux/actions/promotionActions";
 
 const ProductScreen = () => {
   const [qty, setQty] = useState(1);
@@ -40,6 +42,9 @@ const ProductScreen = () => {
     error: errorProductReview,
   } = productReviewCreate;
 
+  const promotionList = useSelector((state) => state.promotionList);
+  const { promotions } = promotionList;
+
   useEffect(() => {
     if (successProductReview) {
       setRating(0);
@@ -49,16 +54,54 @@ const ProductScreen = () => {
       navigate("/");
     }
     dispatch(listProductDetails(params.id));
+    dispatch(listPromotions());
   }, [dispatch, params.id, successProductReview]);
 
   const addToCartHandler = () => {
-    dispatch(addToCart(params.id, qty));
+    const newPrice = calculateNewPrice(); // Calculate the new price here
+    dispatch(addToCart(params.id, qty, newPrice));
     navigate(`/cart`);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(createProductReview(params.id, { rating, comment }));
+  };
+
+  const getPromotionDiscount = () => {
+    const matchedPromotion = promotions.find(
+      (promotion) => promotion.relatedProduct === product._id
+    );
+    if (!matchedPromotion) return null;
+
+    const { type, value } = matchedPromotion;
+
+    if (type === "fixed") {
+      // For fixed type, return the value directly
+      return value;
+    } else if (type === "percentage") {
+      // For percentage type, calculate the discount percentage
+      const discount = (value / 100) * product.price;
+      return `${value}% (- Rs. ${discount.toFixed(2)})`;
+    }
+
+    return null;
+  };
+
+  const calculateNewPrice = () => {
+    const discount = getPromotionDiscount();
+    if (!discount) return product.price;
+
+    if (typeof discount === "number") {
+      // For fixed type, subtract the discount value from the product price
+      return product.price - discount;
+    } else {
+      // For percentage type, calculate the discounted price
+      const discountPercentage = parseInt(discount.split("%")[0]);
+      const discountedPrice =
+        (product.price - (discountPercentage / 100) * product.price).toFixed(2);
+      return discountedPrice;
+    }
   };
 
   return (
@@ -100,6 +143,20 @@ const ProductScreen = () => {
                         <Col>Price:</Col>
                         <Col>
                           <strong>Rs. {product.price}</strong>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Discount:</Col>
+                        <Col>{getPromotionDiscount()}</Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>New Price:</Col>
+                        <Col>
+                          <strong>Rs. {calculateNewPrice()}</strong>
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -150,65 +207,69 @@ const ProductScreen = () => {
               </Col>
             </Row>
             <div className="form_review">
-            <Row className="mt-4">
-              <Col md={6}>
-                <h2>Reviews</h2>
-                {loadingProductReview && <Loading />}
-                {product.reviews.length === 0 && (
-                  <Message variant="info">No Reviews</Message>
-                )}
-                <ListGroup variant="flush">
-                  {product.reviews.map((review) => (
-                    <ListGroup.Item key={review._id}>
-                      <strong>{review.name}</strong>
-                      <Rating value={review.rating} text="Reviews" />
-                      <p>{review.createdAt.substring(0, 10)}</p>
-                      <p>{review.comment}</p>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-                <h3 style={{marginTop: '40px'}}>Write a customer review</h3>
-                {userInfo ? (
-                  <Form onSubmit={submitHandler}>
-                    {errorProductReview && (
-                      <Message variant="danger">{errorProductReview}</Message>
-                    )}
+              <Row className="mt-4">
+                <Col md={6}>
+                  <h2>Reviews</h2>
+                  {loadingProductReview && <Loading />}
+                  {product.reviews.length === 0 && (
+                    <Message variant="info">No Reviews</Message>
+                  )}
+                  <ListGroup variant="flush">
+                    {product.reviews.map((review) => (
+                      <ListGroup.Item key={review._id}>
+                        <strong>{review.name}</strong>
+                        <Rating value={review.rating} text="Reviews" />
+                        <p>{review.createdAt.substring(0, 10)}</p>
+                        <p>{review.comment}</p>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                  <h3 style={{ marginTop: "40px" }}>
+                    Write a customer review
+                  </h3>
+                  {userInfo ? (
+                    <Form onSubmit={submitHandler}>
+                      {errorProductReview && (
+                        <Message variant="danger">
+                          {errorProductReview}
+                        </Message>
+                      )}
 
-                    <Form.Group controlId="rating">
-                      <Form.Label>Rating</Form.Label>
-                      <Form.Control
-                        as="select"
-                        value={rating}
-                        onChange={(e) => setRating(e.target.value)}
-                      >
-                        <option value="">Select ...</option>
-                        <option value="1">1 - Poor</option>
-                        <option value="2">2 - Fair</option>
-                        <option value="3">3 - Good</option>
-                        <option value="4">4 - Very good</option>
-                        <option value="5">5 - Perfect</option>
-                      </Form.Control>
-                    </Form.Group>
-                    <Form.Group className="mt-3" controlId="comment">
-                      <Form.Label>Comment</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        placeholder="Comment"
-                      ></Form.Control>
-                    </Form.Group>
-                    <Button type="submit" className="mt-3" vatiant="primary">
-                      Submit
-                    </Button>
-                  </Form>
-                ) : (
-                  <Message variant="info">
-                    <Link to="/login">Sign in</Link> to write a review
-                  </Message>
-                )}
-              </Col>
-            </Row>
+                      <Form.Group controlId="rating">
+                        <Form.Label>Rating</Form.Label>
+                        <Form.Control
+                          as="select"
+                          value={rating}
+                          onChange={(e) => setRating(e.target.value)}
+                        >
+                          <option value="">Select ...</option>
+                          <option value="1">1 - Poor</option>
+                          <option value="2">2 - Fair</option>
+                          <option value="3">3 - Good</option>
+                          <option value="4">4 - Very good</option>
+                          <option value="5">5 - Perfect</option>
+                        </Form.Control>
+                      </Form.Group>
+                      <Form.Group className="mt-3" controlId="comment">
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                          placeholder="Comment"
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button type="submit" className="mt-3" vatiant="primary">
+                        Submit
+                      </Button>
+                    </Form>
+                  ) : (
+                    <Message variant="info">
+                      <Link to="/login">Sign in</Link> to write a review
+                    </Message>
+                  )}
+                </Col>
+              </Row>
             </div>
           </>
         )

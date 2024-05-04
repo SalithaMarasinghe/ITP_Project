@@ -1,7 +1,9 @@
+// cartActions.js
+
 import axios from "axios";
 import * as actions from "../constants/cartConstants";
 
-export const addToCart = (id, qty) => async (dispatch, getState) => {
+export const addToCart = (id, qty, newPrice) => async (dispatch, getState) => {
   const { data } = await axios.get(`/api/products/${id}`);
 
   dispatch({
@@ -10,7 +12,7 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
       product: data.product._id,
       name: data.product.name,
       image: data.product.image,
-      price: data.product.price,
+      price: newPrice, // Include the new price calculated based on promotions
       countInStock: data.product.countInStock,
       qty,
     },
