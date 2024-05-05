@@ -23,7 +23,9 @@ export const addCartItems = asyncHandler(async (req, res) => {
     );
 
     if (itemExists) {
-      res.status(400).json({ success: false, message: "Item already exists" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Item already exists" });
     }
 
     existingCart.cartItems.push(cartItem);

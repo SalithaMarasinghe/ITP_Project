@@ -18,6 +18,10 @@ const CartSchema = mongoose.Schema(
           required: true,
           ref: "Product",
         },
+        countInStock: {
+          type: Number,
+          required: true,
+        },
       },
     ],
     totalPrice: {
