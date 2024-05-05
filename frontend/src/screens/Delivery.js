@@ -56,7 +56,7 @@ const DeliveryScreen = () => {
 
   const viewReceiptHandler = () => {
   
-    navigate(`/admin/ViewRecipet/${order._id}`);
+    navigate(`/admin/ViewReceipt/${order._id}`);
   };
 
   return (

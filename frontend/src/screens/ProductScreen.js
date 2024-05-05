@@ -3,16 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Button,
-  Card,
-  FormControl,
-  Form,
-} from "react-bootstrap";
+import {Row,Col,Image,ListGroup,Button,Card,FormControl,Form,} from "react-bootstrap";
 import { listProductDetails } from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
@@ -72,7 +63,7 @@ const ProductScreen = () => {
     const matchedPromotion = promotions.find(
       (promotion) => promotion.relatedProduct === product._id
     );
-    if (!matchedPromotion) return null;
+    if (!matchedPromotion) return 0;
 
     const { type, value } = matchedPromotion;
 
@@ -126,7 +117,7 @@ const ProductScreen = () => {
                   <ListGroup.Item>
                     <Rating
                       value={product.rating}
-                      text={`${(product.rating).toFixed(1)} Reviews`}
+                      text={`${product.rating} Reviews`}
                     />
                   </ListGroup.Item>
                   <ListGroup.Item>Price: Rs. {product.price}</ListGroup.Item>
@@ -180,8 +171,7 @@ const ProductScreen = () => {
                               value={qty}
                               onChange={(e) => setQty(e.target.value)}
                             >
-                              {[...Array(product.countInStock).keys()].map(
-                                (x) => (
+                              {[...Array(product.countInStock).keys()].map((x) => (
                                   <option value={x + 1} key={x + 1}>
                                     {x + 1}
                                   </option>

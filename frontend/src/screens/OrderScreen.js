@@ -37,7 +37,7 @@ const OrderScreen = () => {
 
   // ViewReceiptHandler Function
   const viewReceiptHandler = async () => {
-    navigate(`/admin/ViewRecipet/${order._id}`);
+    navigate(`/admin/ViewReceipt/${order._id}`);
   };
 
 
