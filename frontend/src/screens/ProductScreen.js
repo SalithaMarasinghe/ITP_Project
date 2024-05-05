@@ -3,16 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Button,
-  Card,
-  FormControl,
-  Form,
-} from "react-bootstrap";
+import {Row,Col,Image,ListGroup,Button,Card,FormControl,Form,} from "react-bootstrap";
 import { listProductDetails } from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
@@ -72,7 +63,7 @@ const ProductScreen = () => {
     const matchedPromotion = promotions.find(
       (promotion) => promotion.relatedProduct === product._id
     );
-    if (!matchedPromotion) return null;
+    if (!matchedPromotion) return 0;
 
     const { type, value } = matchedPromotion;
 
@@ -142,7 +133,7 @@ const ProductScreen = () => {
                       <Row>
                         <Col>Price:</Col>
                         <Col>
-                          <strong>Rs. {product.price}</strong>
+                          <strong>Rs. {product.price.toFixed(2)}</strong>
                         </Col>
                       </Row>
                     </ListGroup.Item>

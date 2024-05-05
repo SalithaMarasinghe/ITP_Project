@@ -22,7 +22,7 @@ import EditProductScreen from "./screens/EditProductScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UploadReciept from "./screens/UploadReciept";
 import BankInstruction from "./screens/BankInstructions";
-import ViewReciept from "./screens/ViewReciept";
+import ViewReceipt from "./screens/ViewReceipt";
 import Delivery from "./screens/Delivery";
 import PromotionListScreen from "./screens/PromotionListScreen";
 import CreatePromotion from "./screens/CreatePromotion";
@@ -117,8 +117,8 @@ const App = () => {
             </Route>
 
 
-            <Route path="/admin/ViewRecipet/:id" element={<OnlyAdmin />}>
-              <Route path="/admin/ViewRecipet/:id" element={<ViewReciept />} />
+            <Route path="/admin/ViewReceipt/:id" element={<OnlyAdmin />}>
+              <Route path="/admin/ViewReceipt/:id" element={<ViewReceipt />} />
             </Route>
 
             <Route path="/admin/Delivery/:id" element={<OnlyAdmin />}>

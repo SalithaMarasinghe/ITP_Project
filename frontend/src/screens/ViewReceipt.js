@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { payOrder,updateBank } from "../redux/actions/orderActions";
 import { getOrderDetails, cancelOrder } from "../redux/actions/orderActions";
 
-const ViewRecipet = () => {
+const ViewReceipt = () => {
   let navigate = useNavigate();
   let params = useParams();
   const dispatch = useDispatch();
@@ -300,4 +300,4 @@ const ViewRecipet = () => {
   );
 };
 
-export default ViewRecipet;
+export default ViewReceipt;
