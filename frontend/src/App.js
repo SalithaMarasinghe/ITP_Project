@@ -27,6 +27,7 @@ import Delivery from "./screens/Delivery";
 import PromotionListScreen from "./screens/PromotionListScreen";
 import CreatePromotion from "./screens/CreatePromotion";
 import EditPromotion from "./screens/EditPromotion";
+import UserCartsScreen from "./screens/UserCartsScreen";
 
 
 const App = () => {
@@ -106,6 +107,10 @@ const App = () => {
 
             <Route path="/admin/promotions" element={<OnlyAdmin />}>
               <Route path="/admin/promotions" element={<PromotionListScreen />} />
+            </Route>
+            
+            <Route path="/admin/user-carts" element={<OnlyAdmin />}>
+              <Route path="/admin/user-carts" element={<UserCartsScreen />} />
             </Route>
 
             <Route path="/admin/create-promotion" element={<OnlyAdmin />}>

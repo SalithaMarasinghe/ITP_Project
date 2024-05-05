@@ -61,7 +61,11 @@ export const addCartItems = asyncHandler(async (req, res) => {
 // @access  Private
 
 export const getCartByUserId = asyncHandler(async (req, res) => {
-  const cart = await Cart.findOne({ user: req.user._id });
+  // populate user except password
+  const cart = await Cart.findOne({ user: req.user._id }).populate(
+    "user",
+    "-password"
+  );
 
   if (!cart) {
     res.status(404).json({ success: false, message: "Cart not found" });
@@ -154,4 +158,15 @@ export const clearCart = asyncHandler(async (req, res) => {
   const updatedCart = await cart.save();
 
   res.status(200).json({ success: true, cart: updatedCart });
+});
+
+// Get all carts
+// @desc    Get all carts
+// @route   GET /api/carts
+// @access  Private/Admin
+
+export const getCarts = asyncHandler(async (req, res) => {
+  const carts = await Cart.find({}).populate("user", "-password");
+
+  res.status(200).json({ success: true, carts });
 });

@@ -6,6 +6,11 @@ class CartAPI {
     return api.post("/api/carts", data);
   }
 
+  // Get all carts
+  static getCarts() {
+    return api.get("/api/carts/all");
+  }
+
   // Get cart by user id
   static getCartByUserId() {
     return api.get("/api/carts");
