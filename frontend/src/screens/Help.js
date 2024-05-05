@@ -5,6 +5,7 @@ import { Row, Col, Form, FormControl, Button } from 'react-bootstrap';
 
 function Help() {
   const [faqs, setFaqs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate(); // Use useNavigate hook to navigate
 
   useEffect(() => {
@@ -21,6 +22,11 @@ function Help() {
     navigate('/inquiryForm'); // Use navigate function to navigate to inquiryForm
   };
 
+  const filteredFaqs = faqs.filter(faq =>
+    faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="customer-support">
       <div className="faq">
@@ -34,6 +40,8 @@ function Help() {
                 type="text"
                 placeholder="Search"
                 className="mr-sm-2"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </Form>
           </Col>
@@ -44,7 +52,7 @@ function Help() {
           </Col>
         </Row>
         <div className="faq-list">
-          {faqs.map((faq, index) => (
+          {filteredFaqs.map((faq, index) => (
             <div key={index} className="faq-box">
               <div className="faq-question">{faq.question}</div>
               <div className="faq-answer">{faq.answer}</div>
@@ -67,4 +75,3 @@ function Question({ question, answer }) {
 }
 
 export default Help;
-
