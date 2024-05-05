@@ -7,6 +7,8 @@ import Loading from '../components/Loading';
 import Message from '../components/Message';
 import { deleteInquiry } from '../redux/actions/inquiryActions'; 
 import { listInquiries } from '../redux/actions/inquiryActions';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const InquiryListScreen = () => {
   const dispatch = useDispatch();
@@ -27,11 +29,37 @@ const InquiryListScreen = () => {
     }
   };
 
+  const generateReport = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text('Inquiries', 14, 9);
+
+    doc.autoTable({
+      head: [['Name', 'Phone', 'email', 'Subject', 'message', 'createdAt']],
+      body: inquiries.map((inquiry) => [
+        inquiry.name,
+        inquiry.phone,
+        inquiry.email,
+        inquiry.subject,
+        inquiry.message,
+        inquiry.createdAt
+      ]),
+
+    });
+
+    doc.save('inquiries.pdf');
+  };
+
   return (
     <div>
-      <Row className="align-items-center">
+      <Row className="inquiryHeader">
         <Col>
           <h1>Inquiries</h1>
+        </Col>
+        <Col>
+          <Button onClick={generateReport} variant="success">
+            Generate Report
+          </Button>
         </Col>
       </Row>
 
@@ -73,6 +101,7 @@ const InquiryListScreen = () => {
             </tbody>
           </Table>
         </div>
+        
       )}
     </div>
   );

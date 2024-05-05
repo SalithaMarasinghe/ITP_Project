@@ -337,3 +337,9 @@ header .navbar-light .navbar-nav .nav-link:hover {
 .createInquiry .error {
   color: rgb(179, 11, 11);
 }
+
+.inquiryHeader button {
+  background-color: #ffce67;
+  color: black;
+  border-radius: 5px;
+}
