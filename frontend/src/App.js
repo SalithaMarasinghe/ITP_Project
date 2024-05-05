@@ -25,7 +25,7 @@ import BankInstruction from "./screens/BankInstructions";
 import ViewReciept from "./screens/ViewReciept";
 import Delivery from "./screens/Delivery";
 import VoucherListScreen from "./screens/VoucherListScreen";
-
+import EditVoucherScreen from "./screens/EditVoucherScreen";
 
 const App = () => {
   return (
@@ -41,7 +41,7 @@ const App = () => {
             <Route path="/profile" element={<ProtectedRoute />}>
               <Route path="/profile" element={<ProfileScreen />} />
             </Route>
-            
+
             <Route path="/shipping" element={<ProtectedRoute />}>
               <Route path="/shipping" element={<ShippingScreen />} />
             </Route>
@@ -55,11 +55,14 @@ const App = () => {
             </Route>
 
             <Route path="/billinstructions" element={<ProtectedRoute />}>
-            <Route path="/billinstructions/:id" element={<BankInstruction />} />
+              <Route
+                path="/billinstructions/:id"
+                element={<BankInstruction />}
+              />
             </Route>
 
             <Route path="/uploadbill" element={<ProtectedRoute />}>
-            <Route path="/uploadbill/:id" element={<UploadReciept />} />
+              <Route path="/uploadbill/:id" element={<UploadReciept />} />
             </Route>
 
             <Route path="/order/:id" element={<ProtectedRoute />}>
@@ -78,10 +81,9 @@ const App = () => {
             </Route>
 
             <Route path="/admin/products" element={<OnlyAdmin />}>
-          
-           <Route path="/admin/products" element={<ProductListScreen />} />
-          
-            <Route
+              <Route path="/admin/products" element={<ProductListScreen />} />
+
+              <Route
                 path="/admin/products/:pageNumber"
                 element={<ProductListScreen />}
               />
@@ -101,13 +103,11 @@ const App = () => {
               />
             </Route>
 
-          
-           <Route path="/admin/vouchers" element={<OnlyAdmin />}>
-              <Route path="/admin/vouchers" element={<VoucherListScreen />} />
-            </Route>
-       
-
-      
+            <Route path="/admin/vouchers" element={<VoucherListScreen />} />
+            <Route
+              path="/admin/vouchers/edit/:id"
+              element={<EditVoucherScreen />}
+            />
 
             <Route path="/admin/orders" element={<OnlyAdmin />}>
               <Route path="/admin/orders" element={<OrderListScreen />} />
@@ -123,12 +123,14 @@ const App = () => {
 
             <Route path="/page/:pageNumber" element={<HomeScreen />} />
 
-            <Route path="/search/:keyword/page/:pageNumber" element={<HomeScreen />} />
+            <Route
+              path="/search/:keyword/page/:pageNumber"
+              element={<HomeScreen />}
+            />
 
             <Route path="/search/:keyword" element={<HomeScreen />} />
 
             <Route index path="/" element={<HomeScreen />} />
-
           </Routes>
         </Container>
       </main>

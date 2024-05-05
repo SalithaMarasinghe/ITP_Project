@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const voucherSchema = new mongoose.Schema({
+const voucherSchema =  mongoose.Schema({
   type: { type: String, required: true },
   code: { type: String, required: true, unique: true },
   value: { type: Number, required: true },
@@ -9,4 +9,4 @@ const voucherSchema = new mongoose.Schema({
 
 const Voucher = mongoose.model('Voucher', voucherSchema);
 
-module.exports = Voucher;
+export default Voucher

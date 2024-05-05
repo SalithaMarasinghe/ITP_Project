@@ -6,15 +6,14 @@ import {
   updateVoucher,
   deleteVoucher,
 } from "../controllers/voucherController.js";
-import { protect, admin } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").get(getAll).post(protect, admin, createVoucher);
+router.route("/").get(getAll).post( createVoucher);
 router
   .route("/:id")
   .get(getSingle)
-  .delete(protect, admin, deleteVoucher)
-  .put(protect, admin, updateVoucher);
+  .delete( deleteVoucher)
+  .put( updateVoucher);
 
 export default router;
