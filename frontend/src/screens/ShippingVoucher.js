@@ -1,16 +1,18 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useSelector, useDispatch } from "react-redux";
 import { saveShippingAddress } from "../redux/actions/cartActions";
 import CheckoutSteps from "../components/CheckoutSteps";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const ShippingScreen = () => {
+const ShippingVoucher = () => {
   const location = useLocation();
-
   let navigate = useNavigate();
+
+  const { type, value, username } = useParams();
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
@@ -23,8 +25,11 @@ const ShippingScreen = () => {
 
   const handleShippingAddress = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    navigate("/payment");
+    // dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    // navigate("/shipping/payment");
+    navigate(
+      `/payment/voucher/${type}/1/${value}/${username}/${address}/${city}/${postalCode}/${country}`
+    );
   };
 
   return (
@@ -76,4 +81,4 @@ const ShippingScreen = () => {
   );
 };
 
-export default ShippingScreen;
+export default ShippingVoucher;

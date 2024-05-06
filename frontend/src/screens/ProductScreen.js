@@ -3,7 +3,16 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import {Row,Col,Image,ListGroup,Button,Card,FormControl,Form,} from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Button,
+  Card,
+  FormControl,
+  Form,
+} from "react-bootstrap";
 import { listProductDetails } from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
@@ -89,8 +98,10 @@ const ProductScreen = () => {
     } else {
       // For percentage type, calculate the discounted price
       const discountPercentage = parseInt(discount.split("%")[0]);
-      const discountedPrice =
-        (product.price - (discountPercentage / 100) * product.price).toFixed(2);
+      const discountedPrice = (
+        product.price -
+        (discountPercentage / 100) * product.price
+      ).toFixed(2);
       return discountedPrice;
     }
   };
@@ -171,7 +182,8 @@ const ProductScreen = () => {
                               value={qty}
                               onChange={(e) => setQty(e.target.value)}
                             >
-                              {[...Array(product.countInStock).keys()].map((x) => (
+                              {[...Array(product.countInStock).keys()].map(
+                                (x) => (
                                   <option value={x + 1} key={x + 1}>
                                     {x + 1}
                                   </option>
@@ -214,15 +226,11 @@ const ProductScreen = () => {
                       </ListGroup.Item>
                     ))}
                   </ListGroup>
-                  <h3 style={{ marginTop: "40px" }}>
-                    Write a customer review
-                  </h3>
+                  <h3 style={{ marginTop: "40px" }}>Write a customer review</h3>
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
                       {errorProductReview && (
-                        <Message variant="danger">
-                          {errorProductReview}
-                        </Message>
+                        <Message variant="danger">{errorProductReview}</Message>
                       )}
 
                       <Form.Group controlId="rating">

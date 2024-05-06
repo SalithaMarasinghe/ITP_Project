@@ -36,6 +36,12 @@ import InquiryListScreen from "./screens/InquiryListScreen";
 import VoucherListScreen from "./screens/VoucherListScreen";
 import CreateVoucherScreen from "./screens/CreateVoucherScreen";
 import EditVoucherScreen from "./screens/EditVoucherScreen";
+import Vouchers from "./screens/Vouchers";
+import VoucherDetails from "./screens/VoucherDetails";
+import ShippingVoucher from "./screens/ShippingVoucher";
+import PlaceOrderVoucher from "./screens/PlaceOrderVoucher";
+import PaymentVoucher from "./screens/PaymentVoucher";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -45,50 +51,55 @@ const App = () => {
           <Routes>
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/cart" element={<CartScreen />} />
+
+            <Route path="/giftvouchers" element={<Vouchers />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/profile" element={<ProtectedRoute />}>
               <Route path="/profile" element={<ProfileScreen />} />
             </Route>
-
             <Route path="/shipping" element={<ProtectedRoute />}>
               <Route path="/shipping" element={<ShippingScreen />} />
+              <Route
+                path="/shipping/voucher/:type/1/:value/:username"
+                element={<ShippingVoucher />}
+              />
+              <Route
+                path="/shipping/payment/:type/1/:value/:username/:address/:city/:postalCode/:country"
+                element={<PlaceOrderVoucher />}
+              />
             </Route>
-
             <Route path="/payment" element={<ProtectedRoute />}>
               <Route path="/payment" element={<PaymentScreen />} />
+              <Route
+                path="/payment/voucher/:type/1/:value/:username/:address/:city/:postalCode/:country"
+                element={<PlaceOrderVoucher />}
+              />
             </Route>
-
             <Route path="/placeorder" element={<ProtectedRoute />}>
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
             </Route>
-
             <Route path="/billinstructions" element={<ProtectedRoute />}>
               <Route
                 path="/billinstructions/:id"
                 element={<BankInstruction />}
               />
             </Route>
-
             <Route path="/uploadbill" element={<ProtectedRoute />}>
               <Route path="/uploadbill/:id" element={<UploadReciept />} />
             </Route>
-
             <Route path="/order/:id" element={<ProtectedRoute />}>
               <Route path="/order/:id" element={<OrderScreen />} />
             </Route>
-
             <Route path="/admin/users" element={<OnlyAdmin />}>
               <Route path="/admin/users" element={<UserListScreen />} />
             </Route>
-
             <Route path="/admin/users/edit/:id" element={<OnlyAdmin />}>
               <Route
                 path="/admin/users/edit/:id"
                 element={<UserEditScreen />}
               />
             </Route>
-
             <Route path="/admin/products" element={<OnlyAdmin />}>
               <Route path="/admin/products" element={<ProductListScreen />} />
 
@@ -97,89 +108,69 @@ const App = () => {
                 element={<ProductListScreen />}
               />
             </Route>
-
             <Route path="/admin/products/create" element={<OnlyAdmin />}>
               <Route
                 path="/admin/products/create"
                 element={<CreateProductScreen />}
               />
             </Route>
-
             <Route path="/admin/product/edit/:id" element={<OnlyAdmin />}>
               <Route
                 path="/admin/product/edit/:id"
                 element={<EditProductScreen />}
               />
             </Route>
-
             <Route path="/admin/orders" element={<OnlyAdmin />}>
               <Route path="/admin/orders" element={<OrderListScreen />} />
             </Route>
-
             <Route path="/admin/promotions" element={<OnlyAdmin />}>
               <Route
                 path="/admin/promotions"
                 element={<PromotionListScreen />}
               />
             </Route>
-
             <Route path="/admin/create-promotion" element={<OnlyAdmin />}>
               <Route
                 path="/admin/create-promotion"
                 element={<CreatePromotion />}
               />
             </Route>
-
             <Route path="/admin/edit-promotion/:id" element={<OnlyAdmin />}>
               <Route
                 path="/admin/edit-promotion/:id"
                 element={<EditPromotion />}
               />
             </Route>
-
             <Route path="/admin/ViewReceipt/:id" element={<OnlyAdmin />}>
               <Route path="/admin/ViewReceipt/:id" element={<ViewReceipt />} />
             </Route>
-
             <Route path="/admin/Delivery/:id" element={<OnlyAdmin />}>
               <Route path="/admin/Delivery/:id" element={<Delivery />} />
             </Route>
-
             <Route path="/admin/faq" element={<OnlyAdmin />}>
               <Route path="/admin/faq" element={<FAQListScreen />} />
             </Route>
-
             <Route path="/admin/create-faq" element={<OnlyAdmin />}>
               <Route path="/admin/create-faq" element={<CreateFAQ />} />
             </Route>
-
             <Route path="/admin/edit-faq/:id" element={<OnlyAdmin />}>
               <Route path="/admin/edit-faq/:id" element={<EditFAQ />} />
             </Route>
-
             <Route path="/help" element={<Help />} />
-
             <Route path="/inquiryForm" element={<CreateInquiry />} />
-
             <Route path="/admin/inquiry" element={<OnlyAdmin />}>
               <Route path="/admin/inquiry" element={<InquiryListScreen />} />
             </Route>
-
             <Route path="/page/:pageNumber" element={<HomeScreen />} />
-
             <Route
               path="/search/:keyword/page/:pageNumber"
               element={<HomeScreen />}
             />
-
             <Route path="/search/:keyword" element={<HomeScreen />} />
-
             <Route index path="/" element={<HomeScreen />} />
-
             <Route path="/admin/vouchers" element={<OnlyAdmin />}>
               <Route path="/admin/vouchers" element={<VoucherListScreen />} />
             </Route>
-
             <Route path="/admin/vouchers/create" element={<OnlyAdmin />}>
               <Route
                 path="/admin/vouchers/create"
@@ -187,6 +178,15 @@ const App = () => {
               />
             </Route>
 
+            <Route
+              path="/admin/vouchers/voucherdetails"
+              element={<OnlyAdmin />}
+            >
+              <Route
+                path="/admin/vouchers/voucherdetails"
+                element={<VoucherDetails />}
+              />
+            </Route>
             <Route path="/admin/vouchers/edit/:id" element={<OnlyAdmin />}>
               <Route
                 path="/admin/vouchers/edit/:id"

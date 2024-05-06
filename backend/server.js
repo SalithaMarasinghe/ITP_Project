@@ -14,7 +14,7 @@ import promotionRoutes from "./routes/promotionRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
 import voucherRouter from "./routes/voucherRoutes.js";
-
+import voucherOrderRouter from "./routes/voucherOrderRoutes.js";
 const app = express();
 
 dotenv.config();
@@ -51,6 +51,8 @@ app.use("/api/faqs", faqRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 
 app.use("/api/vouchers", voucherRouter);
+
+app.use("/api/voucheroders", voucherOrderRouter);
 
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));

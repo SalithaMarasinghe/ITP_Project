@@ -7,7 +7,7 @@ import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 import axios from "axios";
 
-const VoucherListScreen = () => {
+const VoucherDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [vouchers, setVouchers] = useState([]);
@@ -20,9 +20,11 @@ const VoucherListScreen = () => {
     const fetchVouchers = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get("http://localhost:5000/api/vouchers");
+        const { data } = await axios.get(
+          "http://localhost:5000/api/voucheroders"
+        );
         console.log("data,d", data); // Add this line to see the structure of the data
-        setVouchers(data.vouchers); // Assuming your API returns an array of vouchers
+        setVouchers(data.voucherOrders); // Assuming your API returns an array of vouchers
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -33,35 +35,28 @@ const VoucherListScreen = () => {
     fetchVouchers();
   }, []);
 
-  const deleteVoucherHandler = async (voucherId) => {
-    try {
-      setLoadingDelete(true);
-      await axios.delete(`http://localhost:5000/api/vouchers/${voucherId}`);
-      setVouchers(vouchers.filter((voucher) => voucher._id !== voucherId));
-      setLoadingDelete(false);
-    } catch (error) {
-      setErrorDelete(error.message);
-      setLoadingDelete(false);
-    }
-  };
+  // const deleteVoucherHandler = async (voucherId) => {
+  //   try {
+  //     setLoadingDelete(true);
+  //     await axios.delete(`http://localhost:5000/api/vouchers/${voucherId}`);
+  //     setVouchers(vouchers.filter((voucher) => voucher._id !== voucherId));
+  //     setLoadingDelete(false);
+  //   } catch (error) {
+  //     setErrorDelete(error.message);
+  //     setLoadingDelete(false);
+  //   }
+  // };
 
   return (
     <>
       <Row className="align-items-center">
         <Col>
-          <h3>Voucher List</h3>
-        </Col>
-        <Col className="text-end">
-          <LinkContainer to="/admin/vouchers/voucherdetails">
-            <Button variant="primary">
-              <i className="fas fa-plus"></i> Voucher Details
-            </Button>
-          </LinkContainer>
+          <h3>Voucher Details</h3>
         </Col>
         <Col className="text-end">
           <LinkContainer to="/admin/vouchers/create">
             <Button variant="primary">
-              <i className="fas fa-plus"></i> Create Voucher
+              <i className="fas fa-plus"></i> Generate Report
             </Button>
           </LinkContainer>
         </Col>
@@ -75,39 +70,23 @@ const VoucherListScreen = () => {
             <Table striped rounded hover className="table-sm">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Type</th>
+                  <th>User ID</th>
+                  <th>User Name</th>
                   <th>Value</th>
                   <th>Code</th>
                   <th>Expiration Date</th>
-                  <th>Actions</th>
+                  <th>Delivery Details</th>
                 </tr>
               </thead>
               <tbody>
                 {vouchers.map((voucher, index) => (
                   <tr key={index}>
                     <td>{voucher._id}</td>
-                    <td>{voucher.type}</td>
+                    <td>{voucher.userID}</td>
                     <td>{voucher.value}</td>
                     <td>{voucher.code}</td>
                     <td>{voucher.expirationDate}</td>
-                    <td>
-                      <LinkContainer
-                        className="ml-1"
-                        to={`/admin/vouchers/edit/${voucher._id}`}
-                      >
-                        <Button className="btn btn-sm" variant="primary">
-                          <i className="fas fa-edit"></i>
-                        </Button>
-                      </LinkContainer>
-                      <Button
-                        className="btn btn-sm"
-                        variant="danger"
-                        onClick={() => deleteVoucherHandler(voucher._id)}
-                      >
-                        <i className="fas fa-trash"></i>
-                      </Button>
-                    </td>
+                    <td>{voucher.deliveryDetails}</td>
                   </tr>
                 ))}
               </tbody>
@@ -115,9 +94,9 @@ const VoucherListScreen = () => {
           </Col>
         </Row>
       )}
-      <Paginate page={page} pages={pages} isAdmin={true} />
+      {/* <Paginate page={page} pages={pages} isAdmin={true} /> */}
     </>
   );
 };
 
-export default VoucherListScreen;
+export default VoucherDetails;

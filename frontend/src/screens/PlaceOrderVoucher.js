@@ -1,14 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { createOrder } from "../redux/actions/orderActions";
+import axios from "axios";
 
-const PlaceOrderScreen = () => {
+const PlaceOrderVoucher = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const { type, value, username, city, address, country, postalCode } =
+    useParams();
 
   const {
     order,
@@ -36,26 +39,17 @@ const PlaceOrderScreen = () => {
   ).toFixed(2);
 
   const placeOrderHandler = async () => {
-    dispatch(
-      createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: "Bank Transfer", // Assuming "Bank Transfer" is the only available payment method
-        taxPrice: cart.taxPrice,
-        shippingPrice: cart.shippingPrice,
-        totalPrice: cart.totalPrice,
-      })
-    );
+    await axios.post("http://localhost:5000/api/voucheroders", {
+      userID: username,
+      email: "req.body.email",
+      value: value,
+      expirationDate: new Date(),
+      deliveryDetails: address + " " + city + " " + postalCode + " " + country,
+    });
+
+    alert("Voucher Added Success");
+    navigate("/giftvouchers");
   };
-
-  // While order is being created, show loading indicator
-  if (orderLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (order) {
-    navigate(`/billinstructions/${order._id}`);
-  }
 
   return (
     <>
@@ -72,47 +66,13 @@ const PlaceOrderScreen = () => {
               <h4>Shipping</h4>
               <strong>Address:</strong>
               <p>
-                {cart.shippingAddress.address}, {cart.shippingAddress.city}{" "}
-                {cart.shippingAddress.postalCode},{" "}
-                {cart.shippingAddress.country}
+                {address}, {city} {postalCode}, {country}
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
               <h4>Payment Method</h4>
               <strong>Method : </strong>
               {cart.paymentMethod}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h4>Order Items</h4>
-              {cart.cartItems.length === 0 ? (
-                <Message variant="info">Your cart is empty</Message>
-              ) : (
-                <>
-                  {cart.cartItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
-                          </Link>
-                        </Col>
-                        <Col md={4}>
-                          {item.qty} x Rs. {item.price} = Rs.{" "}
-                          {item.qty * item.price}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
-                </>
-              )}
             </ListGroup.Item>
           </ListGroup>
         </Col>
@@ -125,25 +85,20 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>Rs. {cart.itemsPrice}</Col>
+                  <Col>{type}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
-                  <Col>Rs. {cart.shippingPrice}</Col>
+                  <Col>Qty</Col>
+                  <Col>{1}</Col>
                 </Row>
               </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Tax</Col>
-                  <Col>Rs. {cart.taxPrice}</Col>
-                </Row>
-              </ListGroup.Item>
+
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>Rs. {cart.totalPrice}</Col>
+                  <Col>{value}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -174,4 +129,4 @@ const PlaceOrderScreen = () => {
   );
 };
 
-export default PlaceOrderScreen;
+export default PlaceOrderVoucher;

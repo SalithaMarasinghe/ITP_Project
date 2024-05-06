@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card, Button, Form } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Card,
+  Button,
+  Form,
+} from "react-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
 import { updateDelivery, getOrderDetails } from "../redux/actions/orderActions";
 
-const DeliveryScreen = () => {
-  
+const DeliveryScreen = ({ route }) => {
   let params = useParams();
   const orderId = params.id;
 
@@ -19,15 +26,14 @@ const DeliveryScreen = () => {
     dispatch(getOrderDetails(orderId));
   }, [dispatch, orderId]);
 
-
-   // Calculate total item price
-   const calculateTotalItemPrice = () => {
+  // Calculate total item price
+  const calculateTotalItemPrice = () => {
     return order.orderItems.reduce(
-      (accumulator, currentItem) => accumulator + currentItem.qty * currentItem.price,
+      (accumulator, currentItem) =>
+        accumulator + currentItem.qty * currentItem.price,
       0
     );
   };
-
 
   const [deliveryDetails, setDeliveryDetails] = useState({
     agentName: "",
@@ -36,7 +42,7 @@ const DeliveryScreen = () => {
     packSize: "",
     trackNo: "",
     trackLink: "",
-    delNote: ""
+    delNote: "",
   });
 
   const handleSubmit = (e) => {
@@ -44,9 +50,9 @@ const DeliveryScreen = () => {
     dispatch(
       updateDelivery({
         _id: orderId,
-        ...deliveryDetails
+        ...deliveryDetails,
       })
-    ); 
+    );
     navigate(`/admin/Delivery/${order._id}`);
   };
 
@@ -55,21 +61,19 @@ const DeliveryScreen = () => {
   };
 
   const viewReceiptHandler = () => {
-  
     navigate(`/admin/ViewReceipt/${order._id}`);
   };
 
   return (
     <>
-      
       {loading ? (
         <Loading />
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <h1 style={{marginTop:'50px'}}>Order #{order._id}</h1>
-          <Row style={{marginTop:'30px'}}>
+          <h1 style={{ marginTop: "50px" }}>Order #{order._id}</h1>
+          <Row style={{ marginTop: "30px" }}>
             <Col md={8} className="order_scr">
               <ListGroup variant="flush">
                 <ListGroup.Item>
@@ -98,120 +102,161 @@ const DeliveryScreen = () => {
                     <Message variant="danger">Not Delivered</Message>
                   )}
                 </ListGroup.Item>
-                
 
-                <ListGroup.Item style={{marginTop:'20px'}}>
-                    <h4>Delivery Details</h4>
-                    <Form onSubmit={handleSubmit}>
-                      <ListGroup.Item>
-                          <Row>
-                              <Col><strong>Agent Name:</strong></Col>
-                              <Col>
-                                  <Form.Control
-                                      type="text"
-                                      name="agentName"
-                                      value={deliveryDetails.agentName}
-                                      placeholder={order.deliveryDetails? order.deliveryDetails.agentName : ""}
-                                      onChange={handleChange}
-                                  />
-                              </Col>
-                          </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                          <Row>
-                              <Col><strong>Agent Contact:</strong></Col>
-                              <Col>
-                                  <Form.Control
-                                      type="text"
-                                      name="agentContact"
-                                      value={deliveryDetails.agentContact}
-                                      placeholder={order.deliveryDetails? order.deliveryDetails.agentContact : ""}
-                                      onChange={handleChange}
-                                  />
-                              </Col>
-                          </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                          <Row>
-                              <Col><strong>Estimated Delivery Date:</strong></Col>
-                              <Col>{order.deliveryDetails && (<Form.Label>{order.deliveryDetails.estDate}</Form.Label>)}
-                                  <Form.Control
-                                      type="date"
-                                      name="estDate"
-                                      value={deliveryDetails.estDate}
-                                      onChange={handleChange}
-                                  />
-                              </Col>
-                          </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                          <Row>
-                              <Col><strong>Package Details:</strong></Col>
-                              <Col>
-                                  <Form.Control
-                                      type="text"
-                                      name="packSize"
-                                      value={deliveryDetails.packSize}
-                                      placeholder={order.deliveryDetails? order.deliveryDetails.packSize : ""}
-                                      onChange={handleChange}
-                                  />
-                              </Col>
-                          </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                          <Row>
-                              <Col><strong>Tracking Number:</strong></Col>
-                              <Col>
-                                  <Form.Control
-                                      type="text"
-                                      name="trackNo"
-                                      value={deliveryDetails.trackNo}
-                                      placeholder={order.deliveryDetails? order.deliveryDetails.trackNo : ""}
-                                      onChange={handleChange}
-                                  />
-                              </Col>
-                          </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                          <Row>
-                              <Col><strong>Tracking Link:</strong></Col>
-                              <Col>
-                                  <Form.Control
-                                      type="text"
-                                      name="trackLink"
-                                      value={deliveryDetails.trackLink}
-                                      placeholder={order.deliveryDetails? order.deliveryDetails.trackLink : ""}
-                                      onChange={handleChange}
-                                  />
-                              </Col>
-                          </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                          <Row>
-                              <Col><strong>Note:</strong></Col>
-                              <Col>
-                                  <Form.Control
-                                      as="textarea"
-                                      name="delNote"
-                                      rows={2}
-                                      value={deliveryDetails.delNote}
-                                      placeholder={order.deliveryDetails? order.deliveryDetails.delNote : ""}
-                                      onChange={handleChange}
-                                  />
-                              </Col>
-                          </Row>
-                      </ListGroup.Item>
-                      <Button
-                        style={{marginTop:'20px', marginBottom:'40px'}}
-                            className="w-100"
-                            type="submit"
-                            variant="primary"
-                        >
-                           Save
-                        </Button>
+                <ListGroup.Item style={{ marginTop: "20px" }}>
+                  <h4>Delivery Details</h4>
+                  <Form onSubmit={handleSubmit}>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>
+                          <strong>Agent Name:</strong>
+                        </Col>
+                        <Col>
+                          <Form.Control
+                            type="text"
+                            name="agentName"
+                            value={deliveryDetails.agentName}
+                            placeholder={
+                              order.deliveryDetails
+                                ? order.deliveryDetails.agentName
+                                : ""
+                            }
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>
+                          <strong>Agent Contact:</strong>
+                        </Col>
+                        <Col>
+                          <Form.Control
+                            type="text"
+                            name="agentContact"
+                            value={deliveryDetails.agentContact}
+                            placeholder={
+                              order.deliveryDetails
+                                ? order.deliveryDetails.agentContact
+                                : ""
+                            }
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>
+                          <strong>Estimated Delivery Date:</strong>
+                        </Col>
+                        <Col>
+                          {order.deliveryDetails && (
+                            <Form.Label>
+                              {order.deliveryDetails.estDate}
+                            </Form.Label>
+                          )}
+                          <Form.Control
+                            type="date"
+                            name="estDate"
+                            value={deliveryDetails.estDate}
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>
+                          <strong>Package Details:</strong>
+                        </Col>
+                        <Col>
+                          <Form.Control
+                            type="text"
+                            name="packSize"
+                            value={deliveryDetails.packSize}
+                            placeholder={
+                              order.deliveryDetails
+                                ? order.deliveryDetails.packSize
+                                : ""
+                            }
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>
+                          <strong>Tracking Number:</strong>
+                        </Col>
+                        <Col>
+                          <Form.Control
+                            type="text"
+                            name="trackNo"
+                            value={deliveryDetails.trackNo}
+                            placeholder={
+                              order.deliveryDetails
+                                ? order.deliveryDetails.trackNo
+                                : ""
+                            }
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>
+                          <strong>Tracking Link:</strong>
+                        </Col>
+                        <Col>
+                          <Form.Control
+                            type="text"
+                            name="trackLink"
+                            value={deliveryDetails.trackLink}
+                            placeholder={
+                              order.deliveryDetails
+                                ? order.deliveryDetails.trackLink
+                                : ""
+                            }
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>
+                          <strong>Note:</strong>
+                        </Col>
+                        <Col>
+                          <Form.Control
+                            as="textarea"
+                            name="delNote"
+                            rows={2}
+                            value={deliveryDetails.delNote}
+                            placeholder={
+                              order.deliveryDetails
+                                ? order.deliveryDetails.delNote
+                                : ""
+                            }
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <Button
+                      style={{ marginTop: "20px", marginBottom: "40px" }}
+                      className="w-100"
+                      type="submit"
+                      variant="primary"
+                    >
+                      Save
+                    </Button>
                   </Form>
                 </ListGroup.Item>
-
 
                 <ListGroup.Item>
                   <h4>Order Items</h4>
@@ -250,23 +295,20 @@ const DeliveryScreen = () => {
             <Col md={4}>
               <Card>
                 <ListGroup variant="flush">
-
-                <ListGroup.Item>
-                  <h4>Payment Status</h4>
-                  <p>
-                    <strong>Method : </strong>
-                    {order.paymentMethod}
-                  </p>
-                  {order.isPaid ? (
+                  <ListGroup.Item>
+                    <h4>Payment Status</h4>
+                    <p>
+                      <strong>Method : </strong>
+                      {order.paymentMethod}
+                    </p>
+                    {order.isPaid ? (
                       <Message variant="success">Paid {order.paidAt}</Message>
                     ) : order.bankDetails ? (
                       <Message variant="warning">Processing</Message>
                     ) : (
                       <Message variant="warning">Pending</Message>
-                    )
-                  }
-      
-                </ListGroup.Item>
+                    )}
+                  </ListGroup.Item>
 
                   <ListGroup.Item>
                     <h4>Order Summary</h4>
@@ -296,31 +338,26 @@ const DeliveryScreen = () => {
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    {
-                      order.bankDetails ? (
-                          <Button
-                          style={{marginTop:'10px',marginBottom:'10px'}}
-                          onClick={viewReceiptHandler}
-                          className="w-100"
-                          variant="primary"
-                          >
-                          View Bank Receipt
-                          </Button>
-                      ) : (
-                      
-                        <Button
-                        style={{marginTop:'10px'}}
-                           // onClick={changetopaid}
-                            className="w-100"
-                            variant="danger"
-                        >
-                            Cancel Order
-                        </Button>
-                      )
-                    }
-
+                    {order.bankDetails ? (
+                      <Button
+                        style={{ marginTop: "10px", marginBottom: "10px" }}
+                        onClick={viewReceiptHandler}
+                        className="w-100"
+                        variant="primary"
+                      >
+                        View Bank Receipt
+                      </Button>
+                    ) : (
+                      <Button
+                        style={{ marginTop: "10px" }}
+                        // onClick={changetopaid}
+                        className="w-100"
+                        variant="danger"
+                      >
+                        Cancel Order
+                      </Button>
+                    )}
                   </ListGroup.Item>
-
                 </ListGroup>
               </Card>
             </Col>
