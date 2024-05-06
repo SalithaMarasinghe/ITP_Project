@@ -193,7 +193,7 @@ const UserOrderDetails = () => {
                         </>
                         
                     ) : (
-                        
+                      <>
                         <Button
                           style={{marginTop:'10px',marginBottom:'10px'}}
                           onClick={viewReceiptHandler}
@@ -202,7 +202,15 @@ const UserOrderDetails = () => {
                         >
                           View Bank Receipt
                         </Button>
-                        
+                        <Button
+                        style={{marginTop:'10px',marginBottom:'10px', color:'#000'}}
+                        onClick={()=>navigate(`/myorders`)}
+                        className="w-100"
+                        variant="warning"
+                        >
+                        Go to Menu
+                        </Button>
+                      </>
                     )
 
                         
