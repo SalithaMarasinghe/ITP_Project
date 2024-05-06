@@ -3,24 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Button,
-  Card,
-  FormControl,
-  Form,
-} from "react-bootstrap";
+import {Row,Col,Image,ListGroup,Button,Card,FormControl,Form,} from "react-bootstrap";
 import { listProductDetails } from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
+import { addToCart } from "../redux/actions/cartActions";
 import { createProductReview } from "../redux/actions/productActions";
 import { listPromotions } from "../redux/actions/promotionActions";
-import CartAPI from "../api/CartAPI";
-import Toast from "../utils/Toast";
 
 const ProductScreen = () => {
   const [qty, setQty] = useState(1);
@@ -58,32 +48,10 @@ const ProductScreen = () => {
     dispatch(listPromotions());
   }, [dispatch, params.id, successProductReview]);
 
-  // Add to cart
-  const addToCartHandler = async (id, qty) => {
-    const data = {
-      cartItem: {
-        name: product.name,
-        qty: qty,
-        image: product.image,
-        price: product.price,
-        product: product._id,
-        countInStock: product.countInStock,
-      },
-    };
-
-    try {
-      const response = await CartAPI.addCartItems(data);
-      if (response.data.success) {
-        Toast({ type: "success", message: "Item added to cart" });
-        navigate("/cart");
-      } else {
-        console.log(response.data.message);
-        Toast({ type: "error", message: response.data.message });
-      }
-    } catch (error) {
-      console.log(error);
-      Toast({ type: "error", message: "Item already exists" });
-    }
+  const addToCartHandler = () => {
+    const newPrice = calculateNewPrice(); // Calculate the new price here
+    dispatch(addToCart(params.id, qty, newPrice));
+    navigate(`/cart`);
   };
 
   const submitHandler = (e) => {
@@ -121,10 +89,8 @@ const ProductScreen = () => {
     } else {
       // For percentage type, calculate the discounted price
       const discountPercentage = parseInt(discount.split("%")[0]);
-      const discountedPrice = (
-        product.price -
-        (discountPercentage / 100) * product.price
-      ).toFixed(2);
+      const discountedPrice =
+        (product.price - (discountPercentage / 100) * product.price).toFixed(2);
       return discountedPrice;
     }
   };
@@ -205,8 +171,7 @@ const ProductScreen = () => {
                               value={qty}
                               onChange={(e) => setQty(e.target.value)}
                             >
-                              {[...Array(product.countInStock).keys()].map(
-                                (x) => (
+                              {[...Array(product.countInStock).keys()].map((x) => (
                                   <option value={x + 1} key={x + 1}>
                                     {x + 1}
                                   </option>
@@ -219,10 +184,10 @@ const ProductScreen = () => {
                     )}
                     <ListGroup.Item>
                       <Button
-                        onClick={() => addToCartHandler(product._id, qty)}
+                        onClick={addToCartHandler}
                         className="btn btn-primary d-block w-100"
                         type="button"
-                        disabled={product.countInStock === 0 || !userInfo}
+                        disabled={product.countInStock === 0}
                       >
                         Add to cart
                       </Button>
@@ -249,11 +214,15 @@ const ProductScreen = () => {
                       </ListGroup.Item>
                     ))}
                   </ListGroup>
-                  <h3 style={{ marginTop: "40px" }}>Write a customer review</h3>
+                  <h3 style={{ marginTop: "40px" }}>
+                    Write a customer review
+                  </h3>
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
                       {errorProductReview && (
-                        <Message variant="danger">{errorProductReview}</Message>
+                        <Message variant="danger">
+                          {errorProductReview}
+                        </Message>
                       )}
 
                       <Form.Group controlId="rating">

@@ -1,47 +1,29 @@
-import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { createOrder } from "../redux/actions/orderActions";
-import CartAPI from "../api/CartAPI";
 
 const PlaceOrderScreen = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const [cartItems, setCartItems] = useState([]);
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      const response = await CartAPI.getCartByUserId();
+  const { order, loading: orderLoading, error } = useSelector((state) => state.orderCreate);
+  
 
-      if (response.data.success) {
-        setCartItems(response.data.cart.cartItems);
-      } else {
-        console.log(response.data.message);
-      }
-    };
-    fetchCart();
-  }, []);
-
-  const {
-    order,
-    loading: orderLoading,
-    error,
-  } = useSelector((state) => state.orderCreate);
 
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
 
   cart.itemsPrice = addDecimals(
-    cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
 
   //cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 100;
-  cart.shippingPrice = (cart.itemsPrice * 0.1).toFixed(2);
+  cart.shippingPrice = (cart.itemsPrice * 0.1).toFixed(2);;
 
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
 
@@ -51,10 +33,11 @@ const PlaceOrderScreen = () => {
     Number(cart.taxPrice)
   ).toFixed(2);
 
+
   const placeOrderHandler = async () => {
     dispatch(
       createOrder({
-        orderItems: cartItems,
+        orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
         paymentMethod: "Bank Transfer", // Assuming "Bank Transfer" is the only available payment method
         taxPrice: cart.taxPrice,
@@ -64,18 +47,22 @@ const PlaceOrderScreen = () => {
     );
   };
 
+  
   // While order is being created, show loading indicator
   if (orderLoading) {
     return <div>Loading...</div>;
   }
 
   if (order) {
+    
     navigate(`/billinstructions/${order._id}`);
+
   }
+
 
   return (
     <>
-      <CheckoutSteps step1 step2 step3 />
+      <CheckoutSteps step1 step2 step3/>
       <Row>
         <Col md={8} className="place_order">
           <ListGroup variant="flush">
@@ -100,11 +87,11 @@ const PlaceOrderScreen = () => {
             </ListGroup.Item>
             <ListGroup.Item>
               <h4>Order Items</h4>
-              {cartItems.length === 0 ? (
+              {cart.cartItems.length === 0 ? (
                 <Message variant="info">Your cart is empty</Message>
               ) : (
                 <>
-                  {cartItems.map((item, index) => (
+                  {cart.cartItems.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
@@ -121,8 +108,7 @@ const PlaceOrderScreen = () => {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x Rs. {item.price} = Rs.{" "}
-                          {item.qty * item.price}
+                          {item.qty} x Rs. {item.price} = Rs. {item.qty * item.price}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -166,7 +152,7 @@ const PlaceOrderScreen = () => {
                 <Button
                   className="w-100"
                   variant="primary"
-                  disabled={cartItems.length === 0}
+                  disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
                 >
                   PLACE ORDER

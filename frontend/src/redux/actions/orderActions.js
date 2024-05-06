@@ -1,7 +1,6 @@
 import * as actions from "../constants/orderConstants";
 import axios from "axios";
 import { logout } from "./userActions";
-import CartAPI from "../../api/CartAPI";
 
 export const createOrder = (dataOrder) => async (dispatch, getState) => {
   try {
@@ -19,9 +18,6 @@ export const createOrder = (dataOrder) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post("/api/orders", dataOrder, config);
-
-    // clear cart after order is created
-    await CartAPI.clearCart();
 
     dispatch({ type: actions.ORDER_CREATE_SUCCESS, payload: data.order });
 
