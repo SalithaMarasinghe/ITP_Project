@@ -11,10 +11,10 @@ import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import promotionRoutes from "./routes/promotionRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
-
 
 const app = express();
 
@@ -45,6 +45,9 @@ app.use("/api/upload", uploadRoutes);
 //Promotions Route
 app.use("/api/promotions", promotionRoutes);
 
+// Cart Route
+app.use("/api/carts", cartRoutes);
+
 //FAQs Route
 app.use("/api/faqs", faqRoutes);
 
@@ -53,7 +56,6 @@ app.use("/api/inquiries", inquiryRoutes);
 
 // email Route
 app.use("/api/email", emailRoutes);
-
 
 
 const __dirname = path.resolve();

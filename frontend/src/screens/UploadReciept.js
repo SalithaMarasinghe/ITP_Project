@@ -41,6 +41,7 @@ const UploadReceipt = () => {
             })
         ); 
         navigate(`/uorder/${order._id}`);
+        window.location.reload();
     };
 
     const uploadFileHandler = async (e) => {

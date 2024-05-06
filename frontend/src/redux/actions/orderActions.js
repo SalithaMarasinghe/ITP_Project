@@ -1,6 +1,7 @@
 import * as actions from "../constants/orderConstants";
 import axios from "axios";
 import { logout } from "./userActions";
+import CartAPI from "../../api/CartAPI";
 
 export const createOrder = (dataOrder) => async (dispatch, getState) => {
   try {
@@ -20,7 +21,8 @@ export const createOrder = (dataOrder) => async (dispatch, getState) => {
     const { data } = await axios.post("/api/orders", dataOrder, config);
 
     dispatch({ type: actions.ORDER_CREATE_SUCCESS, payload: data.order });
-
+    // clear cart after order is created
+    await CartAPI.clearCart();
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -68,8 +70,6 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     });
   }
 };
-
-
 
 export const deliverOrder = (orderId) => async (dispatch, getState) => {
   try {
@@ -168,42 +168,43 @@ export const listOrders = () => async (dispatch, getState) => {
   }
 };
 
-export const payOrder = (orderId, paymentResult) => async (dispatch,getState) => {
-  try {
-    dispatch({ type: actions.ORDER_PAY_REQUEST });
+export const payOrder =
+  (orderId, paymentResult) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: actions.ORDER_PAY_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.put(
-      `/api/orders/${orderId}/pay`,
-      paymentResult,
-      config
-    );
+      const { data } = await axios.put(
+        `/api/orders/${orderId}/pay`,
+        paymentResult,
+        config
+      );
 
-    dispatch({ type: actions.ORDER_PAY_SUCCESS, payload: data.order });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    if (message === "not authorized, no token") {
-      dispatch(logout());
+      dispatch({ type: actions.ORDER_PAY_SUCCESS, payload: data.order });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "not authorized, no token") {
+        dispatch(logout());
+      }
+      dispatch({
+        type: actions.ORDER_PAY_FAILED,
+        payload: message,
+      });
     }
-    dispatch({
-      type: actions.ORDER_PAY_FAILED,
-      payload: message,
-    });
-  }
-};
+  };
 
 // Add additional action to update order payment status to "Paid" after bank transfer details are submitted
 export const updateBank = (order) => async (dispatch, getState) => {
@@ -221,9 +222,16 @@ export const updateBank = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/orders/${order._id}/paybank`,order, config);
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/paybank`,
+      order,
+      config
+    );
 
-    dispatch({ type: actions.ORDER_UPDATE_TO_PAID_SUCCESS, payload: data.order });
+    dispatch({
+      type: actions.ORDER_UPDATE_TO_PAID_SUCCESS,
+      payload: data.order,
+    });
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -238,7 +246,6 @@ export const updateBank = (order) => async (dispatch, getState) => {
     });
   }
 };
-
 
 // Add additional action to update order Delivery status to "Processing" after Delivery details are submitted
 export const updateDelivery = (order) => async (dispatch, getState) => {
@@ -256,9 +263,16 @@ export const updateDelivery = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/orders/${order._id}/deldetails`,order, config);
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/deldetails`,
+      order,
+      config
+    );
 
-    dispatch({ type: actions.ORDER_UPDATE_DELIVERY_SUCCESS, payload: data.order });
+    dispatch({
+      type: actions.ORDER_UPDATE_DELIVERY_SUCCESS,
+      payload: data.order,
+    });
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -273,7 +287,6 @@ export const updateDelivery = (order) => async (dispatch, getState) => {
     });
   }
 };
-
 
 // Action to delete an order
 export const cancelOrder = (orderId) => async (dispatch, getState) => {

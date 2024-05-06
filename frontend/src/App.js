@@ -39,6 +39,7 @@ import UserOrderDetails from "./screens/UserOrderDetails";
 import UserRecieptDetails from "./screens/UserRecieptDetails";
 import UserDeliveryDetails from "./screens/UserDeliveryDetails";
 import MyOrders from "./screens/MyOrders";
+import UserCartsScreen from "./screens/UserCartsScreen";
 
 
 const App = () => {
@@ -158,6 +159,10 @@ const App = () => {
 
             <Route path="/order/:id" element={<OnlyAdmin />}>
               <Route path="/order/:id" element={<OrderScreen />} />
+            </Route>
+
+            <Route path="/admin/user-carts" element={<OnlyAdmin />}>
+              <Route path="/admin/user-carts" element={<UserCartsScreen />} />
             </Route>
 
             <Route path="/uorder/:id" element={<ProtectedRoute />}>
