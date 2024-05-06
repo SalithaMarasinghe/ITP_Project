@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { payOrder,updateBank } from "../redux/actions/orderActions";
 import { getOrderDetails, cancelOrder } from "../redux/actions/orderActions";
 
-const ViewReceipt = () => {
+const UserRecieptDetails = () => {
   let navigate = useNavigate();
   let params = useParams();
   const dispatch = useDispatch();
@@ -22,13 +22,6 @@ const ViewReceipt = () => {
 
 
 
-  // Cancel Order Function
-  const cancelOrderHandler = async () => {
-    if (window.confirm("Are you sure you want to cancel this order?")) {
-      dispatch(cancelOrder(params.id));
-      navigate("/admin/orders"); // Redirect to home or any other desired page
-    }
-  };
 
   // Calculate total item price
   const calculateTotalItemPrice = () => {
@@ -41,42 +34,10 @@ const ViewReceipt = () => {
 
   // ViewDeliveryHandler Function
   const viewDeliveryHandler = async () => {
-    navigate(`/admin/Delivery/${order._id}`);
+    navigate(`/udelivery/${order._id}`);
   };
 
   
-  const changetopaid = () => {
-    
-    const paymentResult = {
-        id: order._id,
-        status: order.bankDetails.transAmount >= order.totalPrice ? 'Fully Paid' : 'Partially Paid',
-        balance: (order.totalPrice - order.bankDetails.transAmount)
-    }
-
-    dispatch(payOrder(orderId, paymentResult));
-    
-  };
-
-
-  const Changetofullypaid = () => {
-    
-    const paymentResult = {
-        id: order._id,
-        status: 'Fully Paid',
-        balance: (order.totalPrice - order.bankDetails.transAmount)
-    }
-
-    dispatch(payOrder(orderId, paymentResult));
-
-    const bankDetails = {
-        transAmount: order.totalPrice,
-    };
-
-    dispatch(updateBank({_id: orderId,transAmount: bankDetails.transAmount,})); 
-    
-    
-  };
-
   
 
   return (
@@ -209,94 +170,37 @@ const ViewReceipt = () => {
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                {order.bankDetails ? (
-                    order.bankDetails.transAmount >= order.totalPrice ? (
-                        order.isPaid == true ? (
-                          <Button
-                          style={{marginTop:'10px',marginBottom:'10px'}}
-                          onClick={viewDeliveryHandler}
-                          className="w-100"
-                          variant="primary"
-                          >
-                          Manage Delivery
-                          </Button>
-                      ) : (
-                          <>
-                          <Button
-                          style={{marginTop:'10px'}}
-                              onClick={changetopaid}
-                              className="w-100"
-                              variant="primary"
-                          >
-                              Verify Payment
-                          </Button>
-                          <Button
-                              style={{marginTop:'10px',marginBottom:'10px'}}
-                              onClick={cancelOrderHandler}
-                              className="w-100"
-                              variant="danger"
-                          >
-                              Cancel Order
-                          </Button>
-                          </>
-                      )
+                {
+                    order.isPaid == true ? (
+                     <>
+                        <Button
+                        style={{marginTop:'10px',marginBottom:'10px'}}
+                        onClick={viewDeliveryHandler}
+                        className="w-100"
+                        variant="primary"
+                        >
+                        View Delivery Details
+                        </Button>
+                        <Button
+                        style={{marginTop:'10px',marginBottom:'10px'}}
+                        onClick={()=>navigate(`/uorder/${order._id}`)}
+                        className="w-100"
+                        variant="danger"
+                        >
+                        Back
+                        </Button>
+                     </>
                     ) : (
-
-                      order.paymentResult? (
-                          <>
-                          <Button
-                          style={{marginTop:'10px'}}
-                              onClick={Changetofullypaid}
-                              className="w-100"
-                              variant="primary"
-                          >
-                              Mark as Fully Paid
-                          </Button>
-
-                          <Button
-                              style={{marginTop:'10px',marginBottom:'10px'}}
-                              onClick={cancelOrderHandler}
-                              className="w-100"
-                              variant="danger"
-                          >
-                              Cancel Order
-                          </Button>
-                          </>
-                            
-                      ) : (
-                          <>
-                          <Button
-                          style={{marginTop:'10px'}}
-                              onClick={changetopaid}
-                              className="w-100"
-                              variant="primary"
-                          >
-                              Verify Payment
-                          </Button>
-
-                          <Button
-                              style={{marginTop:'10px',marginBottom:'10px'}}
-                              onClick={cancelOrderHandler}
-                              className="w-100"
-                              variant="danger"
-                          >
-                              Cancel Order
-                          </Button>
-                          </>
-                          )
-
-                          
-                      )
-                    ) : 
-                    
-                    <Button
-                    style={{marginTop:'10px',marginBottom:'10px'}}
-                    onClick={()=>navigate(`/order/${order._id}`)}
-                    className="w-100"
-                    variant="danger"
-                    >
-                      Back
-                    </Button>}
+                        <Button
+                        style={{marginTop:'10px',marginBottom:'10px'}}
+                        onClick={()=>navigate(`/uorder/${order._id}`)}
+                        className="w-100"
+                        variant="danger"
+                        >
+                        Back
+                        </Button>
+                      
+                    )}
 
                 </ListGroup.Item>
               </ListGroup>
@@ -309,4 +213,4 @@ const ViewReceipt = () => {
   );
 };
 
-export default ViewReceipt;
+export default UserRecieptDetails;

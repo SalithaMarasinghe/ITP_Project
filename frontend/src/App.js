@@ -33,6 +33,9 @@ import EditFAQ from "./screens/EditFAQ";
 import Help from "./screens/Help";
 import CreateInquiry from "./screens/CreateInquiry";
 import InquiryListScreen from "./screens/InquiryListScreen";
+import UserOrderDetails from "./screens/UserOrderDetails";
+import UserRecieptDetails from "./screens/UserRecieptDetails";
+import UserDeliveryDetails from "./screens/UserDeliveryDetails";
 
 
 const App = () => {
@@ -70,10 +73,7 @@ const App = () => {
             <Route path="/uploadbill/:id" element={<UploadReciept />} />
             </Route>
 
-            <Route path="/order/:id" element={<ProtectedRoute />}>
-              <Route path="/order/:id" element={<OrderScreen />} />
-            </Route>
-
+          
             <Route path="/admin/users" element={<OnlyAdmin />}>
               <Route path="/admin/users" element={<UserListScreen />} />
             </Route>
@@ -150,6 +150,22 @@ const App = () => {
 
             <Route path="/admin/inquiry" element={<OnlyAdmin />}>
               <Route path="/admin/inquiry" element={<InquiryListScreen />} />
+            </Route>
+
+            <Route path="/order/:id" element={<OnlyAdmin />}>
+              <Route path="/order/:id" element={<OrderScreen />} />
+            </Route>
+
+            <Route path="/uorder/:id" element={<ProtectedRoute />}>
+              <Route path="/uorder/:id" element={<UserOrderDetails />} />
+            </Route>
+
+            <Route path="/ureciept/:id" element={<ProtectedRoute />}>
+              <Route path="/ureciept/:id" element={<UserRecieptDetails />} />
+            </Route>
+
+            <Route path="/udelivery/:id" element={<ProtectedRoute />}>
+              <Route path="/udelivery/:id" element={<UserDeliveryDetails />} />
             </Route>
         
 

@@ -1,49 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card, Button, Form } from "react-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
-import { getOrderDetails, cancelOrder } from "../redux/actions/orderActions";
+import { updateDelivery, getOrderDetails,deliverOrder } from "../redux/actions/orderActions";
 
-const OrderScreen = () => {
-  let navigate = useNavigate();
+const UserDeliveryDetails = () => {
+  
   let params = useParams();
-  const dispatch = useDispatch();
+  const orderId = params.id;
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { order, loading, error } = useSelector((state) => state.orderDetails);
 
   useEffect(() => {
-    dispatch(getOrderDetails(params.id));
-  }, [dispatch, params.id]);
+    dispatch(getOrderDetails(orderId));
+  }, [dispatch, orderId]);
 
 
-  // Calculate total item price
-  const calculateTotalItemPrice = () => {
+   // Calculate total item price
+   const calculateTotalItemPrice = () => {
     return order.orderItems.reduce(
       (accumulator, currentItem) => accumulator + currentItem.qty * currentItem.price,
       0
     );
   };
 
-  // Cancel Order Function
-  const cancelOrderHandler = async () => {
-    if (window.confirm("Are you sure you want to cancel this order?")) {
-      dispatch(cancelOrder(params.id));
-      navigate("/admin/orders"); // Redirect to home or any other desired page
-    }
+
+  const changetoDelivered = () => {
+
+    dispatch(deliverOrder(orderId));
+    
   };
 
-
-  // ViewReceiptHandler Function
-  const viewReceiptHandler = async () => {
-    navigate(`/admin/ViewReceipt/${order._id}`);
-  };
-
-
-   // ViewDeliveryHandler Function
-   const viewDeliveryHandler = async () => {
-    navigate(`/admin/Delivery/${order._id}`);
+ 
+  
+  const viewReceiptHandler = () => {
+  
+    navigate(`/ureciept/${order._id}`);
   };
 
   return (
@@ -85,23 +81,58 @@ const OrderScreen = () => {
                     <Message variant="danger">Not Delivered</Message>
                   )}
                 </ListGroup.Item>
-                <ListGroup.Item>
-                  <h4>Payment Method</h4>
-                  <p>
-                    <strong>Method : </strong>
-                    {order.paymentMethod}
-                  </p>
-                  {order.isPaid ? (
-                      <Message variant="success">{order.paymentResult.status} {order.paidAt}</Message>
-                    ) : order.bankDetails ? (
-                      <Message variant="warning">Processing</Message>
-                    ) : (
-                      <Message variant="warning">Pending</Message>
-                    )
-                  }
-      
+                
+
+                <ListGroup.Item style={{marginTop:'20px'}}>
+                    <h4>Delivery Details</h4>
+
+
+                    <ListGroup.Item>
+                    <Row>
+                        <Col><strong>Agent Name:</strong> </Col>
+                        <Col>{order.deliveryDetails? order.deliveryDetails.agentName : ""}</Col>
+                    </Row>
+                    </ListGroup.Item>
+                    
+                    <ListGroup.Item>
+                        <Row>
+                            <Col><strong>Agent Contact:</strong></Col>
+                            <Col>{order.deliveryDetails? order.deliveryDetails.agentContact : ""}</Col>
+                        </Row>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                        <Row>
+                            <Col><strong>Estimated Delivery Date:</strong></Col>
+                            <Col>{order.deliveryDetails && (<Form.Label>{order.deliveryDetails.estDate}</Form.Label>)}</Col>
+                        </Row>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                        <Row>
+                            <Col><strong>Package Details:</strong></Col>
+                            <Col>{order.deliveryDetails? order.deliveryDetails.packSize : ""}</Col>
+                        </Row>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                        <Row>
+                            <Col><strong>Tracking Number:</strong></Col>
+                            <Col>{order.deliveryDetails? order.deliveryDetails.trackLink : ""}</Col>
+                        </Row>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item style={{marginBottom:'20px' }}>
+                        <Row>
+                            <Col><strong>Note:</strong></Col>
+                            <Col>{order.deliveryDetails? order.deliveryDetails.delNote : ""}</Col>
+                        </Row>
+                    </ListGroup.Item>
+
                 </ListGroup.Item>
-                <ListGroup.Item>
+
+
+                <ListGroup.Item style={{marginTop:'20px'}}>
                   <h4>Order Items</h4>
                   {order.orderItems.length === 0 ? (
                     <Message variant="info">Your cart is empty</Message>
@@ -138,6 +169,24 @@ const OrderScreen = () => {
             <Col md={4}>
               <Card>
                 <ListGroup variant="flush">
+
+                <ListGroup.Item>
+                  <h4>Payment Status</h4>
+                  <p>
+                    <strong>Method : </strong>
+                    {order.paymentMethod}
+                  </p>
+                  {order.isPaid ? (
+                      <Message variant="success">Paid {order.paidAt}</Message>
+                    ) : order.bankDetails ? (
+                      <Message variant="warning">Processing</Message>
+                    ) : (
+                      <Message variant="warning">Pending</Message>
+                    )
+                  }
+      
+                </ListGroup.Item>
+
                   <ListGroup.Item>
                     <h4>Order Summary</h4>
                   </ListGroup.Item>
@@ -166,55 +215,9 @@ const OrderScreen = () => {
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-
-                  {order.bankDetails ? (
-                    order.bankDetails.transAmount >= order.totalPrice ? (
-
-                      order.isPaid == true ? (
+                    {
+                      order.bankDetails ? (
                         <>
-                        <Button
-                        style={{marginTop:'10px',marginBottom:'10px'}}
-                        onClick={viewDeliveryHandler}
-                        className="w-100"
-                        variant="primary"
-                        >
-                        Manage Delivery
-                        </Button>
-                        
-                        <Button
-                          style={{marginTop:'10px',marginBottom:'10px'}}
-                          onClick={()=>navigate(`/admin/orders`)}
-                          className="w-100"
-                          variant="danger"
-                          >
-                            Back
-                          </Button>
-                        </>
-                    ) : (
-                        <>
-                        <Button
-                          style={{marginTop:'10px',marginBottom:'10px'}}
-                          onClick={viewReceiptHandler}
-                              className="w-100"
-                              variant="primary"
-                        >
-                          View Bank Receipt
-                        </Button>
-                        <Button
-                            style={{marginTop:'10px',marginBottom:'10px'}}
-                            onClick={cancelOrderHandler}
-                            className="w-100"
-                            variant="danger"
-                        >
-                          Cancel Order
-                        </Button>
-                        </>
-                    )
-
-                        
-                      ):(
-                         
-                          
                           <Button
                           style={{marginTop:'10px',marginBottom:'10px'}}
                           onClick={viewReceiptHandler}
@@ -223,23 +226,46 @@ const OrderScreen = () => {
                           >
                           View Bank Receipt
                           </Button>
-                          
-                        )
-                    
-                        ) : (
+                           <Button
+                           style={{marginTop:'10px',marginBottom:'10px'}}
+                           onClick={()=>navigate(`/uorder/${order._id}`)}
+                           className="w-100"
+                           variant="danger"
+                           >
+                           Back
+                           </Button>
+                        </>
+                      ) : (
                       
+                        <Button
+                        style={{marginTop:'10px'}}
+                           // onClick={changetopaid}
+                            className="w-100"
+                            variant="danger"
+                        >
+                            Cancel Order
+                        </Button>
+                      )
+                    }
+
+{
+                      order.deliveryDetails ? (
                           <Button
-                          style={{marginTop:'10px'}}
-                              onClick={cancelOrderHandler}
-                              className="w-100"
-                              variant="danger"
+                          style={{marginTop:'10px',marginBottom:'10px',color:'#000'}}
+                          onClick={""}
+                          className="w-100"
+                          variant="warning"
                           >
-                              Cancel Order
+                          Mark as Recieved
                           </Button>
-                        )
+                      ) : (
+                      
+                        null
+                      )
                     }
 
                   </ListGroup.Item>
+
                 </ListGroup>
               </Card>
             </Col>
@@ -250,4 +276,4 @@ const OrderScreen = () => {
   );
 };
 
-export default OrderScreen;
+export default UserDeliveryDetails;
