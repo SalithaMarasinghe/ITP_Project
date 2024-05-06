@@ -343,3 +343,77 @@ header .navbar-light .navbar-nav .nav-link:hover {
   color: black;
   border-radius: 5px;
 }
+
+.createFAQ {
+  max-width: 700px;
+  margin: 90px;
+}
+
+.createFAQ label {
+  font-weight: bold;
+  color: white;
+}
+
+.createFAQ textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.createFAQ button[type="submit"] {
+  background-color: #ffce67;
+  color: black;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.createFAQ button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.createFAQ button[type="submit"]:focus {
+  outline: none;
+}
+
+.editFAQ {
+  max-width: 700px;
+  margin: 90px;
+}
+
+.editFAQ label {
+  font-weight: bold;
+  color: white;
+}
+
+.editFAQ textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.editFAQ button[type="submit"] {
+  background-color: #ffce67;
+  color: black;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editFAQ button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.editFAQ button[type="submit"]:focus {
+  outline: none;
+}

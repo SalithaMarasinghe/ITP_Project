@@ -9,10 +9,10 @@ export const getFAQs = asyncHandler(async (req, res) => {
 
 //Get a single FAQ
 export const getFAQ = asyncHandler(async (req, res) => {
-    const FAQ = await FAQ.findById(req.params.id);
+    const faq = await FAQ.findById(req.params.id);
   
-    if (FAQ) {
-      res.json(FAQ);
+    if (faq) {
+      res.json(faq);
     } else {
       res.status(404);
       throw new Error('No such FAQ');
@@ -36,10 +36,10 @@ export const createFAQ = asyncHandler(async (req, res) => {
 
   //Delete a FAQ
   export const deleteFAQ = asyncHandler(async (req, res) => {
-    const FAQ = await FAQ.findById(req.params.id);
+    const faq = await FAQ.findById(req.params.id);
   
-    if (FAQ) {
-      await FAQ.remove();
+    if (faq) {
+      await faq.remove();
       res.json({ message: 'Deleted' });
     } else {
       res.status(404);
@@ -51,13 +51,13 @@ export const createFAQ = asyncHandler(async (req, res) => {
   export const updateFAQ = asyncHandler(async (req, res) => {
     const { question, answer } = req.body;
   
-    const FAQ = await FAQ.findById(req.params.id);
+    const faq = await FAQ.findById(req.params.id);
   
-    if (FAQ) {
-      FAQ.question = question;
-      FAQ.answer = answer;
+    if (faq) {
+      faq.question = question;
+      faq.answer = answer;
   
-      const updateFAQ = await FAQ.save();
+      const updateFAQ = await faq.save();
       res.json(updateFAQ);
     } else {
       res.status(404);

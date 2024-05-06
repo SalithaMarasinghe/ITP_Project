@@ -31,17 +31,18 @@ const EditFAQ = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
+  
     dispatch(
       updateFAQ({
         _id: FAQId,
         question, 
         answer
-      }),
-      navigate("/admin/faqs")
-    );
-
+      })
+    ).then(() => {
+      navigate("/admin/faq");
+    });
   };
+  
 
   return (
     <div>
@@ -51,17 +52,15 @@ const EditFAQ = () => {
       ) : error ? (
         <p>{error}</p>
       ) : (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} className="editFAQ">
           <label>Question: </label><br/>
-                <input 
-                    type="text"
+                <textarea 
                     onChange={(e) => setQuestion(e.target.value)}
                     value={question}
                 /><br/>
 
                 <label>Answer: </label><br/>
-                <input 
-                    type="text"
+                <textarea
                     onChange={(e) => setAnswer(e.target.value)}
                     value={answer}
                 /><br/><br/>

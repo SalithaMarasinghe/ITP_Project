@@ -25,7 +25,9 @@ const InquiryListScreen = () => {
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure you want to delete this inquiry?')) {
-      dispatch(deleteInquiry(id));
+      dispatch(deleteInquiry(id)).then(() => {
+        dispatch(listInquiries());
+      });
     }
   };
 

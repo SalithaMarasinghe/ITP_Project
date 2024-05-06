@@ -18,27 +18,28 @@ const CreateFAQ = () => {
                 question, 
                 answer
             })
-        );
-
-        navigate("/admin/faq");
+        ).then(() => {
+            navigate("/admin/faq");
+        });
     };
 
     return (
         <div>
             <form className="createFAQ" onSubmit={submitHandler}>
                 <label>Question: </label><br/>
-                <input 
-                    type="text"
+                <textarea
                     onChange={(e) => setQuestion(e.target.value)}
                     value={question}
-                /><br/>
+                />
+                <br/>
 
                 <label>Answer: </label><br/>
-                <input 
-                    type="text"
+                <textarea
                     onChange={(e) => setAnswer(e.target.value)}
                     value={answer}
-                /><br/><br/>
+                    className="answer"
+                />
+                <br/><br/>
 
                 <button type="submit">Submit</button><br/><br/>
             </form>
