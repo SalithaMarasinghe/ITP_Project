@@ -53,9 +53,7 @@ const VoucherListScreen = () => {
         </Col>
         <Col className="text-end">
           <LinkContainer to="/admin/vouchers/voucherdetails">
-            <Button variant="primary">
-              <i className="fas fa-plus"></i> Voucher Details
-            </Button>
+            <Button variant="success">Order Details</Button>
           </LinkContainer>
         </Col>
         <Col className="text-end">
@@ -78,7 +76,6 @@ const VoucherListScreen = () => {
                   <th>ID</th>
                   <th>Type</th>
                   <th>Value</th>
-                  <th>Code</th>
                   <th>Expiration Date</th>
                   <th>Actions</th>
                 </tr>
@@ -89,7 +86,6 @@ const VoucherListScreen = () => {
                     <td>{voucher._id}</td>
                     <td>{voucher.type}</td>
                     <td>{voucher.value}</td>
-                    <td>{voucher.code}</td>
                     <td>{voucher.expirationDate}</td>
                     <td>
                       <LinkContainer

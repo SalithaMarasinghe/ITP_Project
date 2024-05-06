@@ -82,13 +82,14 @@ const Vouchers = () => {
                     <td>{voucher.value}</td>
                     <td>{voucher.expirationDate}</td>
                     <td>
-                      <button
+                      <Button
                         onClick={(e) =>
                           handleClick(e, voucher._id, voucher.value)
                         }
+                        variant="success"
                       >
-                        button
-                      </button>
+                        Buy Voucher
+                      </Button>
                     </td>
                   </tr>
                 ))}

@@ -6,6 +6,8 @@ import Loading from "../components/Loading";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 import axios from "axios";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const VoucherDetails = () => {
   const [loading, setLoading] = useState(true);
@@ -23,8 +25,8 @@ const VoucherDetails = () => {
         const { data } = await axios.get(
           "http://localhost:5000/api/voucheroders"
         );
-        console.log("data,d", data); // Add this line to see the structure of the data
-        setVouchers(data.voucherOrders); // Assuming your API returns an array of vouchers
+        console.log("data,d", data);
+        setVouchers(data.voucherOrders);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -35,17 +37,33 @@ const VoucherDetails = () => {
     fetchVouchers();
   }, []);
 
-  // const deleteVoucherHandler = async (voucherId) => {
-  //   try {
-  //     setLoadingDelete(true);
-  //     await axios.delete(`http://localhost:5000/api/vouchers/${voucherId}`);
-  //     setVouchers(vouchers.filter((voucher) => voucher._id !== voucherId));
-  //     setLoadingDelete(false);
-  //   } catch (error) {
-  //     setErrorDelete(error.message);
-  //     setLoadingDelete(false);
-  //   }
-  // };
+  const generateReport = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Voucher Details", 14, 9);
+
+    doc.autoTable({
+      head: [
+        [
+          "User ID",
+          "User Name",
+          "Value",
+          "Code",
+          "Expiration Date",
+          "Delivery Details",
+        ],
+      ],
+      body: vouchers.map((voucher) => [
+        voucher.userID,
+        voucher.userName,
+        voucher.value,
+        voucher.code,
+        voucher.expirationDate,
+        voucher.deliveryDetails,
+      ]),
+    });
+    doc.save("voucherOrders.pdf");
+  };
 
   return (
     <>
@@ -53,12 +71,10 @@ const VoucherDetails = () => {
         <Col>
           <h3>Voucher Details</h3>
         </Col>
-        <Col className="text-end">
-          <LinkContainer to="/admin/vouchers/create">
-            <Button variant="primary">
-              <i className="fas fa-plus"></i> Generate Report
-            </Button>
-          </LinkContainer>
+        <Col>
+          <Button onClick={generateReport} variant="success">
+            Generate Report
+          </Button>
         </Col>
       </Row>
       {error && <Message variant="danger">{error}</Message>}
