@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Row, Col, Table, Form, FormControl } from 'react-bootstrap';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
-import { deleteFAQ } from '../redux/actions/FAQActions'; 
+import { deleteFAQ, getFAQs } from '../redux/actions/FAQActions'; 
 import { listFAQs } from '../redux/actions/FAQActions';
 
 const FAQListScreen = () => {
@@ -23,7 +23,9 @@ const FAQListScreen = () => {
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure you want to delete this FAQ?')) {
-      dispatch(deleteFAQ(id));
+      dispatch(deleteFAQ(id)).then(() => {
+        dispatch(listFAQs());
+      });
     }
   };
 
