@@ -28,7 +28,12 @@ import PromotionListScreen from "./screens/PromotionListScreen";
 import CreatePromotion from "./screens/CreatePromotion";
 import EditPromotion from "./screens/EditPromotion";
 import UserCartsScreen from "./screens/UserCartsScreen";
-
+import FAQListScreen from "./screens/FAQListScreen";
+import CreateFAQ from "./screens/CreateFAQ";
+import EditFAQ from "./screens/EditFAQ";
+import Help from "./screens/Help";
+import CreateInquiry from "./screens/CreateInquiry";
+import InquiryListScreen from "./screens/InquiryListScreen";
 
 const App = () => {
   return (
@@ -129,6 +134,28 @@ const App = () => {
             <Route path="/admin/Delivery/:id" element={<OnlyAdmin />}>
               <Route path="/admin/Delivery/:id" element={<Delivery />} />
             </Route>
+
+
+            <Route path="/admin/faq" element={<OnlyAdmin />}>
+              <Route path="/admin/faq" element={<FAQListScreen />} />
+            </Route>
+
+            <Route path="/admin/create-faq" element={<OnlyAdmin />}>
+              <Route path="/admin/create-faq" element={<CreateFAQ />} />
+            </Route>
+
+            <Route path="/admin/edit-faq/:id" element={<OnlyAdmin />}>
+              <Route path="/admin/edit-faq/:id" element={<EditFAQ />} />
+            </Route>
+
+            <Route path="/help" element={<Help />} />
+
+            <Route path="/inquiryForm" element={<CreateInquiry />} />
+
+            <Route path="/admin/inquiry" element={<OnlyAdmin />}>
+              <Route path="/admin/inquiry" element={<InquiryListScreen />} />
+            </Route>
+        
 
             <Route path="/page/:pageNumber" element={<HomeScreen />} />
 

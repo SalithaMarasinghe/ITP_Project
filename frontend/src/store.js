@@ -39,6 +39,22 @@ import {
   promotionDeleteReducer,
 } from "./redux/reducers/promotionReducers";
 
+import {
+  FAQListReducer,
+  FAQDetailsReducer,
+  FAQCreateReducer,
+  FAQUpdateReducer,
+  FAQDeleteReducer,
+} from "./redux/reducers/FAQReducers";
+
+import {
+  inquiryListReducer,
+  inquiryDetailsReducer,
+  inquiryCreateReducer,
+  inquiryUpdateReducer,
+  inquiryDeleteReducer,
+} from "./redux/reducers/inquiryReducers";
+
 const rootReducers = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
@@ -67,6 +83,16 @@ const rootReducers = combineReducers({
   promotionCreate: promotionCreateReducer,
   promotionUpdate: promotionUpdateReducer,
   promotionDelete: promotionDeleteReducer,
+  FAQList: FAQListReducer,
+  FAQDetails: FAQDetailsReducer,
+  FAQCreate: FAQCreateReducer,
+  FAQUpdate: FAQUpdateReducer,
+  FAQDelete: FAQDeleteReducer,
+  inquiryList: inquiryListReducer,
+  inquiryDetails: inquiryDetailsReducer,
+  inquiryCreate: inquiryCreateReducer,
+  inquiryUpdate: inquiryUpdateReducer,
+  inquiryDelete: inquiryDeleteReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

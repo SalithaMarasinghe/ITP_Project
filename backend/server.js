@@ -12,6 +12,8 @@ import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import promotionRoutes from "./routes/promotionRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
+import faqRoutes from "./routes/faqRoutes.js";
+import inquiryRoutes from "./routes/inquiryRoutes.js";
 
 const app = express();
 
@@ -44,6 +46,12 @@ app.use("/api/promotions", promotionRoutes);
 
 // Cart Route
 app.use("/api/carts", cartRoutes);
+
+//FAQs Route
+app.use("/api/faqs", faqRoutes);
+
+//inquiry Route
+app.use("/api/inquiries", inquiryRoutes);
 
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
