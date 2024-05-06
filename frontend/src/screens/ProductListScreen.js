@@ -29,6 +29,7 @@ const ProductListScreen = () => {
   }, [dispatch, successDelete, pageNumber]);
 
   const deleteProductHandler = (id) => {
+    console.log("ID: ",id);
     if (window.confirm("Are u sure ?")) {
       dispatch(deleteProduct(id));
     }
