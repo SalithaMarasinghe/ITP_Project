@@ -19,6 +19,9 @@ import {
   usersListReducer,
   userDeleteReducer,
   userDetailsReducer,
+  userAUpdateReducer,
+  userADetailsReducer,
+  userAUpdateProfileReducer,
   userUpdateReducer,
 } from "./redux/reducers/userReducers";
 import {
@@ -92,7 +95,10 @@ const rootReducers = combineReducers({
   inquiryDetails: inquiryDetailsReducer,
   inquiryCreate: inquiryCreateReducer,
   inquiryUpdate: inquiryUpdateReducer,
-  inquiryDelete: inquiryDeleteReducer
+  inquiryDelete: inquiryDeleteReducer,
+  userAUpdate: userAUpdateReducer,
+  userADetails: userADetailsReducer,
+  userAUpdateProfile: userAUpdateProfileReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
