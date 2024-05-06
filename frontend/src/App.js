@@ -36,6 +36,7 @@ import InquiryListScreen from "./screens/InquiryListScreen";
 import UserOrderDetails from "./screens/UserOrderDetails";
 import UserRecieptDetails from "./screens/UserRecieptDetails";
 import UserDeliveryDetails from "./screens/UserDeliveryDetails";
+import MyOrders from "./screens/MyOrders";
 
 
 const App = () => {
@@ -166,6 +167,10 @@ const App = () => {
 
             <Route path="/udelivery/:id" element={<ProtectedRoute />}>
               <Route path="/udelivery/:id" element={<UserDeliveryDetails />} />
+            </Route>
+
+            <Route path="/myorders" element={<ProtectedRoute />}>
+              <Route path="/myorders" element={<MyOrders />} />
             </Route>
         
 
