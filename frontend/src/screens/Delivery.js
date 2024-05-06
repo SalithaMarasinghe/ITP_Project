@@ -42,24 +42,47 @@ const DeliveryScreen = () => {
     packSize: "",
     trackNo: "",
     trackLink: "",
-    delNote: ""
+    delNote: "",
   });
+
+  useEffect(() => {
+    dispatch(getOrderDetails(orderId));
+  }, [dispatch, orderId]);
+
+  useEffect(() => {
+    if (order && order.deliveryDetails) {
+      setDeliveryDetails({
+        agentName: order.deliveryDetails.agentName || "",
+        agentContact: order.deliveryDetails.agentContact || "",
+        estDate: order.deliveryDetails.estDate || "",
+        packSize: order.deliveryDetails.packSize || "",
+        trackNo: order.deliveryDetails.trackNo || "",
+        trackLink: order.deliveryDetails.trackLink || "",
+        delNote: order.deliveryDetails.delNote || "",
+      });
+    }
+  }, [order]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDeliveryDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       updateDelivery({
         _id: orderId,
-        ...deliveryDetails
+        ...deliveryDetails,
       })
-    ); 
-    navigate(`/admin/Delivery/${order._id}`);
+    );
+    navigate(`/admin/Delivery/${orderId}`);
   };
 
-  const handleChange = (e) => {
-    setDeliveryDetails({ ...deliveryDetails, [e.target.name]: e.target.value });
-  };
-
+  
   const viewReceiptHandler = () => {
   
     navigate(`/admin/ViewReceipt/${order._id}`);
