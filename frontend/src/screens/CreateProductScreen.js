@@ -32,6 +32,11 @@ const CreateProductScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Check if any field is empty validation
+    if (!name || !description || !brand || !category || !price || !countInStock) {
+      alert("Please fill in all fields");
+      return;
+    }
     dispatch(
       createProduct({
         name,
@@ -44,6 +49,7 @@ const CreateProductScreen = () => {
       })
     );
   };
+  
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];

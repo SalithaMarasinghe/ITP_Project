@@ -48,6 +48,12 @@ export const getSingle = asyncHandler(async (req, res) => {
 // @Route /api/products
 // @Method POST
 export const createProduct = asyncHandler(async (req, res) => {
+  // Validate request body
+  if (!req.body.name || !req.body.description || !req.body.price || !req.body.brand || !req.body.category || !req.body.countInStock) {
+    return res.status(400).json({ success: false, error: "Please provide all fields" });
+  }
+
+  // Create new product
   const product = new Product({
     name: req.body.name,
     description: req.body.description,
@@ -64,6 +70,24 @@ export const createProduct = asyncHandler(async (req, res) => {
 
   res.status(201).json({ success: true, product: createdProduct });
 });
+
+// export const createProduct = asyncHandler(async (req, res) => {
+//   const product = new Product({
+//     name: req.body.name,
+//     description: req.body.description,
+//     price: req.body.price,
+//     brand: req.body.brand,
+//     category: req.body.category,
+//     countInStock: req.body.countInStock,
+//     numReviews: 0,
+//     image: req.body.image || "/images/simple.jpg",
+//     user: req.user._id,
+//   });
+
+//   const createdProduct = await product.save();
+
+//   res.status(201).json({ success: true, product: createdProduct });
+// });
 
 // @Desc Update product
 // @Route /api/products/:id
@@ -139,13 +163,13 @@ export const deleteProduct = asyncHandler(async (req, res) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
-    res.status(401);
+    res.status(404);
     throw new Error("Product not found");
   }
 
-  await Product.findOneAndDelete(req.params.id);
+  await Product.findByIdAndDelete(req.params.id);
 
-  res.status(201).json({ message: "Product deleted" });
+  res.status(200).json({ message: "Product deleted" });
 });
 
 // @Desc Get top products
