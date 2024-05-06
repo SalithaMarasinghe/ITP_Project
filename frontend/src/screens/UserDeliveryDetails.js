@@ -118,7 +118,17 @@ const UserDeliveryDetails = () => {
                     <ListGroup.Item>
                         <Row>
                             <Col><strong>Tracking Number:</strong></Col>
-                            <Col>{order.deliveryDetails? order.deliveryDetails.trackLink : ""}</Col>
+                            <Col>{order.deliveryDetails? order.deliveryDetails.trackNo : ""}</Col>
+                        </Row>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                        <Row>
+                            <Col><strong>Tracking Link:</strong></Col>
+                            <Col>{order.deliveryDetails && order.deliveryDetails.trackLink ? (
+                                   <a href={order.deliveryDetails.trackLink}>{order.deliveryDetails.trackLink}</a>
+                                  ) : null}
+                            </Col>
                         </Row>
                     </ListGroup.Item>
 
