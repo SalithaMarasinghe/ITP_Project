@@ -33,6 +33,8 @@ import EditFAQ from "./screens/EditFAQ";
 import Help from "./screens/Help";
 import CreateInquiry from "./screens/CreateInquiry";
 import InquiryListScreen from "./screens/InquiryListScreen";
+import StockManager from "./screens/StockManager";
+import React from "react";
 import UserOrderDetails from "./screens/UserOrderDetails";
 import UserRecieptDetails from "./screens/UserRecieptDetails";
 import UserDeliveryDetails from "./screens/UserDeliveryDetails";
@@ -84,6 +86,7 @@ const App = () => {
               <Route path="/admin/users/edit/:id" element={<UserEditScreen />} />
             </Route>
 
+              <Route path='/admin/stockmanager' element={<StockManager/>}/>
             <Route path="/admin/products" element={<OnlyAdmin />}>
            <Route path="/admin/products" element={<ProductListScreen />} />
           
