@@ -37,14 +37,14 @@ const InquiryListScreen = () => {
     doc.text('Inquiries', 14, 9);
 
     doc.autoTable({
-      head: [['Name', 'Phone', 'email', 'Subject', 'message', 'createdAt']],
+      head: [['Name', 'Phone', 'Email address', 'Subject', 'Message', 'Category']],
       body: inquiries.map((inquiry) => [
         inquiry.name,
         inquiry.phone,
         inquiry.email,
         inquiry.subject,
         inquiry.message,
-        inquiry.createdAt
+        inquiry.category,
       ]),
 
     });
@@ -79,6 +79,7 @@ const InquiryListScreen = () => {
                 <th>Email</th>
                 <th>Subject</th>
                 <th>Message</th>
+                <th>Category</th>
               </tr>
             </thead>
             <tbody>
@@ -89,6 +90,7 @@ const InquiryListScreen = () => {
                   <td>{inquiry.email}</td>
                   <td>{inquiry.subject}</td>
                   <td>{inquiry.message}</td>
+                  <td>{inquiry.category}</td>
                   <td>
                     <Button
                       variant="danger"

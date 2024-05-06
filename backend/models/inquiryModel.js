@@ -20,6 +20,10 @@ const inquirySchema = mongoose.Schema({
   message: {
     type: String,
     required: true
+  },
+  category: {
+    type: String,
+    default: 'Other'
   }
 }, {
   timestamps: true
