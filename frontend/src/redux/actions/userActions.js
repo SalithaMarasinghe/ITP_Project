@@ -230,7 +230,7 @@ export const updateUser = (userData) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/users/${userData._id}`,
+      `/api/users/`,
       userData,
       config
     );
