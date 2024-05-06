@@ -40,7 +40,7 @@ const UploadReceipt = () => {
                 
             })
         ); 
-        navigate(`/order/${order._id}`);
+        navigate(`/uorder/${order._id}`);
     };
 
     const uploadFileHandler = async (e) => {
