@@ -36,13 +36,7 @@ const UploadReceipt = () => {
         dispatch(
             updateBank({
                 _id: orderId,
-                accName: bankDetails.accName,
-                accNum: bankDetails.accNum,
-                transDate: bankDetails.transDate,
-                bankName: bankDetails.bankName,
-                branchName: bankDetails.branchName,
-                transAmount: bankDetails.transAmount,
-                remarks: bankDetails.remarks
+                ...bankDetails
                 
             })
         ); 
@@ -202,7 +196,7 @@ const UploadReceipt = () => {
                                 className="form_btn1_2"
                                 variant="primary"
                                 style={{ width: '250px', borderRadius: '50px' }}
-                                onClick={handleSubmit}
+                                type="submit"
                             >
                                 Submit
                             </Button>

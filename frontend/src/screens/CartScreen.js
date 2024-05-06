@@ -18,6 +18,7 @@ const CartScreen = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
+  
 
   const checkoutHandler = () => {
     navigate("/login?redirect=shipping");
@@ -60,7 +61,7 @@ const CartScreen = () => {
                           value={cart.qty}
                           onChange={(e) =>
                             dispatch(
-                              addToCart(cart.product, Number(e.target.value))
+                              addToCart(cart.product, Number(e.target.value),cart.price)
                             )
                           }
                         >
@@ -97,8 +98,8 @@ const CartScreen = () => {
                     </h4>
                     <h5 className="mt-3">
                       Rs.
-                      {cartItems
-                        .reduce((acc, item) => acc + item.qty * item.price, 0)
+                      {cartItems.reduce(
+                        (acc, item) => acc + (item.qty * item.price), 0)
                         .toFixed(2)}
                     </h5>
                   </ListGroup.Item>

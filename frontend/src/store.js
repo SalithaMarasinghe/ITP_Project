@@ -1,5 +1,6 @@
 import { createStore, compose, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
+
 import {
   productListReducer,
   productDetailsReducer,
@@ -29,6 +30,31 @@ import {
   orderDeliverReducer,
 } from "./redux/reducers/orderReducers";
 
+
+import {
+  promotionListReducer,
+  promotionDetailsReducer,
+  promotionCreateReducer,
+  promotionUpdateReducer,
+  promotionDeleteReducer,
+} from "./redux/reducers/promotionReducers";
+
+import {
+  FAQListReducer,
+  FAQDetailsReducer,
+  FAQCreateReducer,
+  FAQUpdateReducer,
+  FAQDeleteReducer,
+} from "./redux/reducers/FAQReducers";
+
+import {
+  inquiryListReducer,
+  inquiryDetailsReducer,
+  inquiryCreateReducer,
+  inquiryUpdateReducer,
+  inquiryDeleteReducer,
+} from "./redux/reducers/inquiryReducers";
+
 const rootReducers = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
@@ -52,11 +78,26 @@ const rootReducers = combineReducers({
   orderListMy: orderListMyOrderReducer,
   orderListOrder: orderListOrderReducer,
   orderDeliver: orderDeliverReducer,
+  promotionList: promotionListReducer,
+  promotionDetails: promotionDetailsReducer,
+  promotionCreate: promotionCreateReducer,
+  promotionUpdate: promotionUpdateReducer,
+  promotionDelete: promotionDeleteReducer,
+  FAQList: FAQListReducer,
+  FAQDetails: FAQDetailsReducer,
+  FAQCreate: FAQCreateReducer,
+  FAQUpdate: FAQUpdateReducer,
+  FAQDelete: FAQDeleteReducer,
+  inquiryList: inquiryListReducer,
+  inquiryDetails: inquiryDetailsReducer,
+  inquiryCreate: inquiryCreateReducer,
+  inquiryUpdate: inquiryUpdateReducer,
+  inquiryDelete: inquiryDeleteReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const cartItemsFtomStorage = localStorage.getItem("cartItems")
+const cartItemsFromStorage = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
 
@@ -70,7 +111,7 @@ const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
 
 const initialState = {
   cart: {
-    cartItems: cartItemsFtomStorage,
+    cartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,
   },
   userLogin: { userInfo: userInfoFromStorage },

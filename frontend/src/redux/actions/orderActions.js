@@ -240,6 +240,41 @@ export const updateBank = (order) => async (dispatch, getState) => {
 };
 
 
+// Add additional action to update order Delivery status to "Processing" after Delivery details are submitted
+export const updateDelivery = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: actions.ORDER_UPDATE_DELIVERY_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/orders/${order._id}/deldetails`,order, config);
+
+    dispatch({ type: actions.ORDER_UPDATE_DELIVERY_SUCCESS, payload: data.order });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "not authorized, no token") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: actions.ORDER_UPDATE_DELIVERY_FAILED,
+      payload: message,
+    });
+  }
+};
+
+
 // Action to delete an order
 export const cancelOrder = (orderId) => async (dispatch, getState) => {
   try {

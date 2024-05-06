@@ -10,7 +10,11 @@ import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import promotionRoutes from "./routes/promotionRoutes.js";
+import faqRoutes from "./routes/faqRoutes.js";
+import inquiryRoutes from "./routes/inquiryRoutes.js";
 import voucherRouter from "./routes/voucherRoutes.js";
+
 const app = express();
 
 dotenv.config();
@@ -37,9 +41,16 @@ app.use("/api/orders", orderRoutes);
 // Upload Route
 app.use("/api/upload", uploadRoutes);
 
-app.use("/api/vouchers",voucherRouter)
+//Promotions Route
+app.use("/api/promotions", promotionRoutes);
 
+//FAQs Route
+app.use("/api/faqs", faqRoutes);
 
+//inquiry Route
+app.use("/api/inquiries", inquiryRoutes);
+
+app.use("/api/vouchers", voucherRouter);
 
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));

@@ -7,13 +7,13 @@ import {
   deleteVoucher,
 } from "../controllers/voucherController.js";
 
-const router = express.Router();
+const voucherRouter = express.Router();
 
-router.route("/").get(getAll).post( createVoucher);
-router
+voucherRouter.route("/").get(getAll).post(createVoucher);
+voucherRouter
   .route("/:id")
   .get(getSingle)
-  .delete( deleteVoucher)
-  .put( updateVoucher);
+  .delete(deleteVoucher)
+  .put(updateVoucher);
 
-export default router;
+export default voucherRouter;
