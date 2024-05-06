@@ -6,7 +6,7 @@ import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
 import { getOrderDetails, cancelOrder } from "../redux/actions/orderActions";
 
-const OrderScreen = () => {
+const UserOrderDetails = () => {
   let navigate = useNavigate();
   let params = useParams();
   const dispatch = useDispatch();
@@ -37,13 +37,13 @@ const OrderScreen = () => {
 
   // ViewReceiptHandler Function
   const viewReceiptHandler = async () => {
-    navigate(`/admin/ViewReceipt/${order._id}`);
+    navigate(`/ureciept/${order._id}`);
   };
 
 
    // ViewDeliveryHandler Function
    const viewDeliveryHandler = async () => {
-    navigate(`/admin/Delivery/${order._id}`);
+    navigate(`/udelivery/${order._id}`);
   };
 
   return (
@@ -178,20 +178,22 @@ const OrderScreen = () => {
                         className="w-100"
                         variant="primary"
                         >
-                        Manage Delivery
+                        View Delivery
+                        </Button>
+                       
+                        <Button
+                          style={{marginTop:'10px',marginBottom:'10px',color:'#000'}}
+                          onClick={viewReceiptHandler}
+                              className="w-100"
+                              variant="warning"
+                        >
+                          View Bank Receipt
                         </Button>
                         
-                        <Button
-                          style={{marginTop:'10px',marginBottom:'10px'}}
-                          onClick={()=>navigate(`/admin/orders`)}
-                          className="w-100"
-                          variant="danger"
-                          >
-                            Back
-                          </Button>
                         </>
+                        
                     ) : (
-                        <>
+                        
                         <Button
                           style={{marginTop:'10px',marginBottom:'10px'}}
                           onClick={viewReceiptHandler}
@@ -200,21 +202,12 @@ const OrderScreen = () => {
                         >
                           View Bank Receipt
                         </Button>
-                        <Button
-                            style={{marginTop:'10px',marginBottom:'10px'}}
-                            onClick={cancelOrderHandler}
-                            className="w-100"
-                            variant="danger"
-                        >
-                          Cancel Order
-                        </Button>
-                        </>
+                        
                     )
 
                         
                       ):(
                          
-                          
                           <Button
                           style={{marginTop:'10px',marginBottom:'10px'}}
                           onClick={viewReceiptHandler}
@@ -227,15 +220,7 @@ const OrderScreen = () => {
                         )
                     
                         ) : (
-                      
-                          <Button
-                          style={{marginTop:'10px'}}
-                              onClick={cancelOrderHandler}
-                              className="w-100"
-                              variant="danger"
-                          >
-                              Cancel Order
-                          </Button>
+                            null
                         )
                     }
 
@@ -250,4 +235,4 @@ const OrderScreen = () => {
   );
 };
 
-export default OrderScreen;
+export default UserOrderDetails;

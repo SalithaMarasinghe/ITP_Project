@@ -4,7 +4,7 @@ import { Row, Col, ListGroup, Image, Card, Button, Form } from "react-bootstrap"
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { useSelector, useDispatch } from "react-redux";
-import { updateDelivery, getOrderDetails } from "../redux/actions/orderActions";
+import { updateDelivery, getOrderDetails,deliverOrder } from "../redux/actions/orderActions";
 
 const DeliveryScreen = () => {
   
@@ -28,6 +28,12 @@ const DeliveryScreen = () => {
     );
   };
 
+
+  const changetoDelivered = () => {
+
+    dispatch(deliverOrder(orderId));
+    
+  };
 
   const [deliveryDetails, setDeliveryDetails] = useState({
     agentName: "",
@@ -316,6 +322,40 @@ const DeliveryScreen = () => {
                         >
                             Cancel Order
                         </Button>
+                      )
+                    }
+
+{
+                      order.deliveryDetails ? (
+                        <>
+                          <Button
+                          style={{marginTop:'10px',marginBottom:'10px',color:'#000'}}
+                          onClick={changetoDelivered}
+                          className="w-100"
+                          variant="warning"
+                          >
+                          Mark as Delivered
+                          </Button>
+
+                          <Button
+                          style={{marginTop:'10px',marginBottom:'10px'}}
+                          onClick={()=>navigate(`/order/${order._id}`)}
+                          className="w-100"
+                          variant="danger"
+                          >
+                            Back
+                          </Button>
+                        </>
+                      ) : (
+                      
+                          <Button
+                          style={{marginTop:'10px',marginBottom:'10px'}}
+                          onClick={()=>navigate(`/order/${order._id}`)}
+                          className="w-100"
+                          variant="danger"
+                          >
+                            Back
+                          </Button>
                       )
                     }
 
