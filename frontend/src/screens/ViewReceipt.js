@@ -54,7 +54,7 @@ const ViewReceipt = () => {
     }
 
     dispatch(payOrder(orderId, paymentResult));
-    
+    window.location.reload();
   };
 
 
@@ -74,7 +74,7 @@ const ViewReceipt = () => {
 
     dispatch(updateBank({_id: orderId,transAmount: bankDetails.transAmount,})); 
     
-    
+    window.location.reload();
   };
 
   

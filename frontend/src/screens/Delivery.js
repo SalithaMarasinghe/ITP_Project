@@ -32,7 +32,7 @@ const DeliveryScreen = () => {
   const changetoDelivered = () => {
 
     dispatch(deliverOrder(orderId));
-    
+    window.location.reload();
   };
 
   const [deliveryDetails, setDeliveryDetails] = useState({
@@ -79,7 +79,8 @@ const DeliveryScreen = () => {
         ...deliveryDetails,
       })
     );
-    navigate(`/admin/Delivery/${orderId}`);
+
+    window.location.reload();
   };
 
   
