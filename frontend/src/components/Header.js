@@ -20,16 +20,28 @@ const Header = () => {
       <Navbar bg="primary">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand><span style={{ fontSize: "45px" }}>BLACK</span><hr style={{ borderTop: "2px solid white", width: "135px", margin: "0 auto" }} /><span style={{ fontSize: "10px" }}>FREEDOM OF CREATIVE MIND</span></Navbar.Brand>
+            <Navbar.Brand>
+              <span style={{ fontSize: "45px" }}>BLACK</span>
+              <hr
+                style={{
+                  borderTop: "2px solid white",
+                  width: "135px",
+                  margin: "0 auto",
+                }}
+              />
+              <span style={{ fontSize: "10px" }}>FREEDOM OF CREATIVE MIND</span>
+            </Navbar.Brand>
           </LinkContainer>
           <SearchBox />
 
           <Nav className="ml-auto">
-            <LinkContainer to="/cart">
-              <Nav.Link>
-                <i className="fas fa-shopping-cart"></i> Cart
-              </Nav.Link>
-            </LinkContainer>
+            {userInfo && (
+              <LinkContainer to="/cart">
+                <Nav.Link>
+                  <i className="fas fa-shopping-cart"></i> Cart
+                </Nav.Link>
+              </LinkContainer>
+            )}
             {userInfo ? (
               <>
                 <LinkContainer to="/help">
@@ -66,6 +78,9 @@ const Header = () => {
                 </LinkContainer>
                 <LinkContainer to="/admin/promotions">
                   <NavDropdown.Item>Promotions</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/user-carts">
+                  <NavDropdown.Item>User Carts</NavDropdown.Item>
                 </LinkContainer>
                 <LinkContainer to="/admin/faq">
                   <NavDropdown.Item>FAQ</NavDropdown.Item>

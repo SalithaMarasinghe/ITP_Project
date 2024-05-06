@@ -8,20 +8,62 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message";
 import Meta from "../components/Meta";
-import { addToCart, removeFromCart } from "../redux/actions/cartActions";
+import CartAPI from "../api/CartAPI";
+import Toast from "../utils/Toast";
 
 const CartScreen = () => {
   let navigate = useNavigate();
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [cartItems, setCartItems] = React.useState([]);
 
   const checkoutHandler = () => {
     navigate("/login?redirect=shipping");
+  };
+
+  // get cart by user id
+  React.useEffect(() => {
+    setIsLoading(true);
+    const fetchCart = async () => {
+      const response = await CartAPI.getCartByUserId();
+
+      if (response.data.success) {
+        setCartItems(response.data.cart.cartItems);
+        setIsLoading(false);
+      } else {
+        console.log(response.data.message);
+        setIsLoading(false);
+      }
+    };
+    fetchCart();
+  }, []);
+
+  // Update the quantity of a cart item
+  const updateCartItem = async (id, qty) => {
+    const response = await CartAPI.updateCartItem(id, qty);
+
+    if (response.data.success) {
+      const updatedCart = response.data.cart;
+      setCartItems(updatedCart.cartItems);
+      Toast({ type: "success", message: "Quantity updated" });
+    } else {
+      Toast({ type: "error", message: response.data.message });
+    }
+  };
+
+  // Remove item from cart
+  const removeFromCart = async (id) => {
+    const response = await CartAPI.deleteCartItem(id);
+
+    if (response.data.success) {
+      const updatedCart = response.data.cart;
+      setCartItems(updatedCart.cartItems);
+      Toast({ type: "success", message: "Item removed from cart" });
+    } else {
+      Toast({ type: "error", message: response.data.message });
+    }
   };
 
   return (
@@ -32,7 +74,9 @@ const CartScreen = () => {
       </Link>
       <Row>
         <h2 className="mb-4">Shopping Cart</h2>
-        {cartItems.length === 0 ? (
+        {isLoading ? (
+          <Message variant="info">Getting your cart...</Message>
+        ) : cartItems.length === 0 ? (
           <Message variant="info">
             Your cart is empty <Link to="/">Go Back</Link>
           </Message>
@@ -41,6 +85,7 @@ const CartScreen = () => {
             <Col className="cart_items" md={8}>
               {cartItems.map((cart) => (
                 <ListGroup variant="flush" key={cart.product}>
+                  {console.log(cart.qty)}
                   <ListGroup.Item>
                     <Row>
                       <Col md={2}>
@@ -60,9 +105,7 @@ const CartScreen = () => {
                           as="select"
                           value={cart.qty}
                           onChange={(e) =>
-                            dispatch(
-                              addToCart(cart.product, Number(e.target.value),cart.price)
-                            )
+                            updateCartItem(cart.product, e.target.value)
                           }
                         >
                           {[...Array(cart.countInStock).keys()].map((x) => (
@@ -74,7 +117,7 @@ const CartScreen = () => {
                         <Button
                           className="my-3"
                           variant="danger"
-                          onClick={() => dispatch(removeFromCart(cart.product))}
+                          onClick={() => removeFromCart(cart.product)}
                         >
                           <i class="fas fa-trash"></i>
                         </Button>
@@ -98,8 +141,8 @@ const CartScreen = () => {
                     </h4>
                     <h5 className="mt-3">
                       Rs.
-                      {cartItems.reduce(
-                        (acc, item) => acc + (item.qty * item.price), 0)
+                      {cartItems
+                        .reduce((acc, item) => acc + item.qty * item.price, 0)
                         .toFixed(2)}
                     </h5>
                   </ListGroup.Item>

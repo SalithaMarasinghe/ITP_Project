@@ -27,13 +27,13 @@ import Delivery from "./screens/Delivery";
 import PromotionListScreen from "./screens/PromotionListScreen";
 import CreatePromotion from "./screens/CreatePromotion";
 import EditPromotion from "./screens/EditPromotion";
+import UserCartsScreen from "./screens/UserCartsScreen";
 import FAQListScreen from "./screens/FAQListScreen";
 import CreateFAQ from "./screens/CreateFAQ";
 import EditFAQ from "./screens/EditFAQ";
 import Help from "./screens/Help";
 import CreateInquiry from "./screens/CreateInquiry";
 import InquiryListScreen from "./screens/InquiryListScreen";
-
 
 const App = () => {
   return (
@@ -112,6 +112,10 @@ const App = () => {
 
             <Route path="/admin/promotions" element={<OnlyAdmin />}>
               <Route path="/admin/promotions" element={<PromotionListScreen />} />
+            </Route>
+            
+            <Route path="/admin/user-carts" element={<OnlyAdmin />}>
+              <Route path="/admin/user-carts" element={<UserCartsScreen />} />
             </Route>
 
             <Route path="/admin/create-promotion" element={<OnlyAdmin />}>
