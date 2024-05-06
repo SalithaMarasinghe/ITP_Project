@@ -6,6 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
+import {generatePDF} from "../components/generateReport"
 import { listProduct, deleteProduct } from "../redux/actions/productActions";
 
 const ProductListScreen = () => {
@@ -45,6 +46,10 @@ const ProductListScreen = () => {
               <i className="fas fa-plus"></i> Create Product
             </Button>
           </LinkContainer>
+          <Button onClick={() => generatePDF(products)} variant="primary" style={{margin:'1rem'}}>
+            {/*Put an icon*/}
+            <i className="fas fa-plus"></i> Generate Report
+          </Button>
         </Col>
       </Row>
       {errorDelete && <Message variant="danger">{errorDelete}</Message>}
@@ -65,6 +70,7 @@ const ProductListScreen = () => {
                     <td>Name</td>
                     <td>Category</td>
                     <td>Brand</td>
+                    <td>Quantity</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -74,6 +80,7 @@ const ProductListScreen = () => {
                       <td>{product.name}</td>
                       <td>{product.category}</td>
                       <td>{product.brand}</td>
+                      <td>{product.countInStock}</td>
                       <td>
                         <LinkContainer
                           className="ml-1"
