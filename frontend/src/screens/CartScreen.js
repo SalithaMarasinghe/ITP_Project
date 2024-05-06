@@ -26,17 +26,23 @@ const CartScreen = () => {
   // get cart by user id
   React.useEffect(() => {
     setIsLoading(true);
-    const fetchCart = async () => {
-      const response = await CartAPI.getCartByUserId();
 
-      if (response.data.success) {
-        setCartItems(response.data.cart.cartItems);
-        setIsLoading(false);
-      } else {
-        console.log(response.data.message);
+    const fetchCart = async () => {
+      try {
+        const response = await CartAPI.getCartByUserId();
+
+        if (response.data.success) {
+          setCartItems(response.data.cart.cartItems);
+        } else {
+          console.log(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      } finally {
         setIsLoading(false);
       }
     };
+
     fetchCart();
   }, []);
 
@@ -76,7 +82,7 @@ const CartScreen = () => {
         <h2 className="mb-4">Shopping Cart</h2>
         {isLoading ? (
           <Message variant="info">Getting your cart...</Message>
-        ) : cartItems.length === 0 ? (
+        ) : cartItems.length === 0 || !cartItems ? (
           <Message variant="info">
             Your cart is empty <Link to="/">Go Back</Link>
           </Message>

@@ -108,7 +108,7 @@ export const updateInquiry = (inquiryData) => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await axios.put(`/api/inquiries/${FAQData._id}`, inquiryData, config);
+    const { data } = await axios.put(`/api/inquiries/${inquiryData._id}`, inquiryData, config);
 
     dispatch({
       type: INQUIRY_UPDATE_SUCCESS,

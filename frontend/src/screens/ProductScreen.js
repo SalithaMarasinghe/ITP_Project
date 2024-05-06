@@ -45,6 +45,7 @@ const ProductScreen = () => {
 
   const promotionList = useSelector((state) => state.promotionList);
   const { promotions } = promotionList;
+  console.log(promotions);
 
   useEffect(() => {
     if (successProductReview) {
@@ -60,12 +61,14 @@ const ProductScreen = () => {
 
   // Add to cart
   const addToCartHandler = async (id, qty) => {
+    const newPrice = calculateNewPrice();
+    //
     const data = {
       cartItem: {
         name: product.name,
         qty: qty,
         image: product.image,
-        price: product.price,
+        price: newPrice,
         product: product._id,
         countInStock: product.countInStock,
       },
