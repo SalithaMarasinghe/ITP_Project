@@ -5,7 +5,6 @@ import { LinkContainer } from "react-router-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
-import { listVoucher, deleteVoucher } from "../redux/actions/voucherActions";
 import axios from "axios";
 
 const VoucherListScreen = () => {
@@ -53,7 +52,7 @@ const VoucherListScreen = () => {
           <h3>Voucher List</h3>
         </Col>
         <Col className="text-end">
-          <LinkContainer to="/admin/products/create">
+          <LinkContainer to="/admin/vouchers/create">
             <Button variant="primary">
               <i className="fas fa-plus"></i> Create Voucher
             </Button>

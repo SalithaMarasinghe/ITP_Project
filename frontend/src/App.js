@@ -26,6 +26,7 @@ import ViewReciept from "./screens/ViewReciept";
 import Delivery from "./screens/Delivery";
 import VoucherListScreen from "./screens/VoucherListScreen";
 import EditVoucherScreen from "./screens/EditVoucherScreen";
+import CreateVoucherScreen from "./screens/CreateVoucherScreen";
 
 const App = () => {
   return (
@@ -107,6 +108,10 @@ const App = () => {
             <Route
               path="/admin/vouchers/edit/:id"
               element={<EditVoucherScreen />}
+            />
+            <Route
+              path="/admin/vouchers/create"
+              element={<CreateVoucherScreen />}
             />
 
             <Route path="/admin/orders" element={<OnlyAdmin />}>
