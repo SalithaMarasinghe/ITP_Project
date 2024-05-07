@@ -37,7 +37,7 @@ function categorizer(subject){
       if(keywords[i] == 'shipping costs' || keywords[i] == 'Shipping Costs' || keywords[i] == 'Cost' || keywords[i] == 'cost'){
           score[1] += 10;
       }
-      if(keywords[i] == 'Delivery times'|| keywords[i] == 'delivery times'){
+      if(keywords[i] == 'Delivery times'|| keywords[i] == 'delivery times' || keywords[i] == 'Delivery'|| keywords[i] == 'delivery'){
           score[1] += 10;
       }
       if(keywords[i] == 'not received'|| keywords[i] == 'Not Received'){
@@ -71,7 +71,7 @@ function categorizer(subject){
       }
 
       //Promotions & Discounts
-      if(keywords[i] == 'discount code' || keywords[i] == 'Discount Code'|| keywords[i] == 'discount' || keywords[i]=='discount codes' || keywords[i] == 'code' || keywords[i] == 'Code' || keywords[i] == 'codes'){
+      if(keywords[i] == 'discount code' || keywords[i] == 'Discount Code'|| keywords[i] == 'discount' || keywords[i]=='discount codes' || keywords[i] == 'code' || keywords[i] == 'Code' || keywords[i] == 'codes' || keywords[i] == 'discounts' || keywords[i] == 'Discount' || keywords[i] == 'Discounts'){
           score[3] += 10;
       }
       if(keywords[i] == 'loyalty programs'|| keywords[i] == 'Loyalty Programs'|| keywords[i] == 'loyalty'|| keywords[i] == 'Loyalty'){
@@ -91,7 +91,7 @@ function categorizer(subject){
       if(keywords[i] == 'issues' || keywords[i] == 'Issues' || keywords[i] == 'Issue' || keywords[i] == 'issue'){
           score[4] += 10;
       }
-      if(keywords[i] == 'delay' || keywords[i] == 'Delay'){
+      if(keywords[i] == 'delay' || keywords[i] == 'Delay' || keywords[i] == 'delays' || keywords[i] == 'Delays'){
           score[4] += 10;
       }
       if(keywords[i] == 'Missing' || keywords[i] == 'missing'){
