@@ -83,7 +83,7 @@ const UserListScreen = () => {
             <Table striped hover className="table-sm">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  {/* <th>ID</th> */}
                   <th>Name</th>
                   <th>Email</th>
                   <th>Admin</th>
@@ -93,7 +93,7 @@ const UserListScreen = () => {
               <tbody>
                 {filteredUsers.map((user) => (
                   <tr key={user._id}>
-                    <td>{user._id}</td>
+                    {/* <td>{user._id}</td> */}
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>

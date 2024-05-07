@@ -100,8 +100,8 @@ const ProductScreen = () => {
     );
     if (!matchedPromotion) return 0;
 
-    const { type, value } = matchedPromotion;
-
+    const { type, value,minQty } = matchedPromotion;
+if(qty>=minQty){
     if (type === "fixed") {
       // For fixed type, return the value directly
       return value;
@@ -109,6 +109,9 @@ const ProductScreen = () => {
       // For percentage type, calculate the discount percentage
       const discount = (value / 100) * product.price;
       return `${value}% (- Rs. ${discount.toFixed(2)})`;
+    }}
+    else{
+      return 0;
     }
 
     return null;
@@ -118,7 +121,10 @@ const ProductScreen = () => {
     const discount = getPromotionDiscount();
     if (!discount) return product.price;
 
-    if (typeof discount === "number") {
+    if (typeof discount === "number"
+
+
+    ) {
       // For fixed type, subtract the discount value from the product price
       return product.price - discount;
     } else {

@@ -8,6 +8,7 @@ const CreatePromotion = ({ history }) => {
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [value, setValue] = useState('');
+  const [minQty, setminQty] = useState('');
   const [validPeriod, setValidPeriod] = useState('');
   const [relatedProduct, setRelatedProduct] = useState('');
 
@@ -28,10 +29,13 @@ const CreatePromotion = ({ history }) => {
         name,
         type,
         value,
+        minQty,
         validPeriod,
         relatedProduct,
       })
+      
     );
+    
     navigate("/admin/promotions");
     history.push('/promotions');
   };
@@ -47,6 +51,7 @@ const CreatePromotion = ({ history }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box', fontSize: '16px', marginTop: '5px' }}
+            required
           />
         </div>
         <div style={{ marginBottom: '15px' }}>
@@ -64,6 +69,17 @@ const CreatePromotion = ({ history }) => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box', fontSize: '16px', marginTop: '5px' }}
+            required
+          />
+        </div>
+        <div style={{ marginBottom: '15px' }}>
+          <label style={{ fontWeight: 'bold' }}>Minimum Qty</label>
+          <input
+            type="number"
+            value={minQty}
+            onChange={(e) => setminQty(e.target.value)}
+            style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box', fontSize: '16px', marginTop: '5px' }}
+            required
           />
         </div>
         <div style={{ marginBottom: '15px' }}>
@@ -73,6 +89,7 @@ const CreatePromotion = ({ history }) => {
             value={validPeriod}
             onChange={(e) => setValidPeriod(e.target.value)}
             style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box', fontSize: '16px', marginTop: '5px' }}
+            required
           />
         </div>
         <div style={{ marginBottom: '15px' }}>
