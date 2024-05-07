@@ -5,7 +5,7 @@ import { Form, Button } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
 import Loading from "../components/Loading";
-import { getUserDetails, updateUserAdmin } from "../redux/actions/userActions";
+import { getUserDetails, updateUser } from "../redux/actions/userActions";
 
 const UserEditScreen = () => {
   const dispatch = useDispatch();
@@ -42,8 +42,7 @@ const UserEditScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUserAdmin({ _id: userId, name, email, isAdmin }));
-    window.location.reload();
+    dispatch(updateUser({ _id: userId, name, email, isAdmin }));
   };
 
   return (
