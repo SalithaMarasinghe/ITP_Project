@@ -56,7 +56,7 @@ const ProfileScreen = () => {
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td>{order._id}</td>
+                  <td>{order.Ord_ID}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
                   <td>Rs.{order.totalPrice}</td>
                   <td>

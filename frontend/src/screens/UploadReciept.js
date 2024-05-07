@@ -84,6 +84,7 @@ const UploadReceipt = () => {
                         <Form.Group controlId="accName">
                             <Form.Label>Account Holder's Name</Form.Label>
                             <Form.Control
+                                required
                                 className="form1"
                                 type="text"
                                 name="accName"
@@ -98,6 +99,7 @@ const UploadReceipt = () => {
                         <Form.Group controlId="accNum">
                             <Form.Label>Account Number</Form.Label>
                             <Form.Control
+                                required
                                 className="form1"
                                 type="number"
                                 name="accNum"
@@ -112,6 +114,7 @@ const UploadReceipt = () => {
                         <Form.Group controlId="transDate">
                             <Form.Label>Transfered Date</Form.Label>
                             <Form.Control
+                                required
                                 className="form1"
                                 type="date"
                                 name="transDate"
@@ -126,6 +129,7 @@ const UploadReceipt = () => {
                         <Form.Group controlId="bankName">
                             <Form.Label>Bank Name</Form.Label>
                             <Form.Control
+                                required
                                 className="form1"
                                 type="text"
                                 name="bankName"
@@ -140,6 +144,7 @@ const UploadReceipt = () => {
                         <Form.Group controlId="branchName">
                             <Form.Label>Branch Name</Form.Label>
                             <Form.Control
+                                required
                                 className="form1"
                                 type="text"
                                 name="branchName"
@@ -154,6 +159,7 @@ const UploadReceipt = () => {
                         <Form.Group controlId="transAmount">
                             <Form.Label>Transfered Amount</Form.Label>
                             <Form.Control
+                                required
                                 className="form1"
                                 type="number"
                                 name="transAmount"

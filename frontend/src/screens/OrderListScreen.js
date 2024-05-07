@@ -33,7 +33,7 @@ const OrderListScreen = () => {
     doc.autoTable({
       head: [['ID', 'User', 'Date', 'Total', 'Paid', 'Delivered']],
       body: filteredOrders.map((order) => [
-        order._id,
+        order.Ord_ID,
         order.user.name,
         order.createdAt.substring(0, 10),
         order.totalPrice,
@@ -104,7 +104,7 @@ const OrderListScreen = () => {
                 {filteredOrders ? (
                   filteredOrders.map((order,index) => (
                     <tr key={index}>
-                      <td>{order._id}</td>
+                      <td>{order.Ord_ID}</td>
                       <td>{order.user.name}</td>
                       <td>{order.createdAt.substring(0, 10)}</td>
                       <td>Rs. {order.totalPrice}</td>
