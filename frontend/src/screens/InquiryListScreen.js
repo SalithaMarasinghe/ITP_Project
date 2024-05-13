@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -17,11 +17,11 @@ const InquiryListScreen = () => {
 
   const { loading, error, inquiries } = inquiryList;
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   useEffect(() => {
     dispatch(listInquiries());
   }, [dispatch]);
-
-  //const { loading = true, error = null, faqs = [] } = faqList;
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure you want to delete this inquiry?')) {
@@ -31,20 +31,30 @@ const InquiryListScreen = () => {
     }
   };
 
+  const filteredInquiries = inquiries.filter(inquiry =>
+    inquiry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    inquiry.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    inquiry.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    inquiry.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    inquiry.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (inquiry.createdAt && new Date(inquiry.createdAt).toLocaleDateString().toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   const generateReport = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
     doc.text('Inquiries', 14, 9);
 
     doc.autoTable({
-      head: [['Name', 'Phone', 'Email address', 'Subject', 'Message', 'Category']],
-      body: inquiries.map((inquiry) => [
+      head: [['Name', 'Phone', 'Email address', 'Subject', 'Message', 'Category', 'Date']],
+      body: filteredInquiries.map((inquiry) => [
         inquiry.name,
         inquiry.phone,
         inquiry.email,
         inquiry.subject,
         inquiry.message,
         inquiry.category,
+        inquiry.createdAt ? new Date(inquiry.createdAt).toLocaleDateString() : '',
       ]),
 
     });
@@ -57,6 +67,17 @@ const InquiryListScreen = () => {
       <Row className="inquiryHeader">
         <Col>
           <h1>Inquiries</h1>
+        </Col>
+        <Col className="text-right">
+          <Form inline className="inquirysearch">
+            <FormControl
+              type="text"
+              placeholder="Search Inquiries"
+              className="mr-sm-2"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </Form>
         </Col>
         <Col>
           <Button onClick={generateReport} variant="success">
@@ -80,10 +101,11 @@ const InquiryListScreen = () => {
                 <th>Subject</th>
                 <th>Message</th>
                 <th>Category</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody>
-              {inquiries && inquiries.map((inquiry) => (
+              {filteredInquiries.map((inquiry) => (
                 <tr key={inquiry._id}>
                   <td>{inquiry.name}</td>
                   <td>{inquiry.phone}</td>
@@ -91,6 +113,7 @@ const InquiryListScreen = () => {
                   <td>{inquiry.subject}</td>
                   <td>{inquiry.message}</td>
                   <td>{inquiry.category}</td>
+                  <td>{inquiry.createdAt ? new Date(inquiry.createdAt).toLocaleDateString() : ''}</td>
                   <td>
                     <Button
                       variant="danger"
@@ -105,7 +128,6 @@ const InquiryListScreen = () => {
             </tbody>
           </Table>
         </div>
-        
       )}
     </div>
   );

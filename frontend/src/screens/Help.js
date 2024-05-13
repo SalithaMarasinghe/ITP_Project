@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { useNavigate } from 'react-router-dom'; 
 import { Row, Col, Form, FormControl, Button } from 'react-bootstrap';
 
 function Help() {
   const [faqs, setFaqs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate(); // Use useNavigate hook to navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/faqs') // Replace with your actual API endpoint
+    axios.get('http://localhost:3000/api/faqs')
       .then(response => {
         setFaqs(response.data);
       })
@@ -19,7 +19,7 @@ function Help() {
   }, []);
 
   const handleInquiryClick = () => {
-    navigate('/inquiryForm'); // Use navigate function to navigate to inquiryForm
+    navigate('/inquiryForm'); 
   };
 
   const filteredFaqs = faqs.filter(faq =>

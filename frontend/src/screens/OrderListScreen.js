@@ -19,11 +19,11 @@ const OrderListScreen = () => {
   const { orders, loading, error }  = useSelector((state) => state.orderListOrder);
 
   // Function to filter orders based on search query
-  const filteredOrders = orders.filter(order =>
+  const filteredOrders = orders ? orders.filter(order =>
     order._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.user.name.toLowerCase().includes(searchQuery.toLowerCase())
     // Add more fields as needed for search
-  );
+  ) : null;
 
   // Function to generate PDF
   const generatePDF = () => {
@@ -33,7 +33,7 @@ const OrderListScreen = () => {
     doc.autoTable({
       head: [['ID', 'User', 'Date', 'Total', 'Paid', 'Delivered']],
       body: filteredOrders.map((order) => [
-        order._id,
+        order.Ord_ID,
         order.user.name,
         order.createdAt.substring(0, 10),
         order.totalPrice,
@@ -101,44 +101,46 @@ const OrderListScreen = () => {
               </thead>
               {/* Table Body */}
               <tbody>
-                {filteredOrders.map((order,index) => (
-                  <tr key={index}>
-                    <td>{order._id}</td>
-                    <td>{order.user.name}</td>
-                    <td>{order.createdAt.substring(0, 10)}</td>
-                    <td>Rs. {order.totalPrice}</td>
-                    <td>
-                      {order.isPaid ? (
-                        <i className="fas fa-check" style={{ color: "green" }}></i>
-                      ) : (
-                        <i className="fas fa-times" style={{ color: "red" }}></i>
-                      )}
-                    </td>
-                    <td>
-                      {order.isDelivered ? (
-                        <i className="fas fa-check" style={{ color: "green" }}></i>
-                      ) : (
-                        <i className="fas fa-times" style={{ color: "red" }}></i>
-                      )}
-                    </td>
-                    <td>
-                      {order.bankDetails ? (
-                        <Button className="btn-sm" variant="info" onClick={() => viewReceiptHandler(order._id)}>
-                          View Receipt
-                        </Button>
-                      ) : (
-                        <span>No Receipt</span>
-                      )}
-                    </td>
-                    <td>
-                      <LinkContainer className="ml-1" to={`/order/${order._id}`}>
-                        <Button className="btn-sm" variant="primary">
-                          Details
-                        </Button>
-                      </LinkContainer>
-                    </td>
-                  </tr>
-                ))}
+                {filteredOrders ? (
+                  filteredOrders.map((order,index) => (
+                    <tr key={index}>
+                      <td>{order.Ord_ID}</td>
+                      <td>{order.user.name}</td>
+                      <td>{order.createdAt.substring(0, 10)}</td>
+                      <td>Rs. {order.totalPrice}</td>
+                      <td>
+                        {order.isPaid ? (
+                          <i className="fas fa-check" style={{ color: "green" }}></i>
+                        ) : (
+                          <i className="fas fa-times" style={{ color: "red" }}></i>
+                        )}
+                      </td>
+                      <td>
+                        {order.isDelivered ? (
+                          <i className="fas fa-check" style={{ color: "green" }}></i>
+                        ) : (
+                          <i className="fas fa-times" style={{ color: "red" }}></i>
+                        )}
+                      </td>
+                      <td>
+                        {order.bankDetails ? (
+                          <Button className="btn-sm" variant="info" onClick={() => viewReceiptHandler(order._id)}>
+                            View Receipt
+                          </Button>
+                        ) : (
+                          <span>No Receipt</span>
+                        )}
+                      </td>
+                      <td>
+                        <LinkContainer className="ml-1" to={`/order/${order._id}`}>
+                          <Button className="btn-sm" variant="primary">
+                            Details
+                          </Button>
+                        </LinkContainer>
+                      </td>
+                    </tr>
+                  ))
+                ) : null}
               </tbody>
             </Table>
           </Col>
