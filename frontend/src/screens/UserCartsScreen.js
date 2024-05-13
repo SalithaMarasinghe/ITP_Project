@@ -108,6 +108,7 @@ const UserCartsScreen = () => {
                   <th>Email</th>
                   <th>Admin</th>
                   <th>Item Count</th>
+                  <th>Cart Items</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -130,6 +131,22 @@ const UserCartsScreen = () => {
                       {carts.map((cart) => {
                         if (cart.user._id === user._id) {
                           return cart.cartItems.length;
+                        }
+                      })}
+                    </td>
+                    <td>
+                      {/* list all cart items */}
+                      {carts.map((cart) => {
+                        if (cart.user._id === user._id) {
+                          return (
+                            <ul>
+                              {cart.cartItems.map((cartItem) => (
+                                <li key={cartItem.product}>
+                                  {cartItem.name} - {cartItem.qty}
+                                </li>
+                              ))}
+                            </ul>
+                          );
                         }
                       })}
                     </td>
