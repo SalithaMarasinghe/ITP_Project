@@ -36,97 +36,97 @@ const ProductListScreen = () => {
   };
 
   const filteredProducts = products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-      <>
-        <Row className="align-items-center">
-          <Col>
-            <h3>Products List</h3>
-          </Col>
-          <Col className="text-end">
-            <LinkContainer to="/admin/products/create">
-              <Button variant="primary">
-                <i className="fas fa-plus"></i> Create Product
-              </Button>
-            </LinkContainer>
-            <Button
-                onClick={() => generatePDF(filteredProducts)}
-                variant="primary"
-                style={{ margin: '1rem' }}
-            >
-              <i className="fas fa-file-pdf"></i> Generate Report
+    <>
+      <Row className="align-items-center">
+        <Col>
+          <h3>Products List</h3>
+        </Col>
+        <Col className="text-end">
+          <LinkContainer to="/admin/products/create">
+            <Button variant="primary">
+              <i className="fas fa-plus"></i> Create Product
             </Button>
+          </LinkContainer>
+          <Button
+            onClick={() => generatePDF(filteredProducts)}
+            variant="primary"
+            style={{ margin: "1rem" }}
+          >
+            <i className="fas fa-file-pdf"></i> Generate Report
+          </Button>
+        </Col>
+      </Row>
+      <Row className="my-3">
+        <Col md={4}>
+          <Form.Control
+            type="text"
+            placeholder="Search Products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </Col>
+      </Row>
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <Row>
+          <Col>
+            {loadingDelete ? (
+              <Loading />
+            ) : (
+              <Table striped hover className="table-sm">
+                <thead>
+                  <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Category</td>
+                    <td>Brand</td>
+                    <td>Quantity</td>
+                    <td>Actions</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredProducts.map((product) => (
+                    <tr key={product._id}>
+                      <td>{product._id}</td>
+                      <td>{product.name}</td>
+                      <td>{product.category}</td>
+                      <td>{product.brand}</td>
+                      <td>{product.countInStock}</td>
+                      <td>
+                        <LinkContainer
+                          className="ml-1"
+                          to={`/admin/product/edit/${product._id}`}
+                        >
+                          <Button className="btn btn-sm" variant="primary">
+                            <i className="fas fa-edit"></i>
+                          </Button>
+                        </LinkContainer>
+                        <Button
+                          className="btn btn-sm"
+                          variant="danger"
+                          onClick={() => deleteProductHandler(product._id)}
+                        >
+                          <i className="fas fa-trash"></i>
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            )}
           </Col>
         </Row>
-        <Row className="my-3">
-          <Col md={4}>
-            <Form.Control
-                type="text"
-                placeholder="Search Products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </Col>
-        </Row>
-        {errorDelete && <Message variant="danger">{errorDelete}</Message>}
-        {loading ? (
-            <Loading />
-        ) : error ? (
-            <Message variant="danger">{error}</Message>
-        ) : (
-            <Row>
-              <Col>
-                {loadingDelete ? (
-                    <Loading />
-                ) : (
-                    <Table striped hover className="table-sm">
-                      <thead>
-                      <tr>
-                        <td>ID</td>
-                        <td>Name</td>
-                        <td>Category</td>
-                        <td>Brand</td>
-                        <td>Quantity</td>
-                        <td>Actions</td>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      {filteredProducts.map((product) => (
-                          <tr key={product._id}>
-                            <td>{product._id}</td>
-                            <td>{product.name}</td>
-                            <td>{product.category}</td>
-                            <td>{product.brand}</td>
-                            <td>{product.countInStock}</td>
-                            <td>
-                              <LinkContainer
-                                  className="ml-1"
-                                  to={`/admin/product/edit/${product._id}`}
-                              >
-                                <Button className="btn btn-sm" variant="primary">
-                                  <i className="fas fa-edit"></i>
-                                </Button>
-                              </LinkContainer>
-                              <Button
-                                  className="btn btn-sm"
-                                  variant="danger"
-                                  onClick={() => deleteProductHandler(product._id)}
-                              >
-                                <i className="fas fa-trash"></i>
-                              </Button>
-                            </td>
-                          </tr>
-                      ))}
-                      </tbody>
-                    </Table>
-                )}
-              </Col>
-            </Row>
-        )}
-        <Paginate page={page} pages={pages} isAdmin={true} />
-      </>
+      )}
+      <Paginate page={page} pages={pages} isAdmin={true} />
+    </>
   );
 };
 
