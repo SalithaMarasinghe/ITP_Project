@@ -109,7 +109,7 @@ const InquiryListScreen = () => {
                 <tr key={inquiry._id}>
                   <td>{inquiry.name}</td>
                   <td>{inquiry.phone}</td>
-                  <td>{inquiry.email}</td>
+                  <td><a href={`mailto:${inquiry.email}`} target="_blank">{inquiry.email}</a></td>
                   <td>{inquiry.subject}</td>
                   <td>{inquiry.message}</td>
                   <td>{inquiry.category}</td>
