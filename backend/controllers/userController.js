@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
+import bcrypt from "bcrypt"
 import generateToken from "../utils/generateToken.js";
 
 // @Desc Auth user & get token
@@ -92,7 +93,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     {
       name: req.body.name || user.name,
       email: req.body.email || user.email,
-      password: req.body.password || user.password,
+      password: await bcrypt.hash(req.body.password,8) || user.password,
     },
     {
       new: true,
