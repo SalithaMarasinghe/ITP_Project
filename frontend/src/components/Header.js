@@ -20,33 +20,16 @@ const Header = () => {
       <Navbar bg="primary">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>
-              <span style={{ fontSize: "45px" }}>BLACK</span>
-              <hr
-                style={{
-                  borderTop: "2px solid white",
-                  width: "135px",
-                  margin: "0 auto",
-                }}
-              />
-              <span style={{ fontSize: "10px" }}>FREEDOM OF CREATIVE MIND</span>
-            </Navbar.Brand>
+            <Navbar.Brand><span style={{ fontSize: "45px" }}>BLACK</span><hr style={{ borderTop: "2px solid white", width: "135px", margin: "0 auto" }} /><span style={{ fontSize: "10px" }}>FREEDOM OF CREATIVE MIND</span></Navbar.Brand>
           </LinkContainer>
           <SearchBox />
 
           <Nav className="ml-auto">
-            <LinkContainer to="/giftvouchers">
-              <Nav.Link>
-                <i className="fas fa-tag"></i> Vouchers
-              </Nav.Link>
-            </LinkContainer>
-
             <LinkContainer to="/cart">
               <Nav.Link>
                 <i className="fas fa-shopping-cart"></i> Cart
               </Nav.Link>
             </LinkContainer>
-
             {userInfo ? (
               <>
                 <LinkContainer to="/help">
@@ -98,12 +81,6 @@ const Header = () => {
                 </LinkContainer>
                 <LinkContainer to="/admin/inquiry">
                   <NavDropdown.Item>Inquiries</NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to="/admin/reviews">
-                  <NavDropdown.Item>Reviews</NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to="/admin/vouchers">
-                  <NavDropdown.Item>Vouchers</NavDropdown.Item>
                 </LinkContainer>
               </NavDropdown>
             )}

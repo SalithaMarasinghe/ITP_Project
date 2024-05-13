@@ -98,7 +98,7 @@ const DeliveryScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <h1 style={{marginTop:'50px'}}>Order {order.Ord_ID}</h1>
+          <h1 style={{marginTop:'50px'}}>Order #{order._id}</h1>
           <Row style={{marginTop:'30px'}}>
             <Col md={8} className="order_scr">
               <ListGroup variant="flush">
@@ -138,7 +138,6 @@ const DeliveryScreen = () => {
                               <Col><strong>Agent Name:</strong></Col>
                               <Col>
                                   <Form.Control
-                                      required
                                       type="text"
                                       name="agentName"
                                       value={deliveryDetails.agentName}
@@ -154,7 +153,6 @@ const DeliveryScreen = () => {
                               <Col>
                                   <Form.Control
                                       type="text"
-                                      required
                                       name="agentContact"
                                       value={deliveryDetails.agentContact}
                                       placeholder={order.deliveryDetails? order.deliveryDetails.agentContact : ""}
@@ -168,7 +166,6 @@ const DeliveryScreen = () => {
                               <Col><strong>Estimated Delivery Date:</strong></Col>
                               <Col>{order.deliveryDetails && (<Form.Label>{order.deliveryDetails.estDate}</Form.Label>)}
                                   <Form.Control
-                                      required
                                       type="date"
                                       name="estDate"
                                       value={deliveryDetails.estDate}
@@ -196,7 +193,6 @@ const DeliveryScreen = () => {
                               <Col><strong>Tracking Number:</strong></Col>
                               <Col>
                                   <Form.Control
-                                      required
                                       type="text"
                                       name="trackNo"
                                       value={deliveryDetails.trackNo}
@@ -211,7 +207,6 @@ const DeliveryScreen = () => {
                               <Col><strong>Tracking Link:</strong></Col>
                               <Col>
                                   <Form.Control
-                                      required
                                       type="text"
                                       name="trackLink"
                                       value={deliveryDetails.trackLink}

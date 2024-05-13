@@ -1,35 +1,10 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
 
-
-// Generate a random string
-const generateOrdID = () => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '#';
-  for (let i = 0; i < 5; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-};
-
-// Function to ensure uniqueness of Ord_ID
-const ensureUniqueOrdID = async () => {
-  let isUnique = false;
-  let ordID;
-  while (!isUnique) {
-    ordID = generateOrdID();
-    const existingOrder = await Order.findOne({ Ord_ID: ordID });
-    if (!existingOrder) {
-      isUnique = true;
-    }
-  }
-  return ordID;
-};
-
-
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
+
 export const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -45,10 +20,7 @@ export const addOrderItems = asyncHandler(async (req, res) => {
     throw new Error("No order items");
   }
 
-  const Ord_ID = await ensureUniqueOrdID(); // Generate unique Ord_ID
-
   const createdOrder = await Order.create({
-    Ord_ID,
     user: req.user._id,
     orderItems,
     shippingAddress,

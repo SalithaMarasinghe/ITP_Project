@@ -49,17 +49,8 @@ export const getSingle = asyncHandler(async (req, res) => {
 // @Method POST
 export const createProduct = asyncHandler(async (req, res) => {
   // Validate request body
-  if (
-    !req.body.name ||
-    !req.body.description ||
-    !req.body.price ||
-    !req.body.brand ||
-    !req.body.category ||
-    !req.body.countInStock
-  ) {
-    return res
-      .status(400)
-      .json({ success: false, error: "Please provide all fields" });
+  if (!req.body.name || !req.body.description || !req.body.price || !req.body.brand || !req.body.category || !req.body.countInStock) {
+    return res.status(400).json({ success: false, error: "Please provide all fields" });
   }
 
   // Create new product
@@ -188,69 +179,4 @@ export const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);
 
   res.status(201).json({ success: true, products });
-});
-
-// @Desc Update review
-// @Route /api/products/:productId/reviews/:reviewId
-// @Method PUT
-export const updateProductReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body;
-  const productId = req.params.productId;
-  const reviewId = req.params.reviewId;
-
-  let product = await Product.findById(productId);
-
-  if (product) {
-    const reviewToUpdate = product.reviews.find(
-      (review) => review._id == reviewId
-    );
-
-    if (!reviewToUpdate) {
-      res.status(404);
-      throw new Error("Review not found");
-    }
-
-    reviewToUpdate.rating = rating;
-    reviewToUpdate.comment = comment;
-
-    await product.save();
-
-    res.status(200).json({ message: "Review updated" });
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-});
-
-// @Desc Delete review
-// @Route /api/products/:productId/reviews/:reviewId
-// @Method DELETE
-export const deleteProductReview = asyncHandler(async (req, res) => {
-  const productId = req.params.productId;
-  const reviewId = req.params.reviewId;
-
-  let product = await Product.findById(productId);
-
-  if (product) {
-    product.reviews = product.reviews.filter(
-      (review) => review._id != reviewId
-    );
-    product.numReviews = product.reviews.length;
-
-    // Recalculate the product rating if needed
-    if (product.reviews.length > 0) {
-      product.rating =
-        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-        product.reviews.length;
-    } else {
-      product.rating = 0;
-    }
-
-    await product.save();
-
-    res.status(200).json({ message: "Review deleted" });
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
 });

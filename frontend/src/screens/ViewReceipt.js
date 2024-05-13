@@ -88,7 +88,7 @@ const ViewReceipt = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-        <h1 style={{marginTop:'50px'}}>Order {order.Ord_ID}</h1>
+        <h1 style={{marginTop:'50px'}}>Order #{order._id}</h1>
         <Row style={{marginTop:'30px'}}>
           <Col md={8} className="order_scr">
             <ListGroup style={{marginTop:'20px', marginBottom:'20px' }} variant="flush">

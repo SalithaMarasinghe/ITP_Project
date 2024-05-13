@@ -2,9 +2,6 @@ import mongoose from "mongoose";
 
 const OrderSchema = mongoose.Schema(
   {
-
-    Ord_ID: { type: String, required: true, unique: true }, // Change type to String
-    
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

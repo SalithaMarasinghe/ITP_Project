@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { createInquiry } from '../redux/actions/inquiryActions';
 
@@ -7,21 +7,12 @@ const CreateInquiry = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const userLogin = useSelector((state) => state.userLogin);
-
-  const { userInfo } = userLogin;
-
-    const [name, setName] = useState(userInfo.name || '');
+    const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState(userInfo.email || '');
+    const [email, setEmail] = useState('');
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
     const [errors, setErrors] = useState({});
-
-    useEffect(() => {
-        setName(userInfo.name || '');
-        setEmail(userInfo.email || '');
-    }, [userInfo]);
 
     const validateForm = () => {
         const errors = {};
@@ -72,9 +63,9 @@ const CreateInquiry = () => {
             alert('Inquiry submitted successfully');
 
             // Reset form fields
-            setName(userInfo.name);
+            setName('');
             setPhone('');
-            setEmail(userInfo.email);
+            setEmail('');
             setSubject('');
             setMessage('');
 
