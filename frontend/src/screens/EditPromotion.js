@@ -13,6 +13,7 @@ const EditPromotion = () => {
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [value, setValue] = useState('');
+  const [minQty, setminQty] = useState('');
   const [validPeriod, setValidPeriod] = useState('');
   const [relatedProduct, setRelatedProduct] = useState('');
 
@@ -36,6 +37,7 @@ const EditPromotion = () => {
       setName(promotion.name);
       setType(promotion.type);
       setValue(promotion.value);
+      setminQty(promotion.minQty);
       setValidPeriod(promotion.validPeriod);
       setRelatedProduct(promotion.relatedProduct);
     }
@@ -49,11 +51,13 @@ const EditPromotion = () => {
         name,
         type,
         value,
+        minQty,
         validPeriod,
         relatedProduct,
       }),
       navigate("/admin/promotions")
     );
+    
 
   };
 
@@ -89,6 +93,16 @@ const EditPromotion = () => {
               type="number"
               value={value}
               onChange={(e) => setValue(e.target.value)}
+              style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', fontSize: '16px' }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '20px' }}>
+            <label>Minimum Quantity</label>
+            <input
+              type="number"
+              value={minQty}
+              onChange={(e) => setminQty(e.target.value)}
               style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', fontSize: '16px' }}
             />
           </div>

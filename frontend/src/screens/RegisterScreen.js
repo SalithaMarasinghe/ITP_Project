@@ -29,9 +29,6 @@ const RegisterScreen = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      name !== "" &&
-      password !== "" &&
-      email !== "" &&
       confirmPassword === password
     ) {
       dispatch(register(name, email, password));
@@ -51,6 +48,7 @@ const RegisterScreen = () => {
           <Form.Group controlId="name" className="mt-3">
             <Form.Label>Full Name</Form.Label>
             <Form.Control
+            required
               type="text"
               placeholder="Full Name"
               value={name}
@@ -60,6 +58,7 @@ const RegisterScreen = () => {
           <Form.Group controlId="email" className="mt-3">
             <Form.Label>Email</Form.Label>
             <Form.Control
+            required
               type="email"
               placeholder="Email"
               value={email}
@@ -69,6 +68,7 @@ const RegisterScreen = () => {
           <Form.Group controlId="password" className="mt-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
+            required
               type="password"
               placeholder="Password"
               value={password}
@@ -78,6 +78,7 @@ const RegisterScreen = () => {
           <Form.Group controlId="confirmPassword" className="mt-3">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
+            required
               type="password"
               placeholder="Confirm Password"
               value={confirmPassword}

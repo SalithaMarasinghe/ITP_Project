@@ -16,6 +16,12 @@ const promotionSchema = mongoose.Schema({
     type: Number,
     required: true
   },
+
+  minQty: {
+    type: Number,
+    required: true
+  },
+  
   validPeriod: {
     type: Date,
     required: true
@@ -24,6 +30,7 @@ const promotionSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'products'
   }
+  
 }, {
   timestamps: true
 });
