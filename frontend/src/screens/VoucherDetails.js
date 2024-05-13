@@ -68,7 +68,7 @@ const VoucherDetails = () => {
           "Delivery Details",
         ],
       ],
-      body: vouchers.map((voucher) => [
+      body: filteredVouchers.map((voucher) => [
         voucher.userID,
         voucher.userName,
         voucher.value,

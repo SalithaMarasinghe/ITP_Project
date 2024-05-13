@@ -26,6 +26,7 @@ import { createProductReview } from "../redux/actions/productActions";
 import { listPromotions } from "../redux/actions/promotionActions";
 import CartAPI from "../api/CartAPI";
 import Toast from "../utils/Toast";
+import axios from "axios";
 
 const ProductScreen = () => {
   const [qty, setQty] = useState(1);
@@ -34,6 +35,7 @@ const ProductScreen = () => {
   const [updateModalOpened, setUpdateModalOpened] = useState(false);
   const [selectedProductReviewId, setSelectedProductReviewId] = useState(null);
   const [ordeDataFetching, setOrdeDataFetching] = useState(false);
+  const [hasOrder, setHasOrder] = useState(false);
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -68,6 +70,29 @@ const ProductScreen = () => {
     dispatch(listPromotions());
   }, [dispatch, params.id, successProductReview]);
 
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const id = userInfo["id"];
+    setOrdeDataFetching(true);
+    axios.get("http://localhost:3000/api/orders/myorders/" + id).then((res) => {
+      for (var order of res.data) {
+        for (var item of order.orderItems) {
+          console.log(item, "item");
+
+          if (item.product == params.id) {
+            console.log(params.id, "params.id");
+
+            setHasOrder(true);
+            break;
+          } else {
+            setHasOrder(false);
+          }
+        }
+      }
+      setOrdeDataFetching(false);
+    });
+    setOrdeDataFetching(false);
+  }, []);
   // Add to cart
   const addToCartHandler = async (id, qty) => {
     const newPrice = calculateNewPrice();
@@ -99,8 +124,16 @@ const ProductScreen = () => {
   };
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(createProductReview(params.id, { rating, comment }));
+    if (hasOrder) {
+      e.preventDefault();
+      dispatch(createProductReview(params.id, { rating, comment }));
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+      alert("review added ");
+    } else {
+      alert("You don't have an order for this product ");
+    }
   };
 
   const getPromotionDiscount = () => {
