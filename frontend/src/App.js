@@ -40,7 +40,7 @@ import UserRecieptDetails from "./screens/UserRecieptDetails";
 import UserDeliveryDetails from "./screens/UserDeliveryDetails";
 import MyOrders from "./screens/MyOrders";
 import UserCartsScreen from "./screens/UserCartsScreen";
-
+import ReviewListScreen from "./screens/ReviewListScreen";
 
 const App = () => {
   return (
@@ -56,7 +56,7 @@ const App = () => {
             <Route path="/profile" element={<ProtectedRoute />}>
               <Route path="/profile" element={<ProfileScreen />} />
             </Route>
-            
+
             <Route path="/shipping" element={<ProtectedRoute />}>
               <Route path="/shipping" element={<ShippingScreen />} />
             </Route>
@@ -70,28 +70,32 @@ const App = () => {
             </Route>
 
             <Route path="/billinstructions" element={<ProtectedRoute />}>
-            <Route path="/billinstructions/:id" element={<BankInstruction />} />
+              <Route
+                path="/billinstructions/:id"
+                element={<BankInstruction />}
+              />
             </Route>
 
             <Route path="/uploadbill" element={<ProtectedRoute />}>
-            <Route path="/uploadbill/:id" element={<UploadReciept />} />
+              <Route path="/uploadbill/:id" element={<UploadReciept />} />
             </Route>
 
-          
             <Route path="/admin/users" element={<OnlyAdmin />}>
               <Route path="/admin/users" element={<UserListScreen />} />
             </Route>
 
-          
             <Route path="/admin/users/edit/:id" element={<OnlyAdmin />}>
-              <Route path="/admin/users/edit/:id" element={<UserEditScreen />} />
+              <Route
+                path="/admin/users/edit/:id"
+                element={<UserEditScreen />}
+              />
             </Route>
 
-              <Route path='/admin/stockmanager' element={<StockManager/>}/>
+            <Route path="/admin/stockmanager" element={<StockManager />} />
             <Route path="/admin/products" element={<OnlyAdmin />}>
-           <Route path="/admin/products" element={<ProductListScreen />} />
-          
-            <Route
+              <Route path="/admin/products" element={<ProductListScreen />} />
+
+              <Route
                 path="/admin/products/:pageNumber"
                 element={<ProductListScreen />}
               />
@@ -116,17 +120,29 @@ const App = () => {
             </Route>
 
             <Route path="/admin/promotions" element={<OnlyAdmin />}>
-              <Route path="/admin/promotions" element={<PromotionListScreen />} />
+              <Route
+                path="/admin/promotions"
+                element={<PromotionListScreen />}
+              />
             </Route>
 
             <Route path="/admin/create-promotion" element={<OnlyAdmin />}>
-              <Route path="/admin/create-promotion" element={<CreatePromotion />} />
+              <Route
+                path="/admin/create-promotion"
+                element={<CreatePromotion />}
+              />
             </Route>
 
             <Route path="/admin/edit-promotion/:id" element={<OnlyAdmin />}>
-              <Route path="/admin/edit-promotion/:id" element={<EditPromotion />} />
+              <Route
+                path="/admin/edit-promotion/:id"
+                element={<EditPromotion />}
+              />
             </Route>
 
+            <Route path="/admin/reviews" element={<OnlyAdmin />}>
+              <Route path="/admin/reviews" element={<ReviewListScreen />} />
+            </Route>
 
             <Route path="/admin/ViewReceipt/:id" element={<OnlyAdmin />}>
               <Route path="/admin/ViewReceipt/:id" element={<ViewReceipt />} />
@@ -135,7 +151,6 @@ const App = () => {
             <Route path="/admin/Delivery/:id" element={<OnlyAdmin />}>
               <Route path="/admin/Delivery/:id" element={<Delivery />} />
             </Route>
-
 
             <Route path="/admin/faq" element={<OnlyAdmin />}>
               <Route path="/admin/faq" element={<FAQListScreen />} />
@@ -180,16 +195,17 @@ const App = () => {
             <Route path="/myorders" element={<ProtectedRoute />}>
               <Route path="/myorders" element={<MyOrders />} />
             </Route>
-        
 
             <Route path="/page/:pageNumber" element={<HomeScreen />} />
 
-            <Route path="/search/:keyword/page/:pageNumber" element={<HomeScreen />} />
+            <Route
+              path="/search/:keyword/page/:pageNumber"
+              element={<HomeScreen />}
+            />
 
             <Route path="/search/:keyword" element={<HomeScreen />} />
 
             <Route index path="/" element={<HomeScreen />} />
-
           </Routes>
         </Container>
       </main>

@@ -195,3 +195,81 @@ export const listTopProducts = () => async (dispatch) => {
     });
   }
 };
+
+export const deleteProductReview =
+  (productId, reviewId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: actions.PRODUCT_DELETE_REVIEW_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      await axios.delete(
+        `/api/products/${productId}/reviews/${reviewId}`,
+        config
+      );
+
+      dispatch({ type: actions.PRODUCT_DELETE_REVIEW_SUCCESS });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "not authorized, no token") {
+        dispatch(logout());
+      }
+      dispatch({
+        type: actions.PRODUCT_DELETE_REVIEW_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+export const updateProductReview =
+  (productId, reviewId, updatedReviewData) => async (dispatch, getState) => {
+    console.log(productId, "koo");
+    try {
+      dispatch({ type: actions.PRODUCT_UPDATE_REVIEW_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/products/${productId.productId}/reviews/${productId._id}`,
+        {
+          rating: productId.rating,
+          comment: productId.comment,
+        },
+        config
+      );
+
+      dispatch({ type: actions.PRODUCT_UPDATE_REVIEW_SUCCESS, payload: data });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "not authorized, no token") {
+        dispatch(logout());
+      }
+      dispatch({
+        type: actions.PRODUCT_UPDATE_REVIEW_FAIL,
+        payload: message,
+      });
+    }
+  };

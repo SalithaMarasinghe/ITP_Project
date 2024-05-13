@@ -12,8 +12,13 @@ import {
   Card,
   FormControl,
   Form,
+  Modal,
 } from "react-bootstrap";
-import { listProductDetails } from "../redux/actions/productActions";
+import {
+  deleteProductReview,
+  listProductDetails,
+  updateProductReview,
+} from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
@@ -26,6 +31,10 @@ const ProductScreen = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [updateModalOpened, setUpdateModalOpened] = useState(false);
+  const [selectedProductReviewId, setSelectedProductReviewId] = useState(null);
+  const [ordeDataFetching, setOrdeDataFetching] = useState(false);
+
   let navigate = useNavigate();
   const dispatch = useDispatch();
   let params = useParams();
@@ -131,6 +140,36 @@ const ProductScreen = () => {
       return discountedPrice;
     }
   };
+  const deleteReviewHandler = (reviewId) => {
+    if (window.confirm("Are you sure you want to delete this review?")) {
+      dispatch(deleteProductReview(params.id, reviewId));
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+  };
+
+  const submitUpdateHandler = async (e) => {
+    e.preventDefault();
+    dispatch(
+      updateProductReview({
+        rating,
+        comment,
+        _id: selectedProductReviewId,
+        productId: params.id,
+      })
+    );
+
+    // setSelectedProductReviewId(null);
+    setUpdateModalOpened(false);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
+
+  if (ordeDataFetching) {
+    return <div>Loading</div>;
+  }
 
   return (
     <>
@@ -141,6 +180,53 @@ const ProductScreen = () => {
       ) : (
         product && (
           <>
+            <Modal
+              onHide={() => setUpdateModalOpened(false)}
+              show={updateModalOpened}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title style={{ color: "black" }}>
+                  Update Review
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form onSubmit={submitUpdateHandler}>
+                  {errorProductReview && (
+                    <Message variant="danger">{errorProductReview}</Message>
+                  )}
+
+                  <Form.Group controlId="rating">
+                    <Form.Label>Rating</Form.Label>
+                    <Form.Control
+                      as="select"
+                      value={rating}
+                      onChange={(e) => setRating(e.target.value)}
+                    >
+                      <option value="">Select ...</option>
+                      <option value="1">1 - Poor</option>
+                      <option value="2">2 - Fair</option>
+                      <option value="3">3 - Good</option>
+                      <option value="4">4 - Very good</option>
+                      <option value="5">5 - Perfect</option>
+                    </Form.Control>
+                  </Form.Group>
+                  <Form.Group className="mt-3" controlId="comment">
+                    <Form.Label>Comment</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      placeholder="Comment"
+                    ></Form.Control>
+                  </Form.Group>
+                  <div style={{ display: "flex", height: 50 }}>
+                    <Button type="submit" className="mt-3" vatiant="primary">
+                      Update
+                    </Button>
+                  </div>
+                </Form>
+              </Modal.Body>
+            </Modal>
             <Link className="btn btn-light my-3 back_btn" to="/">
               Go back
             </Link>
@@ -242,17 +328,51 @@ const ProductScreen = () => {
                   {product.reviews.length === 0 && (
                     <Message variant="info">No Reviews</Message>
                   )}
-                  <ListGroup variant="flush">
-                    {product.reviews.map((review) => (
-                      <ListGroup.Item key={review._id}>
-                        <strong>{review.name}</strong>
-                        <Rating value={review.rating} text="Reviews" />
-                        <p>{review.createdAt.substring(0, 10)}</p>
-                        <p>{review.comment}</p>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                  <h3 style={{ marginTop: "40px" }}>Write a customer review</h3>
+                  {userInfo && (
+                    <ListGroup variant="flush">
+                      {product.reviews.map((review) => {
+                        const userInfo = localStorage.getItem("userInfo");
+                        const uid = JSON.parse(userInfo).id;
+                        const reviewOwnedByUser = uid === review?.user;
+                        return (
+                          <ListGroup.Item key={review._id}>
+                            <strong>{review.name}</strong>
+                            <Rating value={review.rating} text="Reviews" />
+                            <p>{review.createdAt.substring(0, 10)}</p>
+                            <p>{review.comment}</p>
+                            <div style={{ display: "flex" }}>
+                              {reviewOwnedByUser && (
+                                <Button
+                                  variant="info"
+                                  onClick={(e) => {
+                                    setSelectedProductReviewId(review._id);
+                                    setComment(review.comment);
+                                    setRating(review.rating);
+                                    setUpdateModalOpened(true);
+                                  }}
+                                >
+                                  Update
+                                </Button>
+                              )}
+                              <div style={{ width: 15 }} />
+                              {reviewOwnedByUser && (
+                                <Button
+                                  onClick={() => {
+                                    setSelectedProductReviewId(review._id);
+                                    deleteReviewHandler(review._id);
+                                  }}
+                                  variant="danger"
+                                >
+                                  Delete
+                                </Button>
+                              )}
+                            </div>
+                          </ListGroup.Item>
+                        );
+                      })}
+                    </ListGroup>
+                  )}
+                  <h3>Write a customer review</h3>
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
                       {errorProductReview && (
