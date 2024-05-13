@@ -13,6 +13,8 @@ const VoucherDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [vouchers, setVouchers] = useState([]);
+  const [filteredVouchers, setFilteredVouchers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -27,6 +29,7 @@ const VoucherDetails = () => {
         );
         console.log("data,d", data);
         setVouchers(data.voucherOrders);
+        setFilteredVouchers(data.voucherOrders);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -37,6 +40,18 @@ const VoucherDetails = () => {
     fetchVouchers();
   }, []);
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    filterVouchers(e.target.value);
+  };
+
+  const filterVouchers = (term) => {
+    const filtered = vouchers.filter((voucher) =>
+      voucher.userID.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredVouchers(filtered);
+  };
+
   const generateReport = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -45,8 +60,8 @@ const VoucherDetails = () => {
     doc.autoTable({
       head: [
         [
-          "User ID",
-          "User Name",
+          "Username",
+          " ",
           "Value",
           "Code",
           "Expiration Date",
@@ -77,6 +92,14 @@ const VoucherDetails = () => {
           </Button>
         </Col>
       </Row>
+      <Form.Group controlId="search">
+        <Form.Control
+          type="text"
+          placeholder="Search by Username"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </Form.Group>
       {error && <Message variant="danger">{error}</Message>}
       {loading ? (
         <Loading />
@@ -94,7 +117,7 @@ const VoucherDetails = () => {
                 </tr>
               </thead>
               <tbody>
-                {vouchers.map((voucher, index) => (
+                {filteredVouchers.map((voucher, index) => (
                   <tr key={index}>
                     <td>{voucher.userID}</td>
                     <td>{voucher.value}</td>
