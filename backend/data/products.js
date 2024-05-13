@@ -71,6 +71,43 @@ const products = [
     rating: 4,
     numReviews: 12,
   },
+  {
+    name: "Sketchers Sneakers",
+    image: "/images/7.jpg",
+    description:
+      "Born on the pitch, the Samba is a timeless icon of street style. This silhouette stays true to its legacy with a tasteful, low-profile, soft leather upper, suede overlays and gum sole, making it a staple in everyone's closet - on and off the pitch.",
+    brand: "Lyle & Scott",
+    category: "Sneakers",
+    price: 12000.99,
+    countInStock: 5,
+    rating: 4,
+    numReviews: 6,
+  },
+  {
+    name: "Levis Trouser",
+    image: "/images/8.jpg",
+    description:
+      "With a classic straight leg and iconic styling, they’re literally the blueprint for every pair of modern jeans in existence.",
+    brand: "Lyle & Scott",
+    category: "Trouser",
+    price: 2900.99,
+    countInStock: 22,
+    rating: 4.3,
+    numReviews: 10,
+  },
+  {
+    name: "Men's Belt",
+    image: "/images/9.jpg",
+    description:
+      "Both stylish and practical, shop our collection of belts for men in various styles to suit everyday",
+    brand: "Hamedia",
+    category: "Accesories",
+    price: 1200.99,
+    countInStock: 12,
+    rating: 4.4,
+    numReviews: 3,
+  }
+  
 ];
 
 export default products;
