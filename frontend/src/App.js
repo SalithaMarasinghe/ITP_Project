@@ -41,6 +41,14 @@ import UserDeliveryDetails from "./screens/UserDeliveryDetails";
 import MyOrders from "./screens/MyOrders";
 import UserCartsScreen from "./screens/UserCartsScreen";
 import ReviewListScreen from "./screens/ReviewListScreen";
+import VoucherListScreen from "./screens/VoucherListScreen";
+import CreateVoucherScreen from "./screens/CreateVoucherScreen";
+import EditVoucherScreen from "./screens/EditVoucherScreen";
+import Vouchers from "./screens/Vouchers";
+import VoucherDetails from "./screens/VoucherDetails";
+import ShippingVoucher from "./screens/ShippingVoucher";
+import PlaceOrderVoucher from "./screens/PlaceOrderVoucher";
+import PaymentVoucher from "./screens/PaymentVoucher";
 
 const App = () => {
   return (
@@ -49,6 +57,8 @@ const App = () => {
       <main className="py-4">
         <Container>
           <Routes>
+            <Route path="/giftvouchers" element={<Vouchers />} />
+
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/cart" element={<CartScreen />} />
             <Route path="/login" element={<LoginScreen />} />
@@ -59,10 +69,22 @@ const App = () => {
 
             <Route path="/shipping" element={<ProtectedRoute />}>
               <Route path="/shipping" element={<ShippingScreen />} />
+              <Route
+                path="/shipping/voucher/:type/1/:value/:username"
+                element={<ShippingVoucher />}
+              />
+              <Route
+                path="/shipping/payment/:type/1/:value/:username/:address/:city/:postalCode/:country"
+                element={<PlaceOrderVoucher />}
+              />
             </Route>
 
             <Route path="/payment" element={<ProtectedRoute />}>
               <Route path="/payment" element={<PaymentScreen />} />
+              <Route
+                path="/payment/voucher/:type/1/:value/:username/:address/:city/:postalCode/:country"
+                element={<PlaceOrderVoucher />}
+              />
             </Route>
 
             <Route path="/placeorder" element={<ProtectedRoute />}>
@@ -204,6 +226,31 @@ const App = () => {
             />
 
             <Route path="/search/:keyword" element={<HomeScreen />} />
+            <Route path="/admin/vouchers" element={<OnlyAdmin />}>
+              <Route path="/admin/vouchers" element={<VoucherListScreen />} />
+            </Route>
+            <Route path="/admin/vouchers/create" element={<OnlyAdmin />}>
+              <Route
+                path="/admin/vouchers/create"
+                element={<CreateVoucherScreen />}
+              />
+            </Route>
+
+            <Route
+              path="/admin/vouchers/voucherdetails"
+              element={<OnlyAdmin />}
+            >
+              <Route
+                path="/admin/vouchers/voucherdetails"
+                element={<VoucherDetails />}
+              />
+            </Route>
+            <Route path="/admin/vouchers/edit/:id" element={<OnlyAdmin />}>
+              <Route
+                path="/admin/vouchers/edit/:id"
+                element={<EditVoucherScreen />}
+              />
+            </Route>
 
             <Route index path="/" element={<HomeScreen />} />
           </Routes>
