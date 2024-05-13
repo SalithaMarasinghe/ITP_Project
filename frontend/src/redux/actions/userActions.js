@@ -216,7 +216,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 
 export const updateUser = (userData) => async (dispatch, getState) => {
   try {
-    dispatch({ type: actions.USER_UPDATE_PROFILE_REQUEST });
+    dispatch({ type: actions.USER_UPDATE_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -229,11 +229,7 @@ export const updateUser = (userData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `/api/users/${userData._id}`,
-      userData,
-      config
-    );
+    const { data } = await axios.put(`/api/users/${userData._id}`,userData,config);
 
     dispatch({ type: actions.USER_UPDATE_SUCCESS });
     dispatch({ type: actions.USER_DETAILS_SUCCESS, payload: data.user });

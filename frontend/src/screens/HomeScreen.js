@@ -33,7 +33,7 @@ const HomeScreen = () => {
             {/* {!keyword && <ProductCarousel />} */}
             <h3>Categories</h3>
             <div className="category-buttons">
-                {["Shirts", "Trousers", "Hoodie", "Sneakers", "Belt"].map((cat) => (
+                {["Shirt", "Trouser", "Hoodie", "Sneaker", "Belt"].map((cat) => (
                     <Button
                         key={cat}
                         onClick={() => handleCategoryClick(cat)}
