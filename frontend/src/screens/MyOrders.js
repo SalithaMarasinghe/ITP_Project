@@ -4,22 +4,17 @@ import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
-import { updateProfile } from "../redux/actions/userActions";
 import { listMyOrders } from "../redux/actions/orderActions";
 
 const ProfileScreen = () => {
-  const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  const { successUpdated, loading, error } = userUpdateProfile;
 
   const orderListMy = useSelector((state) => state.orderListMy);
   const {
@@ -36,14 +31,7 @@ const ProfileScreen = () => {
     }
   }, [dispatch, userInfo]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setMessage("Password do not match");
-    } else {
-      dispatch(updateProfile({ id: userInfo._id, name, email, password }));
-    }
-  };
+  
 
   return (
     <Row>
@@ -68,7 +56,7 @@ const ProfileScreen = () => {
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
-                  <td>{order._id}</td>
+                  <td>{order.Ord_ID}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
                   <td>Rs.{order.totalPrice}</td>
                   <td>

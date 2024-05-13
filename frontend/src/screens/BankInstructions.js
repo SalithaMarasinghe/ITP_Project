@@ -65,7 +65,7 @@ const BankInstruction = () => {
         <Col md={4} className="right-column">
           <div className="text-right">
             <h4 style={{ color: 'white' }}>Order Reference #</h4>
-            <label className='bankIns'>{order._id}</label>
+            <label className='bankIns'>{order.Ord_ID}</label>
             <h4 style={{ paddingTop: '50px', color: 'white' }}>Total Amount</h4>
             <label className='bankIns'>Rs. {order.totalPrice}</label>
             <p style={{ paddingTop: '50px' }}><input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} /> I have read and understood these instructions.</p>

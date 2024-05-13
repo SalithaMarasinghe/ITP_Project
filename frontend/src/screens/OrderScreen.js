@@ -55,7 +55,7 @@ const OrderScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <h1 style={{marginTop:'50px'}}>Order #{order._id}</h1>
+          <h1 style={{marginTop:'50px'}}>Order {order.Ord_ID}</h1>
           <Row style={{marginTop:'30px'}}>
             <Col md={8} className="order_scr">
               <ListGroup variant="flush">
