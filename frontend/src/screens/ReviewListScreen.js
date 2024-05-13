@@ -6,9 +6,14 @@ import { LinkContainer } from "react-router-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
-import { listProduct, deleteProduct } from "../redux/actions/productActions";
+import {
+  listProduct,
+  deleteProduct,
+  deleteProductReview,
+} from "../redux/actions/productActions";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import axios from "axios";
 
 const ReviewListScreen = () => {
   let params = useParams();
@@ -32,9 +37,12 @@ const ReviewListScreen = () => {
     dispatch(listProduct(searchKeyword, pageNumber));
   }, [dispatch, successDelete, pageNumber, searchKeyword]);
 
-  const deleteProductHandler = (id) => {
+  const deleteProductHandler = (reviewId, productId) => {
     if (window.confirm("Are you sure?")) {
-      dispatch(deleteProduct(id));
+      dispatch(deleteProductReview(productId, reviewId));
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   };
 
@@ -136,6 +144,7 @@ const ReviewListScreen = () => {
                     <th>Rating</th>
                     <th>Comment</th>
                     <th>Date</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -161,16 +170,18 @@ const ReviewListScreen = () => {
                         <td>
                           {new Date(review.createdAt).toLocaleDateString()}
                         </td>
-                        {/* <td>
+                        <td>
                           <Button
                             style={{ marginLeft: 4 }}
                             className="btn btn-sm"
                             variant="danger"
-                            onClick={() => deleteProductHandler(review._id)}
+                            onClick={() =>
+                              deleteProductHandler(review._id, product._id)
+                            }
                           >
                             <i className="fas fa-trash"></i>
                           </Button>
-                        </td> */}
+                        </td>
                       </tr>
                     ))
                   )}

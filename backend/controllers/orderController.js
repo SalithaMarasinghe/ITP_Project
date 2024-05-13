@@ -1,11 +1,11 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
 
-
 // Generate a random string
 const generateOrdID = () => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '#';
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "#";
   for (let i = 0; i < 5; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
@@ -25,7 +25,6 @@ const ensureUniqueOrdID = async () => {
   }
   return ordID;
 };
-
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -61,8 +60,6 @@ export const addOrderItems = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, order: createdOrder });
 });
 
-
-
 // @desc    Get order by ID
 // @route   GET /api/orders/:id
 // @access  Private
@@ -79,8 +76,6 @@ export const getOrder = asyncHandler(async (req, res) => {
 
   res.json({ success: true, order });
 });
-
-
 
 // @desc    Update order to paid
 // @route   PUT /api/orders/:id/pay
@@ -106,15 +101,31 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
   res.json({ success: true, order: updatedOrder });
 });
 
-
-
 export const updateBank = asyncHandler(async (req, res) => {
   const orderId = req.params.id;
-  const { accName, accNum, transDate, bankName, branchName, transAmount, remarks } = req.body;
+  const {
+    accName,
+    accNum,
+    transDate,
+    bankName,
+    branchName,
+    transAmount,
+    remarks,
+  } = req.body;
 
   const updatedOrder = await Order.findByIdAndUpdate(
     orderId,
-    { bankDetails: { accName, accNum, transDate, bankName, branchName, transAmount, remarks } },
+    {
+      bankDetails: {
+        accName,
+        accNum,
+        transDate,
+        bankName,
+        branchName,
+        transAmount,
+        remarks,
+      },
+    },
     { new: true }
   );
 
@@ -125,7 +136,6 @@ export const updateBank = asyncHandler(async (req, res) => {
     throw new Error("Order not found");
   }
 });
-
 
 // @desc    Update order to delivered
 // @route   PUT /api/orders/:id/deliver
@@ -146,15 +156,31 @@ export const updateOrderToDeliver = asyncHandler(async (req, res) => {
   res.json({ success: true, order: updatedOrder });
 });
 
-
-
 export const updateDelivery = asyncHandler(async (req, res) => {
   const orderId = req.params.id;
-  const { agentName, agentContact, estDate, packSize, trackNo, trackLink, delNote } = req.body;
+  const {
+    agentName,
+    agentContact,
+    estDate,
+    packSize,
+    trackNo,
+    trackLink,
+    delNote,
+  } = req.body;
 
   const updatedOrder = await Order.findByIdAndUpdate(
     orderId,
-    { deliveryDetails: { agentName, agentContact, estDate, packSize, trackNo, trackLink, delNote } },
+    {
+      deliveryDetails: {
+        agentName,
+        agentContact,
+        estDate,
+        packSize,
+        trackNo,
+        trackLink,
+        delNote,
+      },
+    },
     { new: true }
   );
 
@@ -166,7 +192,6 @@ export const updateDelivery = asyncHandler(async (req, res) => {
   }
 });
 
-
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
 // @access  Private
@@ -174,8 +199,6 @@ export const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json({ success: true, orders });
 });
-
-
 
 // @desc    Get all orders
 // @route   GET /api/orders
@@ -185,6 +208,10 @@ export const getOrders = asyncHandler(async (req, res) => {
   res.json({ success: true, orders });
 });
 
+export const getOrdersByUserId = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.params.id });
+  res.json(orders);
+});
 
 // @desc    Delete order by ID
 // @route   DELETE /api/orders/:id

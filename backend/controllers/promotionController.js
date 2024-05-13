@@ -29,12 +29,13 @@ export const getPromotionById = asyncHandler(async (req, res) => {
 // @route   POST /api/promotions
 // @access  Private/Admin
 export const createPromotion = asyncHandler(async (req, res) => {
-  const { name, type, value, validPeriod, relatedProduct } = req.body;
+  const { name, type, value,minQty, validPeriod, relatedProduct } = req.body;
 
   const promotion = new Promotion({
     name,
     type,
     value,
+    minQty,
     validPeriod,
     relatedProduct
   });
@@ -47,7 +48,7 @@ export const createPromotion = asyncHandler(async (req, res) => {
 // @route   PUT /api/promotions/:id
 // @access  Private/Admin
 export const updatePromotion = asyncHandler(async (req, res) => {
-  const { name, type, value, validPeriod, relatedProduct } = req.body;
+  const { name, type, value,minQty, validPeriod, relatedProduct } = req.body;
 
   const promotion = await Promotion.findById(req.params.id);
 
@@ -55,6 +56,7 @@ export const updatePromotion = asyncHandler(async (req, res) => {
     promotion.name = name;
     promotion.type = type;
     promotion.value = value;
+    promotion.minQty = minQty;
     promotion.validPeriod = validPeriod;
     promotion.relatedProduct = relatedProduct;
 

@@ -108,51 +108,60 @@ const UserCartsScreen = () => {
                   <th>Email</th>
                   <th>Admin</th>
                   <th>Item Count</th>
+                  <th>Cart Items</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.map((user) => (
-                  <tr key={user._id}>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      {user.isAdmin ? (
-                        <i
-                          className="fas fa-check"
-                          style={{ color: "green" }}
-                        />
-                      ) : (
-                        <i className="fas fa-times" style={{ color: "red" }} />
-                      )}
-                    </td>
-                    <td>
-                      {carts.map((cart) => {
-                        if (cart.user._id === user._id) {
-                          return cart.cartItems.length;
-                        }
-                      })}
-                    </td>
-                    <td>
-                      {/* if cartItems in cart is empty, disable the download button */}
-                      {carts.map((cart) => {
-                        if (cart.user._id === user._id) {
-                          return (
-                            <Button
-                              variant="info"
-                              size="sm"
-                              onClick={() => downloadCartItems(cart)}
-                              disabled={cart.cartItems.length === 0}
-                            >
-                              <i className="fas fa-download" />
-                            </Button>
-                          );
-                        }
-                      })}
-                    </td>
-                  </tr>
-                ))}
+                {filteredUsers.filter(user => carts.some(cart => cart.user._id === user._id)).map((user) => {
+                  const userCarts = carts.filter((cart) => cart.user._id === user._id);
+                  const itemCount = userCarts.reduce((total, cart) => total + cart.cartItems.length, 0);
+                  
+                  return (
+                    <tr key={user._id}>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>
+                        {user.isAdmin ? (
+                          <i className="fas fa-check" style={{ color: "green" }} />
+                        ) : (
+                          <i className="fas fa-times" style={{ color: "red" }} />
+                        )}
+                      </td>
+                      <td>{itemCount}</td>
+                      <td>
+                        <ul>
+                          {userCarts.map((cart) => (
+                            cart.cartItems.map((cartItem) => (
+                              <li key={cartItem.product}>
+                                {cartItem.name} - {cartItem.qty}
+                              </li>
+                            ))
+                          ))}
+                        </ul>
+                      </td>
+                      <td>
+                        {/* if cartItems in cart is empty, disable the download button */}
+                          {carts.map((cart) => {
+                            if (cart.user._id === user._id) {
+                              return (
+                                <Button
+                                  variant="info"
+                                  size="sm"
+                                  onClick={() => downloadCartItems(cart)}
+                                  disabled={cart.cartItems.length === 0}
+                                >
+                                  <i className="fas fa-download" />
+                                </Button>
+                              );
+                            }
+                          })}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
+
             </Table>
           </Col>
         </Row>

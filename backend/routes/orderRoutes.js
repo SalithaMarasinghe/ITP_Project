@@ -8,7 +8,8 @@ import {
   updateOrderToDeliver,
   updateBank,
   deleteOrder,
-  updateDelivery
+  updateDelivery,
+  getOrdersByUserId,
 } from "../controllers/orderController.js";
 import { protect, admin } from "../middlewares/authMiddleware.js";
 
@@ -32,5 +33,5 @@ router.route("/:id/deldetails").put(protect, updateDelivery);
 
 // Add a new route for deleting an order
 router.route("/:id").delete(protect, deleteOrder);
-
+router.route("/myorders/:id").get(getOrdersByUserId);
 export default router;

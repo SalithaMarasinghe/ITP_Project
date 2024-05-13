@@ -142,15 +142,18 @@ const ProductScreen = () => {
     );
     if (!matchedPromotion) return 0;
 
-    const { type, value } = matchedPromotion;
-
-    if (type === "fixed") {
-      // For fixed type, return the value directly
-      return value;
-    } else if (type === "percentage") {
-      // For percentage type, calculate the discount percentage
-      const discount = (value / 100) * product.price;
-      return `${value}% (- Rs. ${discount.toFixed(2)})`;
+    const { type, value, minQty } = matchedPromotion;
+    if (qty >= minQty) {
+      if (type === "fixed") {
+        // For fixed type, return the value directly
+        return value;
+      } else if (type === "percentage") {
+        // For percentage type, calculate the discount percentage
+        const discount = (value / 100) * product.price;
+        return `${value}% (- Rs. ${discount.toFixed(2)})`;
+      }
+    } else {
+      return 0;
     }
 
     return null;

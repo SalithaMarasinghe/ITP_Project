@@ -103,6 +103,7 @@ const PromotionListScreen = () => {
                 <th>Name</th>
                 <th>Type</th>
                 <th>Value</th>
+                <th>Minimum Qty</th>
                 <th>Valid Period</th>
                 <th>Related Product</th>
                 <th>Actions</th>
@@ -114,6 +115,7 @@ const PromotionListScreen = () => {
                   <td>{promotion.name}</td>
                   <td>{promotion.type}</td>
                   <td>{promotion.value}</td>
+                  <td>{promotion.minQty}</td>
                   <td>{promotion.validPeriod}</td>
                   <td>{getProductName(promotion.relatedProduct)}</td>
                   <td>

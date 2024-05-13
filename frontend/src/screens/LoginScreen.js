@@ -41,6 +41,7 @@ const LoginScreen = () => {
           <Form.Group controlId="email" className="mt-3">
             <Form.Label>Email</Form.Label>
             <Form.Control
+            required
               type="email"
               placeholder="Email"
               value={email}
@@ -50,6 +51,7 @@ const LoginScreen = () => {
           <Form.Group controlId="password" className="mt-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
+            required
               type="password"
               placeholder="Password"
               value={password}

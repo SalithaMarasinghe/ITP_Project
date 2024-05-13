@@ -8,6 +8,7 @@ import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import useriRoutes from "./routes/useriRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import promotionRoutes from "./routes/promotionRoutes.js";
@@ -36,6 +37,9 @@ app.use("/api/products", productRoutes);
 
 // User Route
 app.use("/api/users", userRoutes);
+
+// Useri Route
+app.use("/api/user", useriRoutes);
 
 // Order Route
 app.use("/api/orders", orderRoutes);
