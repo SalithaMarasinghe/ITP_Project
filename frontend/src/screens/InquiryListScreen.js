@@ -37,6 +37,7 @@ const InquiryListScreen = () => {
     inquiry.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     inquiry.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
     inquiry.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    inquiry.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (inquiry.createdAt && new Date(inquiry.createdAt).toLocaleDateString().toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
