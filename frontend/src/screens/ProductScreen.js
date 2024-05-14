@@ -276,7 +276,7 @@ const ProductScreen = () => {
                   <ListGroup.Item>
                     <Rating
                       value={product.rating}
-                      text={`${product.rating} Reviews`}
+                      text={`${product.rating} Ratings`}
                     />
                   </ListGroup.Item>
                   <ListGroup.Item>Price: Rs. {product.price}</ListGroup.Item>
@@ -373,7 +373,7 @@ const ProductScreen = () => {
                         return (
                           <ListGroup.Item key={review._id}>
                             <strong>{review.name}</strong>
-                            <Rating value={review.rating} text="Reviews" />
+                            <Rating value={review.rating} text="Ratings" />
                             <p>{review.createdAt.substring(0, 10)}</p>
                             <p>{review.comment}</p>
                             <div style={{ display: "flex" }}>

@@ -103,7 +103,7 @@ const ReviewListScreen = () => {
     <>
       <Row className="align-items-center">
         <Col>
-          <h3>Products List</h3>
+          <h3>Reviews</h3>
         </Col>
         <Col className="text-end">
           <Button
@@ -191,7 +191,7 @@ const ReviewListScreen = () => {
           </Col>
         </Row>
       )}
-      <Paginate page={page} pages={pages} isAdmin={true} />
+      
     </>
   );
 };
