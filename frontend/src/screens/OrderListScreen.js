@@ -28,9 +28,24 @@ const OrderListScreen = () => {
   // Function to generate PDF
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.text('Order List', 14, 10);
 
+    // Title
+    doc.setFontSize(22);
+    doc.text('Order List', 14, 20);
+
+     // Company Name
+     doc.setFontSize(16);
+     doc.text('Company: BLACK', 14, 30);
+   
+     // Date
+     const currentDate = new Date();
+     const formattedDate = currentDate.toLocaleDateString();
+     doc.setFontSize(12);
+     doc.text(`Report Date: ${formattedDate}`, 14, 40);
+
+    const startY = 50; 
     doc.autoTable({
+      startY:startY,
       head: [['ID', 'User', 'Date', 'Total', 'Paid', 'Delivered']],
       body: filteredOrders.map((order) => [
         order.Ord_ID,
