@@ -41,14 +41,14 @@ const Header = () => {
               </Nav.Link>
             </LinkContainer>
 
-            <LinkContainer to="/cart">
-              <Nav.Link>
-                <i className="fas fa-shopping-cart"></i> Cart
-              </Nav.Link>
-            </LinkContainer>
-
+            
             {userInfo ? (
               <>
+                <LinkContainer to="/cart">
+                <Nav.Link>
+                  <i className="fas fa-shopping-cart"></i> Cart
+                </Nav.Link>
+                </LinkContainer>
                 <LinkContainer to="/help">
                   <Nav.Link>
                     <i className="fas fa-question-circle"></i> Help
