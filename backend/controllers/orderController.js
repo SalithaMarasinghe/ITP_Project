@@ -4,8 +4,8 @@ import Order from "../models/orderModel.js";
 // Generate a random string
 const generateOrdID = () => {
   const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "#";
+    "0123456789";
+  let result = "REF#";
   for (let i = 0; i < 5; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
