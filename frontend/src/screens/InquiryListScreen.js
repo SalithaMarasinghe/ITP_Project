@@ -41,42 +41,6 @@ const InquiryListScreen = () => {
     (inquiry.createdAt && new Date(inquiry.createdAt).toLocaleDateString().toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  // const generateReport = () => {
-  //   const doc = new jsPDF();
-  //     // Title
-  //   doc.setFontSize(22);
-  //   doc.text('Inquiries Report', 14, 20);
-
-  //   // Company Name
-  //   doc.setFontSize(16);
-  //   doc.text('Company: BLACK', 14, 35);
-
-  //   // Date
-  //   const currentDate = new Date();
-  //   const formattedDate = currentDate.toLocaleDateString();
-  //   doc.setFontSize(12);
-  //   doc.text(`Date: ${formattedDate}`, 14, 45);
-
-  //   // Total Number of Inquiries
-  //   const totalInquiries = filteredInquiries.length;
-  //   doc.text(`Total Inquiries: ${totalInquiries}`, 14, 55);
-
-  //   doc.autoTable({
-  //     head: [['Name', 'Phone', 'Email address', 'Subject', 'Message', 'Category', 'Date']],
-  //     body: filteredInquiries.map((inquiry) => [
-  //       inquiry.name,
-  //       inquiry.phone,
-  //       inquiry.email,
-  //       inquiry.subject,
-  //       inquiry.message,
-  //       inquiry.category,
-  //       inquiry.createdAt ? new Date(inquiry.createdAt).toLocaleDateString() : '',
-  //     ]),
-
-  //   });
-
-  //   doc.save('inquiries.pdf');
-  // };
 
   const generateReport = () => {
     const doc = new jsPDF();
@@ -87,20 +51,23 @@ const InquiryListScreen = () => {
   
     // Company Name
     doc.setFontSize(16);
-    doc.text('Company: BLACK', 14, 30);
+    doc.text('BLACK', 14, 30);
   
     // Date
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString();
     doc.setFontSize(12);
     doc.text(`Date: ${formattedDate}`, 14, 40);
+
+    doc.setFontSize(12);
+    doc.text(`Search Keyword: ${searchTerm}`, 14, 50);
   
     // Total Number of Inquiries
     const totalInquiries = filteredInquiries.length;
-    doc.text(`Total Inquiries: ${totalInquiries}`, 14, 50);
+    doc.text(`Total Inquiries: ${totalInquiries}`, 14, 60);
   
     // Table
-    const startY = 60; // Adjust the starting y-coordinate for the table
+    const startY = 70; // Adjust the starting y-coordinate for the table
     doc.autoTable({
       startY: startY,
       head: [['Name', 'Phone', 'Email address', 'Subject', 'Message', 'Category', 'Date']],
