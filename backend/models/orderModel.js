@@ -71,7 +71,8 @@ const OrderSchema = mongoose.Schema(
       bankName: { type: String },
       branchName: { type: String },
       transAmount: { type: Number },
-      remarks: { type: String }
+      remarks: { type: String },
+      image: { type: String }
     },
 
 

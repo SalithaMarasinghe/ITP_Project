@@ -3,22 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Button,
-  Card,
-  FormControl,
-  Form,
-  Modal,
-} from "react-bootstrap";
-import {
-  deleteProductReview,
-  listProductDetails,
-  updateProductReview,
-} from "../redux/actions/productActions";
+import {Row,Col,Image,ListGroup,Button,Card,FormControl,Form,Modal,} from "react-bootstrap";
+import {deleteProductReview,listProductDetails,updateProductReview,} from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
@@ -56,32 +42,28 @@ const ProductScreen = () => {
 
   const promotionList = useSelector((state) => state.promotionList);
   const { promotions } = promotionList;
-  console.log(promotions);
 
   useEffect(() => {
-    if (successProductReview) {
-      setRating(0);
-      setComment("");
-    }
-    if (error) {
-      navigate("/");
-    }
-    dispatch(listProductDetails(params.id));
-    dispatch(listPromotions());
+      if (successProductReview) {
+          setRating(0);
+          setComment("");
+      }
+      if (error) {
+          navigate("/");
+      }
+      dispatch(listProductDetails(params.id));
+      dispatch(listPromotions());
   }, [dispatch, params.id, successProductReview]);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const id = userInfo["id"];
     setOrdeDataFetching(true);
-    axios.get("http://localhost:3000/api/orders/myorders/" + id).then((res) => {
+    axios.get("/api/orders/myorders/" + id).then((res) => {
       for (var order of res.data) {
         for (var item of order.orderItems) {
-          console.log(item, "item");
 
           if (item.product == params.id) {
-            console.log(params.id, "params.id");
-
             setHasOrder(true);
             break;
           } else {
@@ -93,8 +75,11 @@ const ProductScreen = () => {
     });
     setOrdeDataFetching(false);
   }, []);
+
+
+
   // Add to cart
-  const addToCartHandler = async (id, qty) => {
+  const addToCartHandler = async () => {
     const newPrice = calculateNewPrice();
     //
     const data = {
@@ -111,15 +96,17 @@ const ProductScreen = () => {
     try {
       const response = await CartAPI.addCartItems(data);
       if (response.data.success) {
-        Toast({ type: "success", message: "Item added to cart" });
+        //Toast({ type: "success", message: "Item added to cart" });
+        alert("Item added to cart ");
+       
         navigate("/cart");
       } else {
-        console.log(response.data.message);
-        Toast({ type: "error", message: response.data.message });
+        //Toast({ type: "error", message: response.data.message });
+        alert({message: response.data.message });
       }
     } catch (error) {
-      console.log(error);
-      Toast({ type: "error", message: "Item already exists" });
+      //Toast({ type: "error", message: "Item already exists" });
+      alert("Item already exists");
     }
   };
 

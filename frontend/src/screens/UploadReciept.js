@@ -14,7 +14,6 @@ const UploadReceipt = () => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [image, setImage] = useState("");
     const [uploading, setUploading] = useState(false);
     const { order} = useSelector((state) => state.orderCreate);
 
@@ -28,7 +27,8 @@ const UploadReceipt = () => {
         bankName: "",
         branchName: "",
         transAmount: cart.totalPrice,
-        remarks: ""
+        remarks: "",
+        image: "" // added image field
     });
 
     const handleSubmit = (e) => {
@@ -58,7 +58,7 @@ const UploadReceipt = () => {
             };
 
             const { data } = await axios.post("/api/upload", formData, config);
-            setImage(data);
+            setBankDetails({ ...bankDetails, image: data });
             setUploading(false);
         } catch (error) {
             console.log(error.message);

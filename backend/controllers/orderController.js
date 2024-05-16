@@ -111,6 +111,7 @@ export const updateBank = asyncHandler(async (req, res) => {
     branchName,
     transAmount,
     remarks,
+    image,
   } = req.body;
 
   const updatedOrder = await Order.findByIdAndUpdate(
@@ -124,6 +125,7 @@ export const updateBank = asyncHandler(async (req, res) => {
         branchName,
         transAmount,
         remarks,
+        image,
       },
     },
     { new: true }
