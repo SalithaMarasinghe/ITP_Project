@@ -263,7 +263,7 @@ const ProductScreen = () => {
                   <ListGroup.Item>
                     <Rating
                       value={product.rating}
-                      text={`${product.rating} Ratings`}
+                      text={`${Number(product.rating).toFixed(1)} Ratings`}
                     />
                   </ListGroup.Item>
                   <ListGroup.Item>Price: Rs. {product.price}</ListGroup.Item>
