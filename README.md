@@ -10,8 +10,17 @@
 - Admin Order details page
 - Mark orders as delivered option
 - Checkout process (shipping, payment method, etc)
-- PayPal / credit card integration
-- Database seeder (products & users)
+- Bank Transfer integration
+- Product  Management	
+- Product  Management	
+- Cart  Management	
+- User Management	
+- Inquiry Management	
+- Review and Rating Management	
+- Promotions Management	
+- Gift Voucher Management	
+
+
 
 ## Technology Stack:
 
@@ -24,26 +33,15 @@
 - Redux
 
 
-## Usage
-
-### Env Variables
-
-Create a .env file in then root and add the following
-
-```
-NODE_ENV = development
-PORT = 5000
-MONGO_URI = your mongodb uri
-JWT_SECRET = 'abc123'
-
-```
-
 ## Install Dependencies
 
 ```
 npm install
 cd frontend
 npm install
+npm install jspdf jspdf-autotable
+npm install react-hot-toast
+npm install dompurify--save
 ```
 
 ### Run
