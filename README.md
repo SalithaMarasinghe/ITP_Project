@@ -1,16 +1,6 @@
 ## Features:
 
-- Product reviews and ratings
-- Product pagination
-- Product search feature
-- User profile with orders
-- Full featured shopping cart
-- Admin product management
-- Admin user management
-- Admin Order details page
-- Mark orders as delivered option
-- Checkout process (shipping, payment method, etc)
-- Bank Transfer integration
+
 - Product  Management	
 - Product  Management	
 - Cart  Management	
@@ -19,6 +9,11 @@
 - Review and Rating Management	
 - Promotions Management	
 - Gift Voucher Management	
+- Product reviews and ratings
+- Product pagination
+- Product search feature
+- User profile with orders
+- Bank Transfer integration
 
 
 
