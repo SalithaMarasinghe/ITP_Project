@@ -42,22 +42,35 @@ const UserListScreen = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF(); // Create a new jsPDF instance
-    doc.text("User Details", 14, 16); // Add a title to the PDF
+    const currentDate = new Date(); // Get the current date and time
+    const formattedDate = currentDate.toLocaleString(); // Format the date and time
+    const searchKeyword = searchQuery ? searchQuery : "all"; // Determine search keyword or "all"
+
+    doc.setFontSize(20); // Set font size for the title
+    doc.text("User Report", 14, 10);
+
+    doc.setFontSize(12); // Set font size back to normal
+    doc.text("Black Premium", 14, 20); // Add the company name
+    doc.text(`Date: ${formattedDate}`, 14, 30); // Add the current date and time
+    doc.text(`Search Keyword: ${searchKeyword}`, 14, 40); // Add the search keyword or "all"
+    doc.text(`Total Users: ${users.length}`, 14, 50); // Add the total count of users
+    doc.text(`Filtered By Search Users: ${filteredUsers.length}`, 14, 60); // Add the count of filtered users
 
     // Add an AutoTable with the user data
     doc.autoTable({
-      head: [["ID", "Name", "Email", "Admin"]], // Table header
-      body: filteredUsers.map((user) => [
-        user._id,
-        user.name,
-        user.email,
-        user.isAdmin ? "Yes" : "No",
-      ]), // Table rows
+        startY: 70, // Start after the text
+        head: [["ID", "Name", "Email", "Admin"]], // Table header
+        body: filteredUsers.map((user) => [
+            user._id,
+            user.name,
+            user.email,
+            user.isAdmin ? "Yes" : "No",
+        ]), // Table rows
     });
 
     // Save or display the PDF
-    doc.save("user-details.pdf"); // Save the generated PDF to a file
-  };
+    doc.save("filtered-user-details.pdf"); // Save the generated PDF to a file
+};
 
   return (
     <>

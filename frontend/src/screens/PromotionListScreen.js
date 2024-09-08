@@ -41,12 +41,21 @@ const PromotionListScreen = () => {
     return product ? product.name : '';
   };
 
-  // Function to generate a PDF with the promotion list
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.text('Promotion List', 14, 16);
-
+  
+    // Add header
+    doc.setFontSize(18);
+    doc.text('Black Premium', 14, 16);
+  
+    // Add subtitle and promotion count
+    doc.setFontSize(12);
+    const promotionCount = promotions.length;
+    doc.text(`Promotion List (Total: ${promotionCount})`, 14, 26);
+  
+    // Add table
     doc.autoTable({
+      startY: 36, // Adjust startY to ensure table starts after the header and subtitle
       head: [['Name', 'Type', 'Value', 'Valid Period', 'Related Product']],
       body: promotions.map((promotion) => [
         promotion.name,
@@ -56,7 +65,8 @@ const PromotionListScreen = () => {
         getProductName(promotion.relatedProduct),
       ]),
     });
-
+  
+    // Save the PDF
     doc.save('promotion-list.pdf');
   };
 
